@@ -1,0 +1,11 @@
+---
+const locale = Astro.currentLocale ?? "es";
+---
+
+  <div class="flex gap-2 justify-end p-4">
+    <a href="/" class={locale === "es" ? "font-bold underline" : "text-gray-500 hover:text-black"}>ES</a>
+    <span class="text-gray-300">|</span>
+    <a href="/en" class={locale === "en" ? "font-bold underline" : "text-gray-500 hover:text-black"}>EN</a>
+    <span class="text-gray-300">|</span>
+    <a href="/br" class={locale === "br" ? "font-bold underline" : "text-gray-500 hover:text-black"}>PT</a>
+  </div>
