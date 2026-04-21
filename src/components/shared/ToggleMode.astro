@@ -1,0 +1,111 @@
+---
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Toggle dark mode"
+  class="relative w-8 h-8 flex items-center justify-center rounded-md text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white cursor-pointer transition-colors"
+>
+  <svg id="sun-icon" class="w-4 h-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+
+  <svg id="moon-icon" class="w-4 h-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style is:global>
+  /* Desactivamos todas las animaciones por defecto del View Transition API.
+     Toda la animación la manejamos manualmente con document.documentElement.animate()
+     para tener control total — igual que hace antfu. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const toggle = document.getElementById("theme-toggle");
+    const sunIcon = document.getElementById("sun-icon");
+    const moonIcon = document.getElementById("moon-icon");
+
+    function applyTheme(dark) {
+      document.documentElement.classList.toggle("dark", dark);
+      if (sunIcon && moonIcon) {
+        sunIcon.classList.toggle("hidden", !dark);
+        moonIcon.classList.toggle("hidden", dark);
+      }
+    }
+
+    function switchTheme() {
+      const nowDark = !document.documentElement.classList.contains("dark");
+      localStorage.setItem("theme", nowDark ? "dark" : "light");
+      applyTheme(nowDark);
+    }
+
+    // Aplicar tema guardado al cargar
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(stored ? stored === "dark" : prefersDark);
+
+    toggle?.addEventListener("click", (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      // Respeto por prefers-reduced-motion
+      const noTransition =
+        !document.startViewTransition ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (noTransition) {
+        switchTheme();
+        return;
+      }
+
+      // Radio exacto hasta la esquina más lejana — técnica de antfu
+      const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y)
+      );
+
+      const transition = document.startViewTransition(switchTheme);
+
+      transition.ready.then(() => {
+        const nowDark = document.documentElement.classList.contains("dark");
+
+        const clipPath = [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ];
+
+        document.documentElement.animate(
+          {
+            clipPath: nowDark
+              ? [...clipPath].reverse() // dark: el círculo se CIERRA sobre el layer viejo (light se "traga")
+              : clipPath,               // light: el círculo se ABRE sobre el layer nuevo (luz emerge)
+          },
+          {
+            duration: 400,
+            easing: "ease-out",
+            fill: "forwards",
+            pseudoElement: nowDark
+              ? "::view-transition-old(root)" // dark: animamos el viejo (light) que desaparece
+              : "::view-transition-new(root)", // light: animamos el nuevo (light) que aparece
+          }
+        );
+      });
+    });
+  })();
+</script>
