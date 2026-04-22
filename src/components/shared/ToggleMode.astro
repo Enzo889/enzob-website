@@ -33,6 +33,21 @@
     animation: none;
     mix-blend-mode: normal;
   }
+
+    /*
+   * → A DARK: animamos el viejo (light) cerrándose.
+   *   El nuevo (dark) debe estar DEBAJO para que el viejo sea visible.
+   */
+  .dark::view-transition-old(root) { z-index: 1; }
+  .dark::view-transition-new(root) { z-index: 0; }
+ 
+  /*
+   * → A LIGHT: animamos el nuevo (light) abriéndose.
+   *   El nuevo debe estar ARRIBA.
+   */
+  :root:not(.dark)::view-transition-new(root) { z-index: 1; }
+  :root:not(.dark)::view-transition-old(root) { z-index: 0; }
+  
 </style>
 
 <script is:inline>
