@@ -5,20 +5,166 @@ import Translations from "./Translations.astro";
 
 const locale = Astro.currentLocale ?? "es";
 const t = useTranslations(locale);
+
+const pathname = new URL(Astro.request.url).pathname;
+
+function isActive(href: string) {
+	if (href === "/")
+		return (
+			pathname === "/" ||
+			pathname === `/${locale}` ||
+			pathname === `/${locale}/`
+		);
+	return pathname.startsWith(href);
+}
+
+const links = [
+	{ href: "/", label: t.navbar.home },
+	{ href: "/experiments", label: t.navbar.experiments },
+	{ href: "/notes", label: t.navbar.notes },
+];
+
+const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
 ---
 
-<nav class="flex  justify-between items-center uppercase">
-    <div class="flex gap-2 text-sm">
-        <p>{t.navbar.domain}</p>
-        <span>/</span>
-        <a href="/" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">{t.navbar.home}</a>
-        <span>/</span>
-        <a href="/experiments" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">{t.navbar.experiments}</a>
-        <span>/</span>
-        <a href="/notes" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">{t.navbar.notes}</a>
+<nav class="flex justify-between items-center uppercase mb-8">
+
+  <!-- Desktop -->
+  <div class="hidden md:flex items-center gap-2 text-sm font-mono">
+    <span class="font-bold text-gray-900 dark:text-white">
+      {t.navbar.domain}
+    </span>
+    {links.map((link) => (
+      <>
+        <span class="text-gray-300 dark:text-gray-700">/</span>
+        <a
+          href={link.href}
+          class:list={[
+            "tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-current",
+            isActive(link.href)
+              ? "text-gray-900 dark:text-white font-semibold"
+              : "text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white",
+          ]}
+        >
+          {link.label}
+        </a>
+      </>
+    ))}
+  </div>
+
+  <!-- Mobile combobox -->
+  <div class="flex md:hidden items-center gap-2 text-sm font-mono">
+    <span class="font-bold text-gray-900 dark:text-white">
+      {t.navbar.domain}
+    </span>
+    <span class="text-gray-300 dark:text-gray-700">/</span>
+
+    <div class="relative" id="mobile-nav-wrapper">
+      <!-- Trigger -->
+      <button
+        id="mobile-nav-trigger"
+        type="button"
+        role="combobox"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-autocomplete="none"
+        aria-controls="mobile-nav-listbox"
+        class="inline-flex items-center gap-1 bg-transparent text-gray-900 dark:text-white uppercase tracking-wide font-mono text-sm font-semibold cursor-pointer focus:outline-none"
+      >
+        <span id="mobile-nav-label">{activeLink.label}</span>
+        <span aria-hidden="true" class="text-gray-400 dark:text-gray-500 transition-transform duration-200" id="mobile-nav-chevron" style="width:1em;height:1em;pointer-events:none">
+          <svg display="block" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 16 16" height="1em" width="1em">
+            <polyline points="4,6 8,10 12,6"></polyline>
+          </svg>
+        </span>
+      </button>
+
+      <!-- Dropdown -->
+      <ul
+        id="mobile-nav-listbox"
+        role="listbox"
+        aria-label="Navigation"
+        class="
+          absolute top-full left-0 mt-1 z-50
+          bg-white dark:bg-gray-950
+          border border-gray-200 dark:border-gray-800
+          shadow-lg
+          min-w-[140px]
+          py-1
+          hidden
+        "
+      >
+        {links.map((link) => (
+          <li
+            role="option"
+            aria-selected={isActive(link.href)}
+            data-href={link.href}
+            class:list={[
+              "px-3 py-2 uppercase tracking-wide font-mono text-sm cursor-pointer transition-colors",
+              "hover:bg-gray-100 dark:hover:bg-gray-800",
+              "hover:text-gray-900 dark:hover:text-white",
+              isActive(link.href)
+                ? "text-gray-900 dark:text-white font-semibold"
+                : "text-gray-500 dark:text-gray-400",
+            ]}
+          >
+            {link.label}
+          </li>
+        ))}
+      </ul>
     </div>
-    <div class="flex items-center  gap-2">
-        <Translations />
-        <ToggleMode />
-    </div>
+  </div>
+
+  <!-- Controles: idioma + tema -->
+  <div class="flex items-center gap-2">
+    <Translations />
+    <ToggleMode />
+  </div>
+
 </nav>
+
+<script>
+  const trigger  = document.getElementById("mobile-nav-trigger") as HTMLButtonElement;
+  const listbox  = document.getElementById("mobile-nav-listbox") as HTMLUListElement;
+  const label    = document.getElementById("mobile-nav-label") as HTMLSpanElement;
+  const chevron  = document.getElementById("mobile-nav-chevron") as HTMLSpanElement;
+  const wrapper  = document.getElementById("mobile-nav-wrapper") as HTMLDivElement;
+
+  function open() {
+    listbox.classList.remove("hidden");
+    trigger.setAttribute("aria-expanded", "true");
+    chevron.style.transform = "rotate(180deg)";
+  }
+
+  function close() {
+    listbox.classList.add("hidden");
+    trigger.setAttribute("aria-expanded", "false");
+    chevron.style.transform = "rotate(0deg)";
+  }
+
+  function toggle() {
+    trigger.getAttribute("aria-expanded") === "true" ? close() : open();
+  }
+
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggle();
+  });
+
+  // Navegar al hacer click en una opción
+  listbox.addEventListener("click", (e) => {
+    const item = (e.target as HTMLElement).closest("[data-href]") as HTMLElement | null;
+    if (!item) return;
+    window.location.href = item.dataset.href!;
+  });
+
+  // Cerrar al hacer click fuera
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target as Node)) close();
+  });
+
+  // Cerrar con Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+</script>

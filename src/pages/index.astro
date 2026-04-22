@@ -1,13 +1,13 @@
 ---
-import { useTranslations } from "../i18n";
-import MainLayout from "../layout/MainLayout.astro";
+import Contact from "@/components/Contact.astro";
+import Intro from "@/components/Intro.astro";
+import MainLayout from "@/layout/MainLayout.astro";
+import { getT } from "@/utils/i18n";
 
-const locale = Astro.currentLocale ?? "es";
-const t = useTranslations(locale);
+const t = getT(Astro.currentLocale ?? "es");
 ---
 
 <MainLayout>
-
-  <h1>{t.index.title}</h1>
-  <p>{t.index.description}</p>
+  <Intro />
+  <Contact />
 </MainLayout>
