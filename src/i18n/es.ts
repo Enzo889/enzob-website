@@ -11,6 +11,15 @@ export const es = {
     notes: "Notas",
     domain: "enzobustamante.com",
   },
+  stack: {
+    design: "Diseño en",
+    interfaces: "y doy vida a interfaces con",
+    backend: "En el backend, construyo con",
+    mobile: "mientras que en mobile uso",
+    workflow: "Gestiono todo mi flujo con",
+    deploy: "desplegando finalmente en",
+    and: "y",
+  },
   contact: {
     title: "Conectate",
   },

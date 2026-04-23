@@ -1,5 +1,125 @@
 ---
+import { getT } from "@/utils/i18n";
+import {
+	AstroIcon,
+	Cloudflare,
+	Docker,
+	Expo,
+	Figma,
+	Git,
+	Kotlin,
+	Mysql,
+	Nestjs,
+	Nextjs,
+	React,
+	Sqlite,
+	Supabase,
+	Tailwind,
+	Vercel,
+} from "./icon";
 
+const t = getT(Astro.currentLocale ?? "es");
+
+const links: Record<string, string> = {
+	Figma: "https://figma.com",
+	React: "https://react.dev",
+	Nextjs: "https://nextjs.org",
+	Astro: "https://astro.build",
+	TailwindCSS: "https://tailwindcss.com",
+	NestJS: "https://nestjs.com",
+	Supabase: "https://supabase.com",
+	MySQL: "https://mysql.com",
+	SQLite: "https://sqlite.org",
+	Kotlin: "https://kotlinlang.org",
+	Expo: "https://expo.dev",
+	Git: "https://git-scm.com",
+	Docker: "https://docker.com",
+	Vercel: "https://vercel.com",
+	Cloudflare: "https://cloudflare.com",
+};
 ---
 
+<article class="flex flex-col gap-4 my-10">
+  <p class="text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">Stack</p>
+  <p class="text-2xl md:text-4xl leading-relaxed">
+    {t.stack.design}
+    <a class="badge" href={links["Figma"]} target="_blank" rel="noopener noreferrer"><Figma class="badge-icon" />Figma</a>{" "}
+    {t.stack.interfaces}
+    <a class="badge" href={links["Nextjs"]} target="_blank" rel="noopener noreferrer"><Nextjs class="badge-icon" />Next.js</a>,{" "}
+    <a class="badge" href={links["Astro"]} target="_blank" rel="noopener noreferrer"><AstroIcon class="badge-icon" />Astro</a>{" "}
+    {t.stack.and}
+    <a class="badge" href={links["TailwindCSS"]} target="_blank" rel="noopener noreferrer"><Tailwind class="badge-icon" />TailwindCSS</a>.{" "}<br /><br />
+    {t.stack.backend}
+    <a class="badge" href={links["NestJS"]} target="_blank" rel="noopener noreferrer"><Nestjs class="badge-icon" />NestJS</a>,{" "}
+    <a class="badge" href={links["Supabase"]} target="_blank" rel="noopener noreferrer"><Supabase class="badge-icon" />Supabase</a>,{" "}
+    <a class="badge-underline" href={links["MySQL"]} target="_blank" rel="noopener noreferrer">MySQL</a>{" "}
+    {t.stack.and}
+    <a class="badge-underline" href={links["SQLite"]} target="_blank" rel="noopener noreferrer">SQLite</a>{" "}
+    {t.stack.mobile}
+    <a class="badge" href={links["Kotlin"]} target="_blank" rel="noopener noreferrer"><Kotlin class="badge-icon" />Kotlin</a>{" "}
+    {t.stack.and}
+    <a class="badge" href={links["Expo"]} target="_blank" rel="noopener noreferrer"><Expo class="badge-icon" />Expo</a>.{" "}<br /><br />
+    {t.stack.workflow}
+    <a class="badge" href={links["Git"]} target="_blank" rel="noopener noreferrer"><Git class="badge-icon" />Git</a>{" "}
+    {t.stack.and}
+    <a class="badge" href={links["Docker"]} target="_blank" rel="noopener noreferrer"><Docker class="badge-icon" />Docker</a>,{" "}
+    {t.stack.deploy}
+    <a class="badge" href={links["Vercel"]} target="_blank" rel="noopener noreferrer"><Vercel class="badge-icon" />Vercel</a>{" "}
+    {t.stack.and}
+    <a class="badge" href={links["Cloudflare"]} target="_blank" rel="noopener noreferrer"><Cloudflare class="badge-icon" />Cloudflare</a>.
+  </p>
+</article>
 
+<style>
+  /* Light mode: borde y texto negro, fondo transparente */
+  .badge {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    border: 1px solid #000;
+    border-radius: 9999px;
+    padding: 0.05em 0.35em;
+    margin-inline: 0.05em;
+    vertical-align: baseline;
+    text-decoration: none;
+    color: #000;
+    background-color: transparent;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .badge:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+  /* Dark mode: borde y texto blanco, fondo transparente */
+  :global(.dark) .badge {
+    border-color: #fff;
+    color: #fff;
+    background-color: transparent;
+  }
+
+  :global(.dark) .badge:hover {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .badge-icon {
+    width: 0.85em;
+    height: 0.85em;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .badge-underline {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  .badge-underline:hover {
+    text-decoration-color: currentColor;
+  }
+</style>

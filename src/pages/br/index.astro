@@ -1,6 +1,7 @@
 ---
 import Contact from "@/components/Contact.astro";
 import Intro from "@/components/Intro.astro";
+import Stack from "@/components/Stack.astro";
 import MainLayout from "@/layout/MainLayout.astro";
 import { getT } from "@/utils/i18n";
 
@@ -9,5 +10,6 @@ const t = getT(Astro.currentLocale ?? "es");
 
 <MainLayout>
   <Intro />
+  <Stack />
   <Contact />
 </MainLayout>
