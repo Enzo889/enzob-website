@@ -20,6 +20,16 @@ export const en = {
     deploy: "finally deploying on",
     and: "and",
   },
+  projects: {
+    title: "Projects",
+    more: "More",
+    firstDescription: "Minimalist and elegant e-commerce",
+    secondDescription: "App for calculating Body Mass Index (BMI)",
+    thirdDescription: "Unsplash API clone using Next.js and TailwindCSS",
+    fourthDescription: "Background generator for TailwindCSS",
+    fifthDescription: "Favorite movies and series website",
+    sixthDescription: "Spotify clone using Astro and TailwindCSS",
+  },
   contact: {
     title: "Connect",
   },

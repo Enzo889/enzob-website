@@ -13,6 +13,7 @@ import Sqlite from "./sqlite.astro";
 import Supabase from "./supabase.astro";
 import Tailwind from "./tailwind.astro";
 import Vercel from "./vercel.astro";
+import Vite from "./vite.astro";
 
 export {
   Cloudflare,
@@ -25,6 +26,7 @@ export {
   Nestjs,
   Nextjs,
   React,
+  Vite,
   Sqlite,
   Supabase,
   Tailwind,

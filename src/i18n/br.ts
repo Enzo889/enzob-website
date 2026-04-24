@@ -20,6 +20,16 @@ export const br = {
     deploy: "fazendo o deploy na",
     and: "e",
   },
+  projects: {
+    title: "Projetos",
+    more: "Mais",
+    firstDescription: "E-commerce minimalista e elegante",
+    secondDescription: "App para calcular o Índice de Massa Corporal (IMC)",
+    thirdDescription: "Clon da API de Unsplash usando Next.js e TailwindCSS",
+    fourthDescription: "Gerador de fundos para TailwindCSS",
+    fifthDescription: "Site de filmes e séries favoritas",
+    sixthDescription: "Clon de Spotify usando Astro e TailwindCSS",
+  },
   contact: {
     title: "Conecte-se",
   },

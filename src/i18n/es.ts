@@ -20,6 +20,16 @@ export const es = {
     deploy: "desplegando finalmente en",
     and: "y",
   },
+  projects: {
+    title: "Proyectos",
+    more: "Más",
+    firstDescription: "E-commerce minimalista y elegante",
+    secondDescription: "App para calcular el Índice de Masa Corporal (IMC)",
+    thirdDescription: "Clon de la API de Unsplash usando Next.js y TailwindCSS",
+    fourthDescription: "Generador de fondos para TailwindCSS",
+    fifthDescription: "Sitio de películas y series favoritas",
+    sixthDescription: "Clon de Spotify usando Astro y TailwindCSS",
+  },
   contact: {
     title: "Conectate",
   },
