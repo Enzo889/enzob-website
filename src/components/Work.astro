@@ -1,0 +1,108 @@
+---
+const works = [
+	{
+		name: "Consorcio Vecinal Santa María",
+		url: "https://consorciovecinalsantamaria.com/",
+		year: "2025",
+	},
+];
+---
+
+<article class="flex flex-col gap-4 my-10">
+  <p class="text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">Work</p>
+  <ul class="flex flex-col">
+    {works.map((work) => (
+      <li>
+        <a
+          class="group flex items-center gap-2 py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-4 transition-all"
+          href={work.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-scramble
+        >
+          <span class="font-medium whitespace-nowrap" data-scramble-text>{work.name}</span>
+          <span class="connector" data-scramble-connector></span>
+          <span class="text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums">{work.year}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .connector {
+    flex: 1;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.2;
+    margin-bottom: 0.2em;
+    clip-path: inset(0 100% 0 0);
+  }
+</style>
+
+<script>
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const FPS = 16;
+  const DECRYPT_DURATION = 800;
+
+  function randomChar() {
+    return CHARS[Math.floor(Math.random() * CHARS.length)];
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>("[data-scramble]").forEach((link) => {
+    const textEl = link.querySelector<HTMLElement>("[data-scramble-text]");
+    const connector = link.querySelector<HTMLElement>("[data-scramble-connector]");
+    if (!textEl) return;
+
+    const original = textEl.textContent?.trim() ?? "";
+    textEl.dataset.original = original;
+
+    textEl.textContent = original
+      .split("")
+      .map((char) => (char === " " ? " " : randomChar()))
+      .join("");
+
+    let used = false;
+
+    link.addEventListener("mouseenter", () => {
+      if (used) return;
+      used = true;
+
+      const totalFrames = Math.floor(DECRYPT_DURATION / FPS);
+      let frame = 0;
+
+      const decryptInterval = setInterval(() => {
+        const progress = frame / totalFrames;
+        const resolved = Math.floor(progress * original.length);
+
+        textEl.textContent = original
+          .split("")
+          .map((char, i) => {
+            if (char === " ") return " ";
+            if (i < resolved) return original[i];
+            return randomChar();
+          })
+          .join("");
+
+        frame++;
+
+        if (frame >= totalFrames) {
+          textEl.textContent = original;
+          clearInterval(decryptInterval);
+        }
+      }, FPS);
+
+      if (connector) {
+        let f = 0;
+        const connectorInterval = setInterval(() => {
+          const remaining = Math.round((1 - f / totalFrames) * 100);
+          connector.style.clipPath = `inset(0 ${remaining}% 0 0)`;
+          f++;
+          if (f >= totalFrames) {
+            connector.style.clipPath = "inset(0 0% 0 0)";
+            clearInterval(connectorInterval);
+          }
+        }, FPS);
+      }
+    });
+  });
+</script>

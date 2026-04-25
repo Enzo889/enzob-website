@@ -24,7 +24,7 @@ const projects = getProjectsData(t);
   <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
     {projects.map((project) => (
       <li
-        class="project-card group relative border border-gray-200 dark:border-gray-800 rounded-md px-3 py-4 transition-colors hover:border-gray-400 dark:hover:border-gray-600 overflow-hidden"
+        class="project-card  group relative border border-gray-200 dark:border-gray-800 rounded-md px-3 py-4 transition-colors hover:border-gray-400 dark:hover:border-gray-600 overflow-hidden"
       >
         <!-- Spotlight glow -->
         <div class="spotlight pointer-events-none absolute inset-0 rounded-md opacity-0 transition-opacity duration-300"></div>
@@ -58,7 +58,7 @@ const projects = getProjectsData(t);
 
           <p class="text-sm text-gray-400 dark:text-gray-500 truncate">{project.description}</p>
 
-          <ul class="flex items-center gap-1 text-xs">
+          <ul class="flex items-center gap-1 mt-1 text-xs">
             {project.stack.map((item) => (
               <li>
                 <span class="badge">

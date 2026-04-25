@@ -1,0 +1,189 @@
+---
+const education = [
+	{
+		degree: "Tecnicatura en Desarrollo de Software",
+		institution: "Universidad Tecnológica Nacional",
+		url: "https://utn.edu.ar",
+		year: "2023 — present",
+	},
+];
+
+const certificates = [
+	{
+		name: "React - The Complete Guide",
+		url: "https://udemy.com",
+		year: "2024",
+	},
+	{
+		name: "TypeScript Masterclass",
+		url: "https://udemy.com",
+		year: "2024",
+	},
+	{
+		name: "Astro — The Complete Developer Guide",
+		url: "https://udemy.com",
+		year: "2023",
+	},
+];
+---
+
+<article class="flex flex-col gap-10 my-10">
+
+  <section class="edu-section flex flex-col gap-4">
+    <p class="edu-label text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">Education</p>
+    <ul class="flex flex-col gap-1">
+      {education.map((item) => (
+        <li class="edu-item">
+          <a href={item.url} target="_blank" rel="noopener noreferrer"
+            class="edu-link group relative flex items-baseline gap-2 py-3 px-4 rounded-xl overflow-hidden">
+            <div class="relative flex flex-col gap-0.5 flex-1 min-w-0 z-10">
+              <span class="item-title font-medium text-gray-900 dark:text-white truncate">{item.degree}</span>
+              <span class="text-sm text-gray-400 dark:text-gray-500">{item.institution}</span>
+            </div>
+            <span class="connector relative z-10"></span>
+            <span class="relative z-10 text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums text-sm">{item.year}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="edu-section flex flex-col gap-4">
+    <p class="edu-label text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">Certificates</p>
+    <ul class="flex flex-col gap-1">
+      {certificates.map((item) => (
+        <li class="edu-item">
+          <a href={item.url} target="_blank" rel="noopener noreferrer"
+            class="edu-link group relative flex items-baseline gap-2 py-3 px-4 rounded-xl overflow-hidden">
+            <span class="item-title relative z-10 font-medium text-gray-900 dark:text-white flex-1 truncate">{item.name}</span>
+            <span class="connector relative z-10"></span>
+            <span class="relative z-10 text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums text-sm">{item.year}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+</article>
+
+<style>
+  .connector {
+    flex: 1;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.12;
+    margin-bottom: 0.3em;
+    min-width: 1rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .edu-link {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .edu-link:hover .connector { opacity: 0.4; }
+
+  /* Underline elástico */
+  .item-title {
+    position: relative;
+    display: inline-block;
+  }
+
+  .item-title::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.6;
+    border-radius: 9999px;
+    transform-origin: left;
+    transition: width 0s;
+  }
+
+  .edu-link:hover .item-title::after {
+    width: 100%;
+    /* el ancho lo anima Motion con spring, no CSS */
+    transition: none;
+  }
+</style>
+
+<script>
+  import { animate, spring } from "motion";
+
+  document.querySelectorAll<HTMLElement>(".edu-link").forEach((link) => {
+    const underline = link.querySelector<HTMLElement>(".item-title::after") as HTMLElement | null;
+
+    // — Tilt exagerado con spring elástico —
+    link.addEventListener("mousemove", (e) => {
+      const rect = link.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const nx = (e.clientX - cx) / (rect.width / 2);
+      const ny = (e.clientY - cy) / (rect.height / 2);
+
+      animate(link, {
+        rotateX: -ny * 8,        // exagerado: 8° en X
+        rotateY: nx * 12,        // exagerado: 12° en Y
+        scale: 1.03,
+        x: nx * 6,
+        y: ny * 3,
+      }, {
+        // Spring elástico: mucho rebote
+        type: spring,
+        stiffness: 300,
+        damping: 15,
+        mass: 0.5,
+      });
+    });
+
+    link.addEventListener("mouseleave", () => {
+      // Rebote de vuelta con overshoot
+      animate(link, {
+        rotateX: 0,
+        rotateY: 0,
+        scale: 1,
+        x: 0,
+        y: 0,
+      }, {
+        type: spring,
+        stiffness: 200,
+        damping: 10,
+        mass: 0.8,
+      });
+    });
+
+    // — Squish al click: se aplasta y rebota —
+    link.addEventListener("mousedown", () => {
+      animate(link, {
+        scale: 0.94,
+        rotateZ: -1,
+      }, {
+        type: spring,
+        stiffness: 600,
+        damping: 20,
+      });
+    });
+
+    link.addEventListener("mouseup", () => {
+      animate(link, {
+        scale: 1.05,
+        rotateZ: 0,
+      }, {
+        type: spring,
+        stiffness: 400,
+        damping: 8,  // poco damping = rebota bastante
+      });
+
+      setTimeout(() => {
+        animate(link, { scale: 1.03 }, {
+          type: spring,
+          stiffness: 300,
+          damping: 15,
+        });
+      }, 150);
+    });
+  });
+</script>
