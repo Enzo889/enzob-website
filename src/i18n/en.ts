@@ -20,6 +20,10 @@ export const en = {
     deploy: "finally deploying on",
     and: "and",
   },
+  work: {
+    title: "Work",
+    firstJobTitle: "Neighborhood Water Supply Consortium",
+  },
   projects: {
     title: "Projects",
     more: "More",
@@ -29,6 +33,14 @@ export const en = {
     fourthDescription: "Background generator for TailwindCSS",
     fifthDescription: "Favorite movies and series website",
     sixthDescription: "Spotify clone using Astro and TailwindCSS",
+  },
+  education: {
+    title: "Education",
+    certificates: "Certificates",
+    degree: "Higher Technician in Software Development",
+    institution: "Higher Education Institute 9-021 Technological Junín",
+    astro: "Astro - The framework for content-oriented websites",
+    typescript: "TypeScript - Your complete guide and manual.",
   },
   contact: {
     title: "Connect",

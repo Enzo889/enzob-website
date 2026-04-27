@@ -1,28 +1,27 @@
 ---
+import { getT } from "@/utils/i18n";
+
+const t = getT(Astro.currentLocale ?? "es");
+
 const education = [
 	{
-		degree: "Tecnicatura en Desarrollo de Software",
-		institution: "Universidad Tecnológica Nacional",
-		url: "https://utn.edu.ar",
-		year: "2023 — present",
+		degree: t.education.degree,
+		institution: t.education.institution,
+		url: "https://ies9021.edu.ar/",
+		year: "2023 — 2026",
 	},
 ];
 
 const certificates = [
 	{
-		name: "React - The Complete Guide",
-		url: "https://udemy.com",
-		year: "2024",
+		name: t.education.astro,
+		url: "https://cursos.devtalles.com/certificates/j88yckkgaw",
+		year: "2026",
 	},
 	{
-		name: "TypeScript Masterclass",
-		url: "https://udemy.com",
-		year: "2024",
-	},
-	{
-		name: "Astro — The Complete Developer Guide",
-		url: "https://udemy.com",
-		year: "2023",
+		name: t.education.typescript,
+		url: "https://cursos.devtalles.com/certificates/jdrawzjh4p",
+		year: "2025",
 	},
 ];
 ---
@@ -37,7 +36,7 @@ const certificates = [
           <a href={item.url} target="_blank" rel="noopener noreferrer"
             class="edu-link group relative flex items-baseline gap-2 py-3 px-4 rounded-xl overflow-hidden">
             <div class="relative flex flex-col gap-0.5 flex-1 min-w-0 z-10">
-              <span class="item-title font-medium text-gray-900 dark:text-white truncate">{item.degree}</span>
+              <span title={item.degree} class="item-title font-medium text-gray-900 dark:text-white truncate">{item.degree}</span>
               <span class="text-sm text-gray-400 dark:text-gray-500">{item.institution}</span>
             </div>
             <span class="connector relative z-10"></span>
@@ -55,7 +54,7 @@ const certificates = [
         <li class="edu-item">
           <a href={item.url} target="_blank" rel="noopener noreferrer"
             class="edu-link group relative flex items-baseline gap-2 py-3 px-4 rounded-xl overflow-hidden">
-            <span class="item-title relative z-10 font-medium text-gray-900 dark:text-white flex-1 truncate">{item.name}</span>
+            <span title={item.name} class="item-title relative z-10 font-medium text-gray-900 dark:text-white flex-1 truncate">{item.name}</span>
             <span class="connector relative z-10"></span>
             <span class="relative z-10 text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums text-sm">{item.year}</span>
           </a>
@@ -155,18 +154,6 @@ const certificates = [
       });
     });
 
-    // — Squish al click: se aplasta y rebota —
-    link.addEventListener("mousedown", () => {
-      animate(link, {
-        scale: 0.94,
-        rotateZ: -1,
-      }, {
-        type: spring,
-        stiffness: 600,
-        damping: 20,
-      });
-    });
-
     link.addEventListener("mouseup", () => {
       animate(link, {
         scale: 1.05,
@@ -177,13 +164,6 @@ const certificates = [
         damping: 8,  // poco damping = rebota bastante
       });
 
-      setTimeout(() => {
-        animate(link, { scale: 1.03 }, {
-          type: spring,
-          stiffness: 300,
-          damping: 15,
-        });
-      }, 150);
     });
   });
 </script>

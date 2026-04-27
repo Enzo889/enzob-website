@@ -20,6 +20,10 @@ export const br = {
     deploy: "fazendo o deploy na",
     and: "e",
   },
+  work: {
+    title: "Trabalho",
+    firstJobTitle: "Consórcio de Água Potável",
+  },
   projects: {
     title: "Projetos",
     more: "Mais",
@@ -29,6 +33,14 @@ export const br = {
     fourthDescription: "Gerador de fundos para TailwindCSS",
     fifthDescription: "Site de filmes e séries favoritas",
     sixthDescription: "Clon de Spotify usando Astro e TailwindCSS",
+  },
+  education: {
+    title: "Educação",
+    certificates: "Certificados",
+    degree: "Técnico Superior em Desenvolvimento de Software",
+    institution: "Instituto de Educação Superior 9-021 Tecnológico Junín",
+    astro: "Astro - O framework para sites orientados ao conteúdo",
+    typescript: "TypeScript - Seu guia completo e manual.",
   },
   contact: {
     title: "Conecte-se",

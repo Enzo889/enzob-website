@@ -1,7 +1,10 @@
 ---
+import { getT } from "@/utils/i18n";
+
+const t = getT(Astro.currentLocale ?? "es");
 const works = [
 	{
-		name: "Consorcio Vecinal Santa María",
+		name: t.work.firstJobTitle,
 		url: "https://consorciovecinalsantamaria.com/",
 		year: "2025",
 	},
@@ -9,7 +12,7 @@ const works = [
 ---
 
 <article class="flex flex-col gap-4 my-10">
-  <p class="text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">Work</p>
+  <p class="text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500">{t.work.title}</p>
   <ul class="flex flex-col">
     {works.map((work) => (
       <li>
