@@ -2,13 +2,48 @@
 import { getT } from "@/utils/i18n";
 
 const t = getT(Astro.currentLocale ?? "es");
+
+const style = "font-serif text-red-500/90 antialiased ";
+
+const highlights: Record<string, string> = {
+	"Enzo Bustamante": style,
+	Mendoza: style,
+	Argentina: style,
+	developer: style,
+	desarrollador: style,
+	desenvolvedor: style,
+	pizza: style,
+	proyectos: style,
+	projects: style,
+	projetos: style,
+	videojuegos: style,
+	gaming: style,
+	videogames: style,
+	movies: style,
+	films: style,
+	películas: style,
+};
+
+const regex = new RegExp(`(${Object.keys(highlights).join("|")})`, "g");
+const formatText = (text: string) => text.split(regex);
 ---
 
 <div class="flex flex-col gap-4">
   <p class="text-2xl md:text-4xl text-pretty leading-snug">
-    {t.intro.presentation}
-  </p>
+{
+      formatText(t.intro.presentation).map((part) => (
+        highlights[part] 
+          ? <span class={highlights[part]}>{part}</span> 
+          : part
+      ))
+    }
+      </p>
   <p class="text-2xl md:text-4xl text-pretty leading-snug">
-    {t.intro.description}
-  </p>
+{
+      formatText(t.intro.description).map((part) => (
+        highlights[part] 
+          ? <span class={highlights[part]}>{part}</span> 
+          : part
+      ))
+    }  </p>
 </div>

@@ -2,12 +2,35 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  /* Inter como fuente principal (sans) */
+  --font-heading: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Outfit para títulos o elementos destacados */
+  --font-body: "Outfit Variable", sans-serif;
+
+  /* Newsreader para textos más literarios o elegantes */
+  --font-serif: "Newsreader Variable", serif;
+
+  /* Montserrat para títulos o elementos destacados */
+  --font-montserrat: "Montserrat Variable", sans-serif;
+
+  /* Fuzzy Bubbles para títulos o elementos destacados */
+  --font-fuzzy-bubbles: "Fuzzy Bubbles", sans-serif;
+
+  /* Short Stack para títulos o elementos destacados */
+  --font-short-stack: "Short Stack", cursive;
+}
+
+
 @layer base {
 
   html {
     transition:
       background-color 0.3s ease,
       color 0.3s ease;
+    font-family: var(--font-body);
+    font-weight: 400;
   }
 
   html.dark {

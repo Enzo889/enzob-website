@@ -2,6 +2,16 @@
 import Footer from "@/components/shared/Footer.astro";
 import Navbar from "../components/shared/Navbar.astro";
 import "../styles/global.css";
+// Supports weights 100-900
+import "@fontsource-variable/inter/wght.css";
+// Supports weights 100-900
+import "@fontsource-variable/outfit/wght.css";
+// Supports weights 200-800
+import "@fontsource-variable/newsreader/opsz-italic.css";
+// Supports weights 100-900
+import "@fontsource-variable/montserrat/wght.css";
+import "@fontsource/short-stack";
+import "@fontsource/fuzzy-bubbles";
 import Logo from "@/components/shared/Logo.astro";
 
 interface Props {
@@ -36,7 +46,7 @@ const { title = "Enzo Bustamante | Portfolio", description } = Astro.props;
       })();
     </script>
   </head>
-  <body class="relative">
+  <body class="relative ">
     <a href="/">
       <Logo className="w-12 h-12 absolute xl:fixed m-5 select-none outline-none" />
     </a>
@@ -47,4 +57,3 @@ const { title = "Enzo Bustamante | Portfolio", description } = Astro.props;
     </div>
   </body>
 </html>
-
