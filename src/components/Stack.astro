@@ -43,30 +43,30 @@ const links: Record<string, string> = {
   <p class="text-sm tracking-wide uppercase text-gray-400 dark:text-gray-500 font-heading">Stack</p>
   <p class="text-2xl md:text-4xl leading-relaxed">
     {t.stack.design}
-    <a class="badge" href={links["Figma"]} target="_blank" rel="noopener noreferrer"><Figma class="badge-icon" />Figma</a>{" "}
+    <a class="badge" href={links["Figma"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#F24E1E;"><Figma class="badge-icon" />Figma</a>{" "}
     {t.stack.interfaces}
-    <a class="badge" href={links["Nextjs"]} target="_blank" rel="noopener noreferrer"><Nextjs class="badge-icon" />Next.js</a>,{" "}
-    <a class="badge" href={links["Astro"]} target="_blank" rel="noopener noreferrer"><AstroIcon class="badge-icon" />Astro</a>{" "}
+    <a class="badge" href={links["Nextjs"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#000;"><Nextjs class="badge-icon" />Next.js</a>,{" "}
+    <a class="badge" href={links["Astro"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#FF5D01;"><AstroIcon class="badge-icon" />Astro</a>{" "}
     {t.stack.and}
-    <a class="badge" href={links["TailwindCSS"]} target="_blank" rel="noopener noreferrer"><Tailwind class="badge-icon" />TailwindCSS</a>.{" "}<br /><br />
+    <a class="badge" href={links["TailwindCSS"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#06B6D4;"><Tailwind class="badge-icon" />TailwindCSS</a>.{" "}<br /><br />
     {t.stack.backend}
-    <a class="badge" href={links["NestJS"]} target="_blank" rel="noopener noreferrer"><Nestjs class="badge-icon" />NestJS</a>,{" "}
-    <a class="badge" href={links["Supabase"]} target="_blank" rel="noopener noreferrer"><Supabase class="badge-icon" />Supabase</a>,{" "}
+    <a class="badge" href={links["NestJS"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#EA284E;"><Nestjs class="badge-icon" />NestJS</a>,{" "}
+    <a class="badge" href={links["Supabase"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#3D71F0;"><Supabase class="badge-icon" />Supabase</a>,{" "}
     <a class="badge-underline" href={links["MySQL"]} target="_blank" rel="noopener noreferrer">MySQL</a>{" "}
     {t.stack.and}
     <a class="badge-underline" href={links["SQLite"]} target="_blank" rel="noopener noreferrer">SQLite</a>{" "}
     {t.stack.mobile}
-    <a class="badge" href={links["Kotlin"]} target="_blank" rel="noopener noreferrer"><Kotlin class="badge-icon" />Kotlin</a>{" "}
+    <a class="badge" href={links["Kotlin"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#7F52FF;"><Kotlin class="badge-icon" />Kotlin</a>{" "}
     {t.stack.and}
-    <a class="badge" href={links["Expo"]} target="_blank" rel="noopener noreferrer"><Expo class="badge-icon" />Expo</a>.{" "}<br /><br />
+    <a class="badge" href={links["Expo"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#000;"><Expo class="badge-icon" />Expo</a>.{" "}<br /><br />
     {t.stack.workflow}
-    <a class="badge" href={links["Git"]} target="_blank" rel="noopener noreferrer"><Git class="badge-icon" />Git</a>{" "}
+    <a class="badge" href={links["Git"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#F05032;"><Git class="badge-icon" />Git</a>{" "}
     {t.stack.and}
-    <a class="badge" href={links["Docker"]} target="_blank" rel="noopener noreferrer"><Docker class="badge-icon" />Docker</a>,{" "}
+    <a class="badge" href={links["Docker"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#2496ED;"><Docker class="badge-icon" />Docker</a>,{" "}
     {t.stack.deploy}
-    <a class="badge" href={links["Vercel"]} target="_blank" rel="noopener noreferrer"><Vercel class="badge-icon" />Vercel</a>{" "}
+    <a class="badge" href={links["Vercel"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#000;"><Vercel class="badge-icon" />Vercel</a>{" "}
     {t.stack.and}
-    <a class="badge" href={links["Cloudflare"]} target="_blank" rel="noopener noreferrer"><Cloudflare class="badge-icon" />Cloudflare</a>.
+    <a class="badge" href={links["Cloudflare"]} target="_blank" rel="noopener noreferrer" style="--badge-color:#F38020;"><Cloudflare class="badge-icon" />Cloudflare</a>.
   </p>
 </article>
 
@@ -76,9 +76,11 @@ const links: Record<string, string> = {
     display: inline-flex;
     align-items: baseline;
     gap: 0.2em;
+    position: relative;
     border: 1px solid #000;
     border-radius: 9999px;
-    padding: 0.05em 0.35em;
+    padding-block: .05em;
+    padding-inline: .35em;
     margin-inline: 0.05em;
     vertical-align: baseline;
     text-decoration: none;
@@ -87,10 +89,50 @@ const links: Record<string, string> = {
     transition: background-color 0.15s ease, color 0.15s ease;
   }
 
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .badge::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--angle),
+      transparent 50%,
+      var(--badge-color) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: spin 3s linear infinite;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .badge:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes spin {
+    to {
+      --angle: 360deg;
+    }
+  }
+
   .badge:hover {
     background-color: #000;
     color: #fff;
   }
+
+
+
 
   /* Dark mode: borde y texto blanco, fondo transparente */
   :global(.dark) .badge {
@@ -103,6 +145,7 @@ const links: Record<string, string> = {
     background-color: #fff;
     color: #000;
   }
+
 
   .badge-icon {
     width: 0.85em;
@@ -118,8 +161,9 @@ const links: Record<string, string> = {
     text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
     transition: text-decoration-color 0.15s ease;
   }
-
-  .badge-underline:hover {
+    .badge-underline:hover {
     text-decoration-color: currentColor;
   }
+  
+
 </style>
