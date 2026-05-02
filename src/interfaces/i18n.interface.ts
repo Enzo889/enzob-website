@@ -5,7 +5,7 @@ export interface I18n {
   };
   navbar: {
     home: string;
-    experiments: string;
+    craft: string;
     notes: string;
     domain: string;
   };

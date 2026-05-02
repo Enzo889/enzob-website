@@ -7,7 +7,7 @@ export const br = {
   },
   navbar: {
     home: "Início",
-    experiments: "Experimentos",
+    craft: "Criações",
     notes: "Anotações",
     domain: "enzobustamante.com",
   },
