@@ -1,0 +1,46 @@
+---
+title: Exploring  ES6 FEATURES
+date: 2023-06-01
+description: Exploring some of the new features of ES6 in JavaScript.
+author: jane-doe
+isDraft: false
+---
+
+# { frontmatter.title }
+
+JavaScript ES6 introduced several new features that have made coding in JavaScript more efficient and enjoyable. Let's explore some of these features.
+
+## Arrow Functions
+
+Arrow functions provide a new syntax for writing function expressions. They are more concise and lexically bind the `this` value.
+
+### Example
+
+```javascript
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // Output: 5
+```
+
+## Template Literals
+
+Template literals allow for easier string interpolation and multi-line strings. They use backticks (\`) instead of single or double quotes.
+
+### Example
+
+```javascript
+const name = "Jane";
+console.log(`Hello, ${name}!`);
+// Output: Hello, Jane!
+```
+
+## Destructuring Assignment
+
+Destructuring assignment allows you to extract values from arrays or objects and assign them to variables in a more concise way.
+
+### Example
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Output: Jane 30
+```

@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import { ArrowLeft } from "@/components/icon";
+import TypedNotes from "@/components/TypedNotes.astro";
+import MainLayout from "@/layout/MainLayout.astro";
+
+const allNotes = await getCollection(
+	"notes",
+	(notes) => notes.data.isDraft === false,
+);
+---
+
+<MainLayout title="Notes | Enzo Bustamante">
+    <section class="flex flex-col gap-3">
+        <a class="text-sm tracking-wide  font-serif italic text-gray-400 dark:text-gray-500  md:fixed md:top-1/3 md:left-40 flex gap-1 hover:text-black dark:hover:text-white transition-all" href="/"> <ArrowLeft className="w-4 h-4" /> Index</a>
+        <p>Notes</p>
+        <ul>
+            {
+                allNotes.map((note) => (
+                    <li>
+                        <TypedNotes notes={note} />
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+</MainLayout>
