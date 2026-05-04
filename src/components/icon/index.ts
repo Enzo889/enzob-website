@@ -15,6 +15,7 @@ import Tailwind from "./tailwind.astro";
 import Vercel from "./vercel.astro";
 import Vite from "./vite.astro";
 import ArrowLeft from "./arrow-left.astro";
+import ArrowUp from "./arrow-up.astro";
 
 export {
   Cloudflare,
@@ -34,4 +35,5 @@ export {
   Vercel,
   AstroIcon,
   ArrowLeft,
+  ArrowUp,
 };

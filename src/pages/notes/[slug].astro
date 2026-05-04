@@ -1,8 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import { ArrowLeft } from "@/components/icon";
+import { ArrowLeft, ArrowUp } from "@/components/icon";
 import MainLayout from "@/layout/MainLayout.astro";
+import { formDate } from "@/utils/formatter";
 
 export const getStaticPaths = (async () => {
 	const notes = await getCollection("notes");
@@ -14,6 +15,7 @@ export const getStaticPaths = (async () => {
 
 const { note } = Astro.props;
 const NoteData = note.data;
+const locale = Astro.currentLocale ?? "es";
 
 const { Content, headings } = await render(note);
 ---
@@ -22,9 +24,9 @@ const { Content, headings } = await render(note);
   <!-- Table of Contents -->
 
   <div class="md:fixed md:top-1/4 md:left-20 ">
-    <a href="/notes" class="w-fit text-sm tracking-wide font-serif italic text-gray-400 dark:text-gray-500 inline-flex gap-1 hover:text-black dark:hover:text-white transition-all"> <ArrowLeft className="w-4 h-4" /> Notes</a>
+    <a href="/notes" class="w-fit text-sm tracking-wide font-serif italic text-gray-400 dark:text-gray-500 inline-flex gap-1 hover:text-black dark:hover:text-white transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
     {headings.length > 0 && (
-        <div class="w-fit">
+        <div class="w-fit hidden md:block">
       <ul class="list-none mt-10 flex flex-col">
         {headings.map((heading) => (
           <li class="mb-1">
@@ -36,15 +38,52 @@ const { Content, headings } = await render(note);
   )}
   </div>
 
+  <header class="mb-10">
+    <h1 class="text-4xl font-bold font-body tracking-tighter text-(--color-accent)">
+      {NoteData.title}
+    </h1>
+    <p class="text-sm font-mono text-(--color-text-muted) mt-2">
+      {formDate(NoteData.date, locale)}
+    </p>
+  </header>
+
+
   <!-- Article Content -->
-  <article class="content" id="top">
-    <Content />
+  <article class="content">
+    <Content locale={Astro.currentLocale} />
   </article >
 
-  <div class="mt-16 mb-8 text-center">
-    <a href="#top" class="btn-outline btn text-sm" style="text-decoration:none;">↑ Back to Top</a>
-  </div>
+  <a 
+  id="scroll-top"
+  href="#top" 
+  title="Scroll to top" 
+  class="fixed right-10 bottom-5 w-10 h-10 flex items-center justify-center opacity-0 pointer-events-none hover:opacity-100 rounded-full hover:bg-neutral-500/20 transition-all duration-500 z-100 print:hidden text-inherit"
+>
+  <ArrowUp className="w-5 h-5" />
+</a>
 </MainLayout>
+
+<script>
+  const scrollButton = document.getElementById('scroll-top');
+
+  window.addEventListener('scroll', () => {
+    if (!scrollButton) return;
+
+    // Calculamos el punto medio de la página
+    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPosition = window.scrollY;
+
+    // Si pasamos el 50% (0.5), mostramos el botón
+    if (scrollPosition > scrollTotal * 0.5) {
+      scrollButton.classList.remove('opacity-0', 'pointer-events-none');
+      scrollButton.classList.add('opacity-30');
+    } else {
+      scrollButton.classList.add('opacity-0', 'pointer-events-none');
+      scrollButton.classList.remove('opacity-30');
+    }
+  });
+</script>
+
 
 <style is:global>
   @import "tailwindcss";
