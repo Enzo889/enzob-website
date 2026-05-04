@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { Formatter } from "../utils/formatter";
+import { formDate } from "../utils/formatter";
 
 interface Props {
 	notes: CollectionEntry<"notes">;
@@ -18,7 +18,7 @@ const { notes } = Astro.props;
       {notes.data.description}
     </p>
     <span class="text-xs" style="color: var(--color-text-dim);">
-      {Formatter.FormDate(notes.data.date)}
+      {formDate(notes.data.date)}
     </span>
   </div>
 </a>

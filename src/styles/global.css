@@ -31,6 +31,7 @@
       color 0.3s ease;
     font-family: var(--font-body);
     font-weight: 400;
+    scroll-behavior: smooth;
   }
 
   html.dark {

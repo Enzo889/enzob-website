@@ -6,7 +6,11 @@ author: jane-doe
 isDraft: false
 ---
 
-# { frontmatter.title }
+import { formDate } from "@/utils/formatter";
+
+
+# { frontmatter.title}
+<span class="text-muted">{formDate(frontmatter.date)}</span>
 
 JavaScript ES6 introduced several new features that have made coding in JavaScript more efficient and enjoyable. Let's explore some of these features.
 

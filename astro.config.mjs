@@ -8,16 +8,21 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   i18n: {
-      defaultLocale: "es",
-      locales: ["es", "en", "br"],
-      routing: {
-          prefixDefaultLocale: false,
-      },
-	},
+    defaultLocale: "es",
+    locales: ["es", "en", "br"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
 
   vite: {
-      plugins: [tailwindcss()],
-	},
+    plugins: [tailwindcss()],
+  },
 
-  integrations: [mdx()],
+  integrations: [mdx({
+    syntaxHighlight: 'shiki',
+    shikiConfig: { theme: 'horizon' },
+    remarkRehype: { footnoteLabel: 'Footnotes' },
+    gfm: false,
+  })],
 });
