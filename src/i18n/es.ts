@@ -46,6 +46,9 @@ export const es = {
     title: "Conectate",
   },
   footer: {
-    tagline: "Brilla, constante y firmemente.",
+    tagline: "Solo por diversión.",
+    tagline2: "Menos es más.",
+    tagline3: "Divide y vencerás.",
+    tagline4: "Enfoque y simplicidad.",
   },
 };

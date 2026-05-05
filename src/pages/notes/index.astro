@@ -12,8 +12,7 @@ const allNotes = await getCollection(
 
 <MainLayout title="Notes | Enzo Bustamante">
     <section class="flex flex-col gap-3">
-        <a class="text-sm tracking-wide  font-serif italic text-gray-400 dark:text-gray-500  md:fixed md:top-1/4 md:left-20 flex gap-1 hover:text-black dark:hover:text-white transition-all" href="/"> <ArrowLeft className="w-4 h-4" /> Index</a>
-        <p>Notes</p>
+        <a class="text-sm tracking-wide  font-serif italic text-text dark:text-text  md:fixed md:top-1/4 md:left-20 flex gap-1 hover:text-accent dark:hover:text-accent transition-all" href="/"> <ArrowLeft className="w-4 h-4" /> Index</a>
         <ul>
             {
                 allNotes.map((note) => (

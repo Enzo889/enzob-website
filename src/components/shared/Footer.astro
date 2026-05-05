@@ -3,6 +3,16 @@ import { useTranslations } from "@/i18n";
 
 const locale = Astro.currentLocale ?? "es";
 const t = useTranslations(locale);
+
+const taglines = [
+	t.footer.tagline,
+	t.footer.tagline2,
+	t.footer.tagline3,
+	t.footer.tagline4,
+].filter(Boolean);
+
+const randomTagline =
+	taglines[Math.floor(Math.random() * taglines.length)] || t.footer.tagline;
 ---
 
 <footer class="flex flex-col gap-4 mt-10">
@@ -11,7 +21,7 @@ const t = useTranslations(locale);
   <div class="flex gap-2 items-center justify-between text-sm  text-gray-400 dark:text-gray-500">
 
     <div class="flex justify-between w-full">
-      <p>{t.footer.tagline}</p>
+      <p>{randomTagline}</p>
       <p>Enzo Bustamante © {new Date().getFullYear()} </p>
     </div>
 

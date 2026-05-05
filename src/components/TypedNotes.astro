@@ -9,16 +9,16 @@ interface Props {
 const { notes } = Astro.props;
 ---
 
-<a href={`/notes/${notes.id}`} class="card block" style="text-decoration:none;">
-  <div class="p-5">
-    <h3 class="text-lg font-semibold text-white mt-0 mb-2" style="margin-top:0;">
+<a href={`/notes/${notes.id}`} class="card block font-body group" style="text-decoration:none;">
+  <div class="mb-6">
+    <h3 class="text-2xl group-hover:text-red-500 font-bold font-body tracking-tighter text-accent" >
       {notes.data.title}
     </h3>
-    <p class="text-sm mb-3" style="color: var(--color-text-muted); margin-top:0;">
+    <span class="text-sm font-mono text-text-muted mt-2">
+        {formDate(notes.data.date, Astro.currentLocale)}
+    </span>
+    <p class="text-sm mb-3 text-text-muted mt-2">
       {notes.data.description}
     </p>
-    <span class="text-xs" style="color: var(--color-text-dim);">
-      {formDate(notes.data.date, Astro.currentLocale)}
-    </span>
   </div>
 </a>

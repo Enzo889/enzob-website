@@ -46,6 +46,9 @@ export const en = {
     title: "Connect",
   },
   footer: {
-    tagline: "Shine, constantly and steadly.",
+    tagline: "Just for fun.",
+    tagline2: "Less is more.",
+    tagline3: "Divide and conquer.",
+    tagline4: "Focus and simplicity.",
   },
 };

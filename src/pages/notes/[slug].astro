@@ -24,13 +24,13 @@ const { Content, headings } = await render(note);
   <!-- Table of Contents -->
 
   <div class="md:fixed md:top-1/4 md:left-20 ">
-    <a href="/notes" class="w-fit text-sm tracking-wide font-serif italic text-gray-400 dark:text-gray-500 inline-flex gap-1 hover:text-black dark:hover:text-white transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
+    <a href="/notes" class="w-fit text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
     {headings.length > 0 && (
         <div class="w-fit hidden md:block">
       <ul class="list-none mt-10 flex flex-col">
         {headings.map((heading) => (
           <li class="mb-1">
-            <a href={`#${heading.slug}`} class="w-fit text-sm tracking-wide font-serif italic text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-all inline-block">{heading.text}</a>
+            <a href={`#${heading.slug}`} class="w-fit text-sm tracking-wide font-serif italic text-text  hover:text-accent dark:hover:text-accent transition-all inline-block">{heading.text}</a>
           </li>
         ))}
       </ul>
@@ -39,10 +39,10 @@ const { Content, headings } = await render(note);
   </div>
 
   <header class="mb-10">
-    <h1 class="text-4xl font-bold font-body tracking-tighter text-(--color-accent)">
+    <h1 class="text-2xl font-bold font-body tracking-tighter text-accent">
       {NoteData.title}
     </h1>
-    <p class="text-sm font-mono text-(--color-text-muted) mt-2">
+    <p class="text-sm font-mono text-text-muted mt-2">
       {formDate(NoteData.date, locale)}
     </p>
   </header>
@@ -93,11 +93,11 @@ const { Content, headings } = await render(note);
   /* ── Paleta Neutral (Global) ── */
   :root {
     /* Modo Claro */
-    --color-text: #1a1a1a;         
+    --color-text: #646464;         
     --color-text-muted: #737373;   
     --color-surface: #ffffff;      
     --color-border: #e5e5e5;       
-    --color-accent: #171717;       
+    --color-accent: #202020;       
     --color-accent-hover: #404040; 
     --color-secondary: #a3a3a3;
     --radius: 0.4rem;              
@@ -105,11 +105,11 @@ const { Content, headings } = await render(note);
 
   .dark {
     /* Modo Oscuro */
-    --color-text: #e5e5e5;         
+    --color-text: #b4b4b4;         
     --color-text-muted: #a3a3a3;   
     --color-surface: #0f0f0f;      
     --color-border: #262626;       
-    --color-accent: #ffffff;       
+    --color-accent: #eee;       
     --color-accent-hover: #d4d4d4; 
     --color-secondary: #525252;
   }
@@ -122,28 +122,20 @@ const { Content, headings } = await render(note);
     }
 
     /* ── Typography ── */
-    .content h1 {
-      @apply text-4xl my-8 tracking-tighter;
-      color: var(--color-accent); /* El título principal en oro */
-    }
 
-    .content h2 {
-      @apply text-2xl my-6 mt-12 pb-2 border-b border-(--color-border);
-      color: var(--color-text);
-    }
-
-    .content h3 {
+    .content h1, .content h2, .content h3 {
       @apply text-xl my-4;
-      color: var(--color-accent-hover);
+      color: var(--color-accent);
     }
 
     .content p {
-      @apply text-[1.05rem] leading-7 my-5 opacity-90;
+      @apply text-[1.05rem] leading-7 my-5 opacity-90 ;
+      color: var(--color-text);
     }
 
     .content a {
       color: var(--color-accent);
-      @apply underline decoration-2 decoration-(--color-secondary) underline-offset-4 transition-all hover:decoration-(--color-accent);
+      @apply underline decoration-2 decoration-(--color-secondary) text-[1.05rem] underline-offset-4 transition-all hover:decoration-(--color-accent);
     }
 
     /* ── Bloques de Código (Sincronizados con Shiki Vesper) ── */
