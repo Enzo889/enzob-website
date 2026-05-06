@@ -4,9 +4,9 @@ import type { GetStaticPaths } from "astro";
 import NotesSlugPage from "@/pages/notes/[slug].astro";
 
 export const getStaticPaths = (async () => {
-	const notes = await getCollection("notes");
+	const notes = await getCollection("notes", (note) => note.id.startsWith("en/"));
 	return notes.map((note) => ({
-		params: { slug: note.id },
+		params: { slug: note.id.split('/').slice(1).join('/') },
 		props: { note },
 	}));
 }) satisfies GetStaticPaths;

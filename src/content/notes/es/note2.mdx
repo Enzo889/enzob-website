@@ -1,0 +1,69 @@
+---
+title: Explorando CARACTERÍSTICAS de ES6
+date: 2023-06-01
+description: Explorando algunas de las nuevas funcionalidades de ES6 en JavaScript.
+author: jane-doe
+isDraft: false
+---
+
+{/* title is here, is inserted in the slug page - the layout page */}
+JavaScript ES6 introdujo varias funcionalidades nuevas que han hecho que programar en JavaScript sea más eficiente y agradable. Exploremos algunas de ellas.
+
+## Arrow Functions 
+
+Las funciones flecha proporcionan una nueva sintaxis para escribir expresiones de función. Son más concisas y enlazan léxicamente el valor de `this`.
+
+### Ejemplo
+
+```javascript
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // Salida: 5
+```
+
+## Template Literals 
+
+Los template literals permiten una interpolación de cadenas y cadenas multilínea más fácil. Utilizan comillas invertidas (`) en lugar de comillas simples o dobles.
+
+### Ejemplo
+
+```javascript
+const name = "Jane";
+console.log(`¡Hola, ${name}!`);
+// Salida: ¡Hola, Jane!
+```
+
+## Destructuring Assignment ```
+
+## Template Literals
+
+Template literals allow for easier string interpolation and multi-line strings. They use backticks (\`) instead of single or double quotes.
+
+### Example
+
+```javascript
+const name = "Jane";
+console.log(`Hello, ${name}!`);
+// Output: Hello, Jane!
+```
+
+## Destructuring Assignment
+
+Destructuring assignment allows you to extract values from arrays or objects and assign them to variables in a more concise way.
+
+### Example
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Output: Jane 30
+```
+
+La asignación por desestructuración te permite extraer valores de arreglos u objetos y asignarlos a variables de una manera más concisa.
+
+### Ejemplo
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Salida: Jane 30
+```

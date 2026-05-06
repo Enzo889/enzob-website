@@ -6,9 +6,11 @@ import MainLayout from "@/layout/MainLayout.astro";
 import { formDate } from "@/utils/formatter";
 
 export const getStaticPaths = (async () => {
-	const notes = await getCollection("notes");
+	const notes = await getCollection("notes", (note) =>
+		note.id.startsWith("es/"),
+	);
 	return notes.map((note) => ({
-		params: { slug: note.id },
+		params: { slug: note.id.split("/").slice(1).join("/") },
 		props: { note },
 	}));
 }) satisfies GetStaticPaths;
@@ -24,7 +26,7 @@ const { Content, headings } = await render(note);
   <!-- Table of Contents -->
 
   <div class="md:fixed md:top-1/4 md:left-20 ">
-    <a href="/notes" class="w-fit text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
+    <a href={locale === "es" ? "/notes" : `/${locale}/notes`} class="w-fit text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
     {headings.length > 0 && (
         <div class="w-fit hidden md:block">
       <ul class="list-none mt-10 flex flex-col">
@@ -39,10 +41,10 @@ const { Content, headings } = await render(note);
   </div>
 
   <header class="mb-10">
-    <h1 class="text-2xl font-bold font-body tracking-tighter text-accent">
+    <h1 class="text-[1.05rem]  font-body tracking-tighter text-accent">
       {NoteData.title}
     </h1>
-    <p class="text-sm font-mono text-text-muted mt-2">
+    <p class="text-xs font-body text-text-muted mt-2">
       {formDate(NoteData.date, locale)}
     </p>
   </header>
@@ -124,7 +126,7 @@ const { Content, headings } = await render(note);
     /* ── Typography ── */
 
     .content h1, .content h2, .content h3 {
-      @apply text-xl my-4;
+      @apply text-[1.05rem] my-4;
       color: var(--color-accent);
     }
 

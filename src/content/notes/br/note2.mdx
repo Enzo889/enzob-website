@@ -1,0 +1,45 @@
+---
+title: Explorando RECURSOS do ES6
+date: 2023-06-01
+description: Explorando alguns dos novos recursos do ES6 no JavaScript.
+author: jane-doe
+isDraft: false
+---
+
+{/* title is here, is inserted in the slug page - the layout page */}
+O JavaScript ES6 introduziu diversos recursos novos que tornaram a codificação em JavaScript mais eficiente e agradável. Vamos explorar alguns desses recursos.
+
+## Arrow Functions 
+
+As funções de seta oferecem uma nova sintaxe para escrever expressões de função. Elas são mais concisas e vinculam indiretamente e lexicamente o valor de `this`.
+
+### Exemplo
+
+```javascript
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // Saída: 5
+```
+
+## Template Literals 
+
+Template literals (literais de modelo) permitem a interpolação de strings de uma forma muito mais fácil, assim como a criação de strings multilinha. Eles usam crases (`) em vez de aspas simples ou duplas.
+
+### Exemplo
+
+```javascript
+const name = "Jane";
+console.log(`Olá, ${name}!`);
+// Saída: Olá, Jane!
+```
+
+## Destructuring Assignment 
+
+A atribuição via desestruturação permite extrair valores de arrays ou propriedades de objetos e atribuí-los a variáveis de uma forma muito mais concisa.
+
+### Exemplo
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Saída: Jane 30
+```

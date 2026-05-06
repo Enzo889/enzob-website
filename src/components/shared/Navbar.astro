@@ -15,9 +15,15 @@ function isActive(href: string) {
 }
 
 const links = [
-	{ href: "/", label: t.navbar.home },
-	{ href: "/craft", label: t.navbar.craft },
-	{ href: "/notes", label: t.navbar.notes },
+	{ href: locale === "es" ? "/" : `/${locale}`, label: t.navbar.home },
+	{
+		href: locale === "es" ? "/craft" : `/${locale}/craft`,
+		label: t.navbar.craft,
+	},
+	{
+		href: locale === "es" ? "/notes" : `/${locale}/notes`,
+		label: t.navbar.notes,
+	},
 ];
 
 const activeLink = links.find((l) => isActive(l.href)) ?? links[0];

@@ -1,7 +1,7 @@
 export const es = {
   intro: {
     presentation:
-      "Soy Enzo Bustamante, un desarrollador y creador de cosas en Mendoza, Argentina.",
+      "Soy Enzo Bustamante, un desarrollador y pensador en serie en Mendoza, Argentina.",
     description:
       "Me gusta la pizza, los proyectos paralelos inacabados, los videojuegos y las películas.",
   },

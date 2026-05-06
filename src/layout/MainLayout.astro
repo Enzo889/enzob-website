@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import Footer from "@/components/shared/Footer.astro";
 import Navbar from "../components/shared/Navbar.astro";
 import "../styles/global.css";
@@ -19,7 +20,7 @@ interface Props {
 	description?: string;
 }
 
-const { title = "Enzo Bustamante | Portfolio", description } = Astro.props;
+const { title = "Enzo Bustamante", description } = Astro.props;
 ---
 
 <html lang={Astro.currentLocale ?? "es"}>
@@ -35,19 +36,28 @@ const { title = "Enzo Bustamante | Portfolio", description } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
     <meta name="description" content={description} />
     <script is:inline>
-      (function () {
+      const setDarkMode = () => {
         const stored = localStorage.getItem("theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         if (stored === "dark" || (!stored && prefersDark)) {
           document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
         }
-      })();
+      };
+      
+      // Ejecutar en carga inicial
+      setDarkMode();
+      
+      // Ejecutar justo después de que Astro reemplace el HTML en navegaciones
+      document.addEventListener('astro:after-swap', setDarkMode);
     </script>
   </head>
   <body class="relative " id="top">
-    <a href="/">
+    <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
       <Logo className="w-12 h-12 absolute xl:fixed m-5 select-none outline-none" />
     </a>
     <div class="container mx-auto max-w-2xl p-4 pt-20">

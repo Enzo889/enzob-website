@@ -7,14 +7,20 @@ interface Props {
 }
 
 const { notes } = Astro.props;
+
+const rawSlug = notes.id.split("/").slice(1).join("/");
+const targetUrl =
+	Astro.currentLocale === "es"
+		? `/notes/${rawSlug}`
+		: `/${Astro.currentLocale}/notes/${rawSlug}`;
 ---
 
-<a href={`/notes/${notes.id}`} class="card block font-body group" style="text-decoration:none;">
+<a href={targetUrl} class="card block font-body group" style="text-decoration:none;">
   <div class="mb-6">
     <h3 class="text-2xl group-hover:text-red-500 font-bold font-body tracking-tighter text-accent" >
       {notes.data.title}
     </h3>
-    <span class="text-sm font-mono text-text-muted mt-2">
+    <span  class="text-sm font-mono text-text-muted mt-2">
         {formDate(notes.data.date, Astro.currentLocale)}
     </span>
     <p class="text-sm mb-3 text-text-muted mt-2">

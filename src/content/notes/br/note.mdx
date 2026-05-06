@@ -1,0 +1,69 @@
+---
+title: Explorando os Recursos do ES6
+date: 2023-06-01
+description: Explorando alguns dos novos recursos do ES6 no JavaScript.
+author: jane-doe
+isDraft: false
+---
+
+# { frontmatter.title }
+
+O JavaScript ES6 introduziu diversos recursos novos que tornaram a codificação em JavaScript mais eficiente e agradável. Vamos explorar alguns desses recursos.
+
+## Arrow Functions 
+
+As *arrow functions* oferecem uma nova sintaxe para escrever expressões de função. Elas são mais concisas e vinculam o valor de `this` lexicalmente.
+
+### Exemplo
+```javascript
+const add = (a, b) => a + b;
+console.log(add(2, 3));
+```
+
+## Template Literals 
+
+Template literals (literais de modelo) permitem a interpolação de strings de uma forma muito mais fácil, assim como a criação de strings multilinha. Eles usam crases (`) em vez de aspas simples ou duplas.
+
+### Exemplo
+
+```javascript
+const name = "Jane";
+console.log(`Olá, ${name}!`);
+// Saída: Olá, Jane!
+```
+
+## Destructuring Assignment ```
+
+## Template Literals
+
+Template literals allow for easier string interpolation and multi-line strings. They use backticks (\`) instead of single or double quotes.
+
+### Example
+
+```javascript
+const name = "Jane";
+console.log(`Hello, ${name}!`);
+// Output: Hello, Jane!
+```
+
+## Destructuring Assignment
+
+Destructuring assignment allows you to extract values from arrays or objects and assign them to variables in a more concise way.
+
+### Example
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Output: Jane 30
+```
+
+A atribuição via desestruturação permite extrair valores de arrays ou propriedades de objetos e atribuí-los a variáveis de uma forma muito mais concisa.
+
+### Exemplo
+
+```javascript
+const person = { name: "Jane", age: 30 };
+const { name, age } = person;
+console.log(name, age); // Saída: Jane 30
+```

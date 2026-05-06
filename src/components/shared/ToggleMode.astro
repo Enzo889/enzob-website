@@ -50,13 +50,15 @@
   
 </style>
 
-<script is:inline>
-  (function () {
+<script>
+  function initThemeToggle() {
     const toggle = document.getElementById("theme-toggle");
     const sunIcon = document.getElementById("sun-icon");
     const moonIcon = document.getElementById("moon-icon");
 
-    function applyTheme(dark) {
+    if (!toggle) return;
+
+    function applyTheme(dark: boolean) {
       document.documentElement.classList.toggle("dark", dark);
       if (sunIcon && moonIcon) {
         sunIcon.classList.toggle("hidden", !dark);
@@ -70,26 +72,27 @@
       applyTheme(nowDark);
     }
 
-    // Aplicar tema guardado al cargar
-    const stored = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    applyTheme(stored ? stored === "dark" : prefersDark);
+    // Aplicar estado del DOM actual a los iconos (MainLayout ya setea el modo en el HTML preventivamente)
+    const isCurrentlyDark = document.documentElement.classList.contains("dark");
+    applyTheme(isCurrentlyDark);
 
-    toggle?.addEventListener("click", (event) => {
+    // Evitamos listeners duplicados reemplazando el nodo si esto se re-ejecutase sin limpiar
+    toggle.replaceWith(toggle.cloneNode(true));
+    const newToggle = document.getElementById("theme-toggle");
+
+    newToggle?.addEventListener("click", (event) => {
       const x = event.clientX;
       const y = event.clientY;
 
-      // Respeto por prefers-reduced-motion
       const noTransition =
         !document.startViewTransition ||
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+      
       if (noTransition) {
         switchTheme();
         return;
       }
 
-      // Radio exacto hasta la esquina más lejana — técnica de antfu
       const endRadius = Math.hypot(
         Math.max(x, innerWidth - x),
         Math.max(y, innerHeight - y)
@@ -108,19 +111,22 @@
         document.documentElement.animate(
           {
             clipPath: nowDark
-              ? [...clipPath].reverse() // dark: el círculo se CIERRA sobre el layer viejo (light se "traga")
-              : clipPath,               // light: el círculo se ABRE sobre el layer nuevo (luz emerge)
+              ? [...clipPath].reverse()
+              : clipPath,
           },
           {
             duration: 400,
             easing: "ease-out",
             fill: "forwards",
             pseudoElement: nowDark
-              ? "::view-transition-old(root)" // dark: animamos el viejo (light) que desaparece
-              : "::view-transition-new(root)", // light: animamos el nuevo (light) que aparece
+            ? "::view-transition-old(root)"
+            : "::view-transition-new(root)",
           }
         );
       });
     });
-  })();
+  }
+
+  // Ejecutar en cada navegación manejada por ClientRouter
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>
