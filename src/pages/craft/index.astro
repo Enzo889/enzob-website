@@ -10,6 +10,7 @@ const crafts = [
 	},
 	{ name: "Zustand Middleware Lab", url: "/craft/zustand-lab", year: "2026" },
 	{ name: "Next.js 16 API Routes", url: "/craft/next-api", year: "2026" },
+	{ name: "Lenis Smooth Scroll Demo", url: "/craft/lenis", year: "2026" },
 ];
 
 const locale = Astro.currentLocale ?? "es";
@@ -23,9 +24,7 @@ const locale = Astro.currentLocale ?? "es";
           <li>
             <a
               class="group flex items-center gap-2 py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-4 transition-all"
-              href={craft.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={locale === "es" ? craft.url : `/${locale}${craft.url}`}
               data-scramble
             >
               <span class="font-medium whitespace-nowrap" data-scramble-text>{craft.name}</span>

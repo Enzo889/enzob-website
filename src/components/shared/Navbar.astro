@@ -7,11 +7,15 @@ const locale = Astro.currentLocale ?? "es";
 const t = useTranslations(locale);
 
 const pathname = new URL(Astro.request.url).pathname;
-const cleanPathname = pathname.replace(/^\/(en|br)(\/|$)/, "/");
 
 function isActive(href: string) {
-	if (href === "/") return cleanPathname === "/";
-	return cleanPathname.startsWith(href);
+	const current = pathname.replace(/\/$/, "") || "/";
+	const target = href.replace(/\/$/, "") || "/";
+
+	if (target === "/" || target === `/${locale}`) {
+		return current === "/" || current === `/${locale}`;
+	}
+	return current.startsWith(target);
 }
 
 const links = [
