@@ -327,6 +327,38 @@ import img_allout from "./images/imgi_45_all-out-life.jpg";
     /* ── reveal helpers (initial states) ── */
     .reveal-heading { opacity:0; }
     .reveal-body    { opacity:0; }
+
+    /* ── Mobile Responsiveness ── */
+    @media (max-width: 768px) {
+      .hud { flex-direction: column; gap: 0.5rem; padding: 0.5rem; }
+      .hud-controls { justify-content: center; }
+      .status-bar { display: none; /* Hide status bar on small screens to save space */ }
+      
+      .hero { padding: 4rem 1rem; }
+      #hero-title { font-size: clamp(3rem, 12vw, 6rem); }
+      #hero-sub { font-size: 0.9rem; margin-bottom: 2rem; }
+      
+      .parallax-section { height: 60vh; }
+      .parallax-overlay { padding: 2rem; }
+      .section-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+      
+      .char-reveal-section { padding: 5rem 1rem; }
+      .char-word { font-size: clamp(2.5rem, 8vw, 4rem); }
+      
+      .disco, .scale-section, .tilt-section, .direction-section, .stopper-section { padding: 5rem 1rem; }
+      .disco-grid { gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+      
+      #s-velocity { padding: 5rem 0; }
+      .marquee-item { font-size: 4rem; margin-right: 2rem; }
+      
+      .band-full-overlay { padding: 2rem; }
+      .band-quote { font-size: clamp(2rem, 8vw, 3.5rem); }
+      
+      .h-card { width: 300px; height: 50vh; }
+      
+      .anchors-section { padding: 5rem 1rem; }
+      .anchors-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
   </style>
 </head>
 <body>

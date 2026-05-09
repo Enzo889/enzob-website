@@ -491,51 +491,56 @@ lenis.on(
 );
 
 /* ═══════════════════════════════════════════════════════
-   7. MOTION — 3D tilt cards
+   7. MOTION — 3D tilt cards (Desktop only)
    ═══════════════════════════════════════════════════════ */
-qsa<HTMLElement>("[data-tilt]").forEach((card) => {
-  card.addEventListener("mouseenter", () => {
-    animate(
-      card,
-      { scale: 1.05 },
-      { duration: 0.3, easing: [0.34, 1.56, 0.64, 1] },
-    );
+if (!window.matchMedia("(pointer: coarse)").matches) {
+  qsa<HTMLElement>("[data-tilt]").forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      animate(
+        card,
+        { scale: 1.05 },
+        { duration: 0.3, easing: [0.34, 1.56, 0.64, 1] },
+      );
+    });
+    card.addEventListener("mousemove", (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e as MouseEvent).clientX - r.left) / r.width - 0.5;
+      const y = ((e as MouseEvent).clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) scale(1.05) rotateY(${x * 24}deg) rotateX(${-y * 24}deg)`;
+    });
+    card.addEventListener("mouseleave", () => {
+      animate(card, { scale: 1 }, { duration: 0.5, easing: [0.16, 1, 0.3, 1] });
+      card.style.transform =
+        "perspective(700px) scale(1) rotateY(0deg) rotateX(0deg)";
+    });
   });
-  card.addEventListener("mousemove", (e) => {
-    const r = card.getBoundingClientRect();
-    const x = ((e as MouseEvent).clientX - r.left) / r.width - 0.5;
-    const y = ((e as MouseEvent).clientY - r.top) / r.height - 0.5;
-    card.style.transform = `perspective(700px) scale(1.05) rotateY(${x * 24}deg) rotateX(${-y * 24}deg)`;
-  });
-  card.addEventListener("mouseleave", () => {
-    animate(card, { scale: 1 }, { duration: 0.5, easing: [0.16, 1, 0.3, 1] });
-    card.style.transform =
-      "perspective(700px) scale(1) rotateY(0deg) rotateX(0deg)";
-  });
-});
+}
 
 /* ═══════════════════════════════════════════════════════
-   8. MOTION — magnetic HUD buttons
+   8. MOTION — magnetic HUD buttons (Desktop only)
    ═══════════════════════════════════════════════════════ */
-qsa<HTMLElement>(".btn").forEach((btn) => {
-  btn.addEventListener("mousemove", (e) => {
-    const r = btn.getBoundingClientRect();
-    const x = (e as MouseEvent).clientX - r.left - r.width / 2;
-    const y = (e as MouseEvent).clientY - r.top - r.height / 2;
-    animate(
-      btn,
-      { x: x * 0.35, y: y * 0.35 },
-      { duration: 0.2, easing: "ease-out" },
-    );
+if (!window.matchMedia("(pointer: coarse)").matches) {
+  qsa<HTMLElement>(".btn").forEach((btn) => {
+    btn.addEventListener("mousemove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = (e as MouseEvent).clientX - r.left - r.width / 2;
+      const y = (e as MouseEvent).clientY - r.top - r.height / 2;
+      animate(
+        btn,
+        { x: x * 0.35, y: y * 0.35 },
+        { duration: 0.2, easing: "ease-out" },
+      );
+    });
+    btn.addEventListener("mouseleave", () => {
+      animate(
+        btn,
+        { x: 0, y: 0 },
+        { duration: 0.5, easing: [0.34, 1.56, 0.64, 1] },
+      );
+    });
   });
-  btn.addEventListener("mouseleave", () => {
-    animate(
-      btn,
-      { x: 0, y: 0 },
-      { duration: 0.5, easing: [0.34, 1.56, 0.64, 1] },
-    );
-  });
-});
+}
+
 
 /* ═══════════════════════════════════════════════════════
    9. SCROLLTO — anchor buttons
