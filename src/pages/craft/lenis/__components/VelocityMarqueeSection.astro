@@ -1,0 +1,41 @@
+---
+const trackItems = [
+  "PSYCHOSOCIAL","DUALITY","WAIT & BLEED","BEFORE I FORGET",
+  "THE DEVIL IN I","CRITICAL DARLING","SULFUR","UNSAINTED",
+  "PSYCHOSOCIAL","DUALITY","WAIT & BLEED","BEFORE I FORGET"
+];
+---
+
+<section id="s-velocity" class="velocity-section">
+  <span class="section-tag" data-enter="scale">lenis velocity → marquee speed</span>
+  <h2 class="section-title reveal-heading" data-enter="flip" data-enter-delay="0.1">Speed<br/>Kills</h2>
+  <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.25" style="max-width:440px;margin-inline:auto;">
+    Scroll fast — the marquee accelerates in real-time using Lenis's <code>velocity</code>. Characters glow when you hit high speed.
+  </p>
+  <div class="marquee-track" id="marquee">
+    {trackItems.map(t => (
+      <span class="marquee-item">{t}</span>
+    ))}
+  </div>
+</section>
+
+<style>
+  .velocity-section { padding:8rem 2rem; background:var(--darker); text-align:center; overflow:hidden; }
+  .marquee-track {
+    display:flex; gap:3rem; white-space:nowrap; padding:1.25rem 0;
+    will-change:transform;
+    border-top:1px solid rgba(192,57,43,.2); border-bottom:1px solid rgba(192,57,43,.2);
+    margin-top:3rem;
+  }
+  .marquee-item {
+    font-family:'Bebas Neue',sans-serif; font-size:3.5rem;
+    color:transparent; -webkit-text-stroke:1px rgba(192,57,43,.4);
+    flex-shrink:0; transition:color .15s,text-shadow .15s;
+  }
+  .marquee-item.lit { color:var(--red-bright); -webkit-text-stroke:1px transparent; text-shadow:0 0 30px rgba(231,76,60,.5); }
+
+  @media (max-width: 768px) {
+    .velocity-section { padding: 5rem 0; }
+    .marquee-item { font-size: 4rem; margin-right: 2rem; }
+  }
+</style>

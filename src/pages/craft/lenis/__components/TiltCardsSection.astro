@@ -1,0 +1,42 @@
+---
+import img_live1 from "../images/imgi_241_DSC_6209-Enhanced-NR-copy-2.jpg";
+import img_live2 from "../images/imgi_238_@gnarlymedia_-50.jpg";
+import img_live3 from "../images/imgi_91_Eloy-3-2-scaled.jpg";
+import img_solway from "../images/imgi_79_solway-1-scaled.jpg";
+import img_devil from "../images/imgi_74_thedevilini-scaled.jpg";
+import img_memories2 from "../images/imgi_88_Memories-scaled.jpg";
+---
+<section id="s-tilt" class="tilt-section">
+  <span class="section-tag">Motion enter + 3D mousemove tilt</span>
+  <h2 class="section-title reveal-heading">The Nine</h2>
+  <p class="section-body reveal-body" style="text-align:center;max-width:480px;">Cards cascade in with Motion <code>stagger</code>. Hover to tilt in 3D — Lenis's smooth momentum makes the motion feel cinematic.</p>
+  <div class="tilt-grid">
+    {[img_live1.src,img_live2.src,img_live3.src,img_solway.src,img_devil.src,img_memories2.src].map((src,i)=>(
+      <div class="tilt-card" data-tilt>
+        <img src={src} alt={`Member ${i+1}`} loading="lazy" />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .tilt-section { padding:8rem 2rem; background:var(--grey); display:flex; flex-direction:column; align-items:center; }
+  .tilt-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.5rem; max-width:900px; width:100%; margin-top:3rem;
+  }
+  .tilt-card {
+    aspect-ratio:3/4; position:relative; overflow:hidden;
+    cursor:pointer; will-change:transform; opacity:0;
+  }
+  .tilt-card img { width:100%; height:100%; object-fit:cover; display:block; }
+  .tilt-card::after {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 50%);
+    pointer-events:none;
+  }
+
+  @media (max-width: 768px) {
+    .tilt-section { padding: 5rem 1rem; }
+  }
+</style>

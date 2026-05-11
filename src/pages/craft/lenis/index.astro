@@ -1,22 +1,25 @@
 ---
-import img_band_alone from "./images/imgi_4_sk-9-band-alone.png";
-import img_band_star from "./images/imgi_3_sk-9-band-star.png";
-import img_logo from "./images/imgi_128_Slipknot-Dark-Red-White-1024x444.png";
+import HUD from "./__components/HUD.astro";
+import StatusBar from "./__components/StatusBar.astro";
+import HeroSection from "./__components/HeroSection.astro";
+import ParallaxSection from "./__components/ParallaxSection.astro";
+import CharScrambleSection from "./__components/CharScrambleSection.astro";
+import DiscographySection from "./__components/DiscographySection.astro";
+import ScaleRevealSection from "./__components/ScaleRevealSection.astro";
+import ClipRevealSection from "./__components/ClipRevealSection.astro";
+import VelocityMarqueeSection from "./__components/VelocityMarqueeSection.astro";
+import HorizontalScrollSection from "./__components/HorizontalScrollSection.astro";
+import TiltCardsSection from "./__components/TiltCardsSection.astro";
+import StickyCounterSection from "./__components/StickyCounterSection.astro";
+import AnchorsSection from "./__components/AnchorsSection.astro";
+import DirectionSection from "./__components/DirectionSection.astro";
+import StopperSection from "./__components/StopperSection.astro";
+import FooterSection from "./__components/FooterSection.astro";
+
+// Specific images for parallax
 import img_live1 from "./images/imgi_241_DSC_6209-Enhanced-NR-copy-2.jpg";
 import img_live2 from "./images/imgi_238_@gnarlymedia_-50.jpg";
-import img_live3 from "./images/imgi_91_Eloy-3-2-scaled.jpg";
 import img_solway from "./images/imgi_79_solway-1-scaled.jpg";
-import img_wanyk from "./images/imgi_48_01_Slipknot_WANYK-1.jpg";
-import img_memories from "./images/imgi_223_Memories-2048x1132.jpg";
-import img_ahig from "./images/imgi_30_sicnesses.jpg";
-import img_tesf from "./images/imgi_42_goodbye-cover-scaled.jpg";
-import img_aol from "./images/imgi_195_alloutlife-2-2048x1132.jpg";
-import img_tesfweb from "./images/imgi_53_TESF-web-1.jpg";
-import img_devil from "./images/imgi_74_thedevilini-scaled.jpg";
-import img_vman from "./images/imgi_90_Vman-2026.jpg";
-import img_memories2 from "./images/imgi_88_Memories-scaled.jpg";
-import img_gnarly from "./images/imgi_20_LCR-May-08-2023-185.jpg";
-import img_allout from "./images/imgi_45_all-out-life.jpg";
 ---
 
 <!doctype html>
@@ -29,7 +32,8 @@ import img_allout from "./images/imgi_45_all-out-life.jpg";
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <style>
+  
+  <style is:global>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --red: #c0392b; --red-bright: #e74c3c; --accent: #ff2a00;
@@ -40,57 +44,19 @@ import img_allout from "./images/imgi_45_all-out-life.jpg";
     body {
       font-family: 'Barlow Condensed', sans-serif;
       background: var(--darker); color: var(--text); overflow-x: hidden;
-      transform-origin: top center; /* for skew distortion */
+      transform-origin: top center;
     }
 
-    /* ── HUD ── */
-    .hud {
-      position: fixed; top:0; left:0; right:0; z-index:200;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:.7rem 1.5rem;
-      background:rgba(5,5,5,.9); backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(192,57,43,.3);
-    }
-    .hud-logo {
-      font-family:'Metal Mania',cursive; font-size:1.25rem;
-      color:var(--red-bright); text-shadow:0 0 16px rgba(231,76,60,.5);
-    }
-    .hud-controls { display:flex; gap:.45rem; flex-wrap:wrap; }
-    .btn {
-      font-family:'Barlow Condensed',sans-serif; font-weight:700;
-      font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
-      padding:.38rem .85rem; border:1px solid var(--red);
-      background:transparent; color:var(--red-bright); cursor:pointer;
-      clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-      will-change:transform;
-    }
-    .btn:hover, .btn.active { background:var(--red); color:#fff; box-shadow:0 0 14px rgba(192,57,43,.45); }
-
-    /* ── Progress bar ── */
     #progress-bar {
       position:fixed; top:0; left:0; height:3px; z-index:300; width:100%;
       background:linear-gradient(90deg,var(--red),var(--accent));
       box-shadow:0 0 10px var(--accent); transform-origin:left; transform:scaleX(0);
     }
 
-    /* ── Status bar ── */
-    .status-bar {
-      position:fixed; bottom:0; left:0; right:0; z-index:200;
-      display:flex; gap:1.5rem; flex-wrap:wrap; padding:.45rem 1.5rem;
-      background:rgba(5,5,5,.92); border-top:1px solid rgba(192,57,43,.18);
-      font-size:.73rem; letter-spacing:.05em; text-transform:uppercase;
-    }
-    .stat { display:flex; gap:.4rem; align-items:center; }
-    .stat-label { color:var(--text-dim); }
-    .stat-value { color:var(--red-bright); font-weight:700; min-width:52px; }
-
-    /* ── Shared typography ── */
     .section-tag {
       display:inline-block; font-size:.67rem; letter-spacing:.22em;
       text-transform:uppercase; color:var(--red-bright);
       border:1px solid rgba(192,57,43,.4); padding:.2rem .7rem; margin-bottom:.7rem;
-      clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
-      opacity:0;
     }
     .section-title {
       font-family:'Bebas Neue',sans-serif;
@@ -99,395 +65,35 @@ import img_allout from "./images/imgi_45_all-out-life.jpg";
     .section-body { font-size:1.05rem; line-height:1.7; color:var(--text-dim); font-weight:300; }
     code { color:var(--red-bright); font-size:.9em; }
 
-    /* ── HERO ── */
-    .hero {
-      height:100vh; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; text-align:center;
-      padding:2rem; position:relative; overflow:hidden;
-    }
-    .hero-bg {
-      position:absolute; inset:0; will-change:transform;
-      background-size:cover; background-position:center top;
-      opacity:.2; filter:grayscale(40%);
-    }
-    .hero-content { position:relative; z-index:2; }
-    #hero-eyebrow {
-      font-size:.8rem; letter-spacing:.3em; text-transform:uppercase;
-      color:var(--red-bright); margin-bottom:1.5rem; opacity:0;
-    }
-    #hero-title {
-      font-family:'Metal Mania',cursive;
-      font-size:clamp(4rem,14vw,11rem); line-height:.9; color:#fff;
-      text-shadow:0 0 80px rgba(231,76,60,.4); margin-bottom:1.5rem;
-      perspective:800px; perspective-origin:center;
-    }
-    #hero-sub {
-      font-size:1.1rem; letter-spacing:.15em; text-transform:uppercase;
-      color:var(--text-dim); margin-bottom:3rem; opacity:0;
-    }
-    #scroll-hint {
-      display:flex; flex-direction:column; align-items:center;
-      gap:.5rem; color:var(--text-dim); font-size:.75rem;
-      letter-spacing:.2em; text-transform:uppercase; opacity:0;
-    }
-    .scroll-hint-line {
-      width:1px; height:60px;
-      background:linear-gradient(to bottom,var(--red),transparent);
-      animation:scrollHint 2s ease-in-out infinite;
-    }
-    @keyframes scrollHint { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(.45);opacity:.3} }
-
-    /* ── Parallax sections ── */
-    .parallax-section { height:80vh; position:relative; overflow:hidden; }
-    .parallax-img {
-      position:absolute; inset:-15%; width:130%; height:130%;
-      object-fit:cover; will-change:transform;
-    }
-    .parallax-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to right,rgba(5,5,5,.9) 0%,rgba(5,5,5,.2) 55%,rgba(5,5,5,.9) 100%);
-      display:flex; align-items:center; padding:4rem;
-    }
-    .parallax-text { max-width:380px; }
-
-    /* ── Disco ── */
-    .disco { padding:7rem 2rem; background:var(--grey); }
-    .disco-header { text-align:center; margin-bottom:3rem; }
-    .disco-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:1.25rem; max-width:1200px; margin:0 auto;
-    }
-    .album-card {
-      position:relative; overflow:hidden; aspect-ratio:16/9;
-      cursor:pointer; opacity:0;
-      transition:box-shadow .4s;
-    }
-    .album-card:hover { box-shadow:0 20px 50px rgba(192,57,43,.3); }
-    .album-card img { width:100%; height:100%; object-fit:cover; display:block; transition:filter .4s; }
-    .album-card:hover img { filter:brightness(.65) saturate(1.3); }
-    .album-info {
-      position:absolute; bottom:0; left:0; right:0; padding:1.5rem 1rem .75rem;
-      background:linear-gradient(to top,rgba(5,5,5,.95),transparent);
-    }
-    .album-name { font-family:'Bebas Neue',sans-serif; font-size:1.25rem; color:#fff; }
-    .album-year { font-size:.75rem; color:var(--red-bright); letter-spacing:.1em; }
-
-    /* ── Velocity marquee ── */
-    .velocity-section { padding:8rem 2rem; background:var(--darker); text-align:center; overflow:hidden; }
-    .marquee-track {
-      display:flex; gap:3rem; white-space:nowrap; padding:1.25rem 0;
-      will-change:transform;
-      border-top:1px solid rgba(192,57,43,.2); border-bottom:1px solid rgba(192,57,43,.2);
-      margin-top:3rem;
-    }
-    .marquee-item {
-      font-family:'Bebas Neue',sans-serif; font-size:3.5rem;
-      color:transparent; -webkit-text-stroke:1px rgba(192,57,43,.4);
-      flex-shrink:0; transition:color .15s,text-shadow .15s;
-    }
-    .marquee-item.lit { color:var(--red-bright); -webkit-text-stroke:1px transparent; text-shadow:0 0 30px rgba(231,76,60,.5); }
-
-    /* ── Full band ── */
-    .band-full { position:relative; height:90vh; overflow:hidden; }
-    .band-full-img { position:absolute; inset:0; width:100%; height:120%; object-fit:cover; top:-10%; will-change:transform; }
-    .band-full-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to bottom,rgba(5,5,5,.5) 0%,transparent 35%,rgba(5,5,5,.9) 100%);
-      display:flex; align-items:flex-end; padding:4rem;
-    }
-    .band-quote {
-      font-family:'Bebas Neue',sans-serif;
-      font-size:clamp(2rem,5vw,4rem); color:#fff;
-      max-width:700px; line-height:1.1; text-shadow:0 2px 20px rgba(0,0,0,.8);
-    }
-    .band-quote .word { display:inline-block; opacity:0; margin-right:.25em; }
-    .band-quote span.accent { color:var(--red-bright); }
-
-    /* ── Horizontal scroll ── */
-    #h-outer { background:var(--dark); }
-    .h-scroll-sticky {
-      position:sticky; top:0; height:100vh;
-      display:flex; align-items:center; overflow:hidden;
-    }
-    #h-scroll-label {
-      position:absolute; top:2.5rem; left:50%; transform:translateX(-50%);
-      text-align:center; z-index:5; white-space:nowrap; opacity:0;
-    }
-    .h-scroll-track { display:flex; gap:3px; will-change:transform; flex-shrink:0; }
-    .h-card { width:420px; height:70vh; flex-shrink:0; position:relative; overflow:hidden; }
-    .h-card img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(25%); transition:filter .5s; }
-    .h-card:hover img { filter:grayscale(0%); }
-    .h-card-label {
-      position:absolute; bottom:0; left:0; right:0; padding:1.5rem 1rem .75rem;
-      background:linear-gradient(to top,rgba(5,5,5,.9),transparent);
-      font-family:'Bebas Neue',sans-serif; font-size:1.35rem; color:#fff;
-    }
-
-    /* ── Character scramble ── */
-    .char-reveal-section { padding:10rem 2rem; background:var(--grey); text-align:center; overflow:hidden; }
-    .char-word {
-      font-family:'Metal Mania',cursive;
-      font-size:clamp(4rem,10vw,8rem); line-height:1;
-      display:inline-block; margin:0 .2em; opacity:0;
-      color:#fff; text-shadow:0 0 40px rgba(192,57,43,.25);
-    }
-
-    /* ── Scale on scroll ── */
-    .scale-section { padding:8rem 2rem; background:var(--darker); display:flex; flex-direction:column; align-items:center; gap:3rem; }
-    .scale-img-wrap { width:min(700px,90vw); aspect-ratio:16/9; overflow:hidden; position:relative; }
-    .scale-img { width:100%; height:100%; object-fit:cover; display:block; }
-    .scale-img-overlay {
-      position:absolute; inset:0; opacity:0;
-      border:2px solid rgba(192,57,43,.6);
-      box-shadow:inset 0 0 40px rgba(192,57,43,.2);
-    }
-
-    /* ── Clip reveal ── */
-    .clip-section { background:var(--darker); overflow:hidden; }
-    .clip-img-wrap { position:relative; overflow:hidden; height:70vh; }
-    .clip-img { width:100%; height:100%; object-fit:cover; display:block; clip-path:inset(0 100% 0 0); }
-    .clip-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to bottom,transparent 50%,rgba(5,5,5,.85));
-      display:flex; align-items:flex-end; padding:2.5rem;
-    }
-
-    /* ── Tilt ── */
-    .tilt-section { padding:8rem 2rem; background:var(--grey); display:flex; flex-direction:column; align-items:center; }
-    .tilt-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:1.5rem; max-width:900px; width:100%; margin-top:3rem;
-    }
-    .tilt-card {
-      aspect-ratio:3/4; position:relative; overflow:hidden;
-      cursor:pointer; will-change:transform; opacity:0;
-    }
-    .tilt-card img { width:100%; height:100%; object-fit:cover; display:block; }
-    .tilt-card::after {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 50%);
-      pointer-events:none;
-    }
-
-    /* ── Sticky counter ── */
-    .counter-outer { position:relative; background:var(--darker); }
-    .counter-sticky {
-      position:sticky; top:0; height:100vh;
-      display:flex; align-items:center; justify-content:center;
-      flex-direction:column; gap:1rem; text-align:center;
-    }
-    .counter-num {
-      font-family:'Bebas Neue',sans-serif;
-      font-size:clamp(6rem,18vw,14rem); color:var(--red-bright); line-height:1;
-      text-shadow:0 0 60px rgba(231,76,60,.4);
-    }
-    .counter-label { font-size:1.2rem; letter-spacing:.2em; color:var(--text-dim); text-transform:uppercase; }
-
-    /* ── Anchors ── */
-    .anchors-section { padding:8rem 2rem; background:var(--grey); }
-    .anchors-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:1rem; max-width:900px; margin:3rem auto 0;
-    }
-    .anchor-btn {
-      font-family:'Barlow Condensed',sans-serif; font-weight:700;
-      letter-spacing:.1em; text-transform:uppercase; font-size:1rem;
-      padding:1.1rem; background:var(--grey-mid);
-      border:1px solid rgba(192,57,43,.3); color:var(--text); cursor:pointer;
-      text-align:left; opacity:0; transition:background .2s,border-color .2s,color .2s;
-    }
-    .anchor-btn:hover { background:rgba(192,57,43,.15); border-color:var(--red); color:#fff; }
-    .anchor-btn .anchor-label { display:block; font-size:.67rem; color:var(--red-bright); margin-bottom:.2rem; }
-
-    /* ── Direction ── */
-    .direction-section {
-      padding:8rem 2rem; background:var(--darker);
-      display:flex; flex-direction:column; align-items:center; text-align:center; gap:3rem;
-    }
-    #dir-arrow {
-      font-size:5rem; line-height:1; color:var(--red-bright);
-      display:block; will-change:transform;
-    }
-
-    /* ── Stop/Start ── */
-    .stopper-section { padding:8rem 2rem; background:var(--grey); text-align:center; }
-    .stopper-visual {
-      width:120px; height:120px; border:2px solid var(--red); border-radius:50%;
-      display:flex; align-items:center; justify-content:center; margin:2rem auto;
-      font-size:3rem; color:var(--red-bright); cursor:pointer;
-    }
-    .stopper-visual.spinning { animation:spin 3s linear infinite; box-shadow:0 0 40px rgba(192,57,43,.6); }
-    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-
-    /* ── Footer ── */
-    .sk-footer { padding:5rem 2rem; background:var(--darker); border-top:1px solid rgba(192,57,43,.15); text-align:center; }
-    .sk-footer img { width:200px; opacity:.4; margin:0 auto 2rem; display:block; filter:grayscale(1); }
-    .sk-footer p { color:var(--text-dim); font-size:.82rem; letter-spacing:.08em; line-height:2; }
-
-    /* ── reveal helpers (initial states) ── */
     .reveal-heading { opacity:0; }
     .reveal-body    { opacity:0; }
-
-    /* ── Mobile Responsiveness ── */
-    @media (max-width: 768px) {
-      .hud { flex-direction: column; gap: 0.5rem; padding: 0.5rem; }
-      .hud-controls { justify-content: center; }
-      .status-bar { display: none; /* Hide status bar on small screens to save space */ }
-      
-      .hero { padding: 4rem 1rem; }
-      #hero-title { font-size: clamp(3rem, 12vw, 6rem); }
-      #hero-sub { font-size: 0.9rem; margin-bottom: 2rem; }
-      
-      .parallax-section { height: 60vh; }
-      .parallax-overlay { padding: 2rem; }
-      .section-title { font-size: clamp(2rem, 8vw, 3.5rem); }
-      
-      .char-reveal-section { padding: 5rem 1rem; }
-      .char-word { font-size: clamp(2.5rem, 8vw, 4rem); }
-      
-      .disco, .scale-section, .tilt-section, .direction-section, .stopper-section { padding: 5rem 1rem; }
-      .disco-grid { gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-      
-      #s-velocity { padding: 5rem 0; }
-      .marquee-item { font-size: 4rem; margin-right: 2rem; }
-      
-      .band-full-overlay { padding: 2rem; }
-      .band-quote { font-size: clamp(2rem, 8vw, 3.5rem); }
-      
-      .h-card { width: 300px; height: 50vh; }
-      
-      .anchors-section { padding: 5rem 1rem; }
-      .anchors-grid { grid-template-columns: 1fr; gap: 0.5rem; }
-    }
   </style>
 </head>
 <body>
   <div id="progress-bar"></div>
 
-  <!-- HUD -->
-  <nav class="hud">
-    <span class="hud-logo">Slipknot × Lenis + Motion</span>
-    <div class="hud-controls">
-      <button class="btn" id="btn-stop">⏹ Stop</button>
-      <button class="btn" id="btn-start">▶ Start</button>
-      <button class="btn" id="btn-top">↑ Top</button>
-      <button class="btn" id="btn-bottom">↓ Bottom</button>
-      <button class="btn" id="btn-slow">🐢 Slow</button>
-      <button class="btn" id="btn-fast">⚡ Fast</button>
-    </div>
-  </nav>
+  <HUD />
+  <StatusBar />
 
-  <!-- Status bar -->
-  <div class="status-bar">
-    <div class="stat"><span class="stat-label">Y</span><span class="stat-value" id="stat-y">0</span></div>
-    <div class="stat"><span class="stat-label">Progress</span><span class="stat-value" id="stat-prog">0%</span></div>
-    <div class="stat"><span class="stat-label">Velocity</span><span class="stat-value" id="stat-vel">0</span></div>
-    <div class="stat"><span class="stat-label">Dir</span><span class="stat-value" id="stat-dir">—</span></div>
-    <div class="stat"><span class="stat-label">Duration</span><span class="stat-value" id="stat-dur">1.6s</span></div>
-  </div>
+  <HeroSection />
 
-  <!-- ── HERO ──────────────────────────────────────────── -->
-  <section id="s-hero" class="hero">
-    <div class="hero-bg" id="hero-bg" style={`background-image:url('${img_band_alone.src}')`}></div>
-    <div class="hero-content">
-      <p id="hero-eyebrow">Lenis + Motion Demo · Iowa 1999</p>
-      <h1 id="hero-title">Slipknot</h1>
-      <p id="hero-sub">Nine members · One frequency · Infinite noise</p>
-      <div id="scroll-hint">
-        <span>Scroll</span>
-        <div class="scroll-hint-line"></div>
-      </div>
-    </div>
-  </section>
+  <ParallaxSection
+    id="s-parallax"
+    imgId="para-1"
+    imgSrc={img_live1.src}
+    alt="Slipknot Live"
+  >
+    <span class="section-tag" data-enter="scale" data-enter-delay="0.1">lenis.on('scroll') — parallax</span>
+    <h2 class="section-title reveal-heading" data-enter="slash">Driven by scroll</h2>
+    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.2">Lenis exposes <code>scroll</code>, <code>velocity</code>, <code>direction</code> and <code>progress</code> at every frame. We push the image at a different speed than the page, creating depth.</p>
+  </ParallaxSection>
 
-  <!-- ── PARALLAX 1 ─────────────────────────────────────── -->
-  <section id="s-parallax" class="parallax-section">
-    <img class="parallax-img" id="para-1" src={img_live1.src} alt="Slipknot live" />
-    <div class="parallax-overlay">
-      <div class="parallax-text">
-        <span class="section-tag" data-enter="scale" data-enter-delay="0.1">lenis.on('scroll') — parallax</span>
-        <h2 class="section-title reveal-heading" data-enter="slash">Driven by scroll</h2>
-        <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.2">Lenis exposes <code>scroll</code>, <code>velocity</code>, <code>direction</code> and <code>progress</code> at every frame. We push the image at a different speed than the page, creating depth.</p>
-      </div>
-    </div>
-  </section>
+  <CharScrambleSection />
+  <DiscographySection />
+  <ScaleRevealSection />
+  <ClipRevealSection />
+  <VelocityMarqueeSection />
 
-  <!-- ── CHARACTER SCRAMBLE ─────────────────────────────── -->
-  <section id="s-chars" class="char-reveal-section">
-    <span class="section-tag">Motion animate + scramble text</span>
-    <div>
-      <span class="char-word" id="cw-1">PEOPLE</span>
-      <span class="char-word" id="cw-2">=</span>
-      <span class="char-word" id="cw-3">SHIT</span>
-    </div>
-    <p class="section-body reveal-body" style="margin-top:2.5rem;max-width:480px;margin-inline:auto;">
-      Characters scramble through random glyphs before resolving — pure vanilla JS driven by Motion's <code>inView</code> callback.
-    </p>
-  </section>
-
-  <!-- ── DISCOGRAPHY ───────────────────────────────────── -->
-  <section id="s-disco" class="disco">
-    <div class="disco-header">
-      <span class="section-tag">Motion stagger — 3D flip-in</span>
-      <h2 class="section-title reveal-heading">Discography</h2>
-    </div>
-    <div class="disco-grid">
-      {[
-        { src: img_wanyk.src,    name: "We Are Not Your Kind",        year: "2019" },
-        { src: img_memories.src, name: "Vol. 3: Subliminal Verses",    year: "2004" },
-        { src: img_ahig.src,     name: "All Hope Is Gone",             year: "2008" },
-        { src: img_tesf.src,     name: "The End, So Far",              year: "2022" },
-        { src: img_aol.src,      name: "All Out Life",                 year: "2018 · Single" },
-        { src: img_tesfweb.src,  name: "The Dying Song",               year: "2022 · Single" },
-      ].map(({ src, name, year }) => (
-        <div class="album-card">
-          <img src={src} alt={name} loading="lazy" />
-          <div class="album-info">
-            <div class="album-name">{name}</div>
-            <div class="album-year">{year}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── SCALE ON SCROLL ───────────────────────────────── -->
-  <section id="s-scale" class="scale-section">
-    <span class="section-tag" data-enter="scale">Motion animate — scale + brightness reveal</span>
-    <h2 class="section-title reveal-heading" data-enter="left">Into Focus</h2>
-    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.15" style="max-width:480px;text-align:center;">Scale from 75% + blur + dark → sharp, full-size, border glow. All driven by a single Motion <code>animate()</code> call inside <code>inView()</code>.</p>
-    <div class="scale-img-wrap" data-enter="scale" data-enter-delay="0.3">
-      <img class="scale-img" src={img_vman.src} alt="Slipknot 2026" loading="lazy" />
-      <div class="scale-img-overlay"></div>
-    </div>
-  </section>
-
-  <!-- ── CLIP REVEAL ───────────────────────────────────── -->
-  <section id="s-clip" class="clip-section">
-    <div class="clip-img-wrap">
-      <img class="clip-img" src={img_gnarly.src} alt="Slipknot concert" loading="lazy" />
-      <div class="clip-overlay">
-        <div>
-          <span class="section-tag" data-enter="scale" data-enter-delay="0.9">Motion animate — clip-path wipe</span>
-          <h2 class="section-title" data-enter="flip" data-enter-delay="1.1">Unmasked</h2>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── VELOCITY MARQUEE ──────────────────────────────── -->
-  <section id="s-velocity" class="velocity-section">
-    <span class="section-tag" data-enter="scale">lenis velocity → marquee speed</span>
-    <h2 class="section-title reveal-heading" data-enter="flip" data-enter-delay="0.1">Speed<br/>Kills</h2>
-    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.25" style="max-width:440px;margin-inline:auto;">Scroll fast — the marquee accelerates in real-time using Lenis's <code>velocity</code>. Characters glow when you hit high speed.</p>
-    <div class="marquee-track" id="marquee">
-      {["PSYCHOSOCIAL","DUALITY","WAIT & BLEED","BEFORE I FORGET","THE DEVIL IN I","CRITICAL DARLING","SULFUR","UNSAINTED","PSYCHOSOCIAL","DUALITY","WAIT & BLEED","BEFORE I FORGET"].map(t => (
-        <span class="marquee-item">{t}</span>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── FULL BAND ─────────────────────────────────────── -->
   <section id="s-band" class="band-full">
     <img class="band-full-img" id="para-2" src={img_live2.src} alt="Slipknot band" loading="lazy" />
     <div class="band-full-overlay">
@@ -499,131 +105,26 @@ import img_allout from "./images/imgi_45_all-out-life.jpg";
     </div>
   </section>
 
-  <!-- ── HORIZONTAL SCROLL ─────────────────────────────── -->
-  <section id="s-hscroll">
-    <div id="h-outer" style="height:400vh;">
-      <div class="h-scroll-sticky">
-        <div id="h-scroll-label">
-          <span class="section-tag">lenis scroll → horizontal translate</span>
-          <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">The Gallery — keep scrolling</h2>
-        </div>
-        <div class="h-scroll-track" id="h-track">
-          {[
-            { src: img_live1.src,    label: "Live — LCR 2023" },
-            { src: img_live2.src,    label: "Gnarly Media" },
-            { src: img_live3.src,    label: "Eloy — 2024" },
-            { src: img_solway.src,   label: "Solway" },
-            { src: img_devil.src,    label: "The Devil In I" },
-            { src: img_memories2.src,label: "Memories" },
-            { src: img_allout.src,   label: "All Out Life" },
-          ].map(({ src, label }) => (
-            <div class="h-card">
-              <img src={src} alt={label} loading="lazy" />
-              <div class="h-card-label">{label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+  <HorizontalScrollSection />
+  <TiltCardsSection />
+  <StickyCounterSection />
+  <AnchorsSection />
+  <DirectionSection />
+  <StopperSection />
 
-  <!-- ── 3D TILT CARDS ─────────────────────────────────── -->
-  <section id="s-tilt" class="tilt-section">
-    <span class="section-tag">Motion enter + 3D mousemove tilt</span>
-    <h2 class="section-title reveal-heading">The Nine</h2>
-    <p class="section-body reveal-body" style="text-align:center;max-width:480px;">Cards cascade in with Motion <code>stagger</code>. Hover to tilt in 3D — Lenis's smooth momentum makes the motion feel cinematic.</p>
-    <div class="tilt-grid">
-      {[img_live1.src,img_live2.src,img_live3.src,img_solway.src,img_devil.src,img_memories2.src].map((src,i)=>(
-        <div class="tilt-card" data-tilt>
-          <img src={src} alt={`Member ${i+1}`} loading="lazy" />
-        </div>
-      ))}
-    </div>
-  </section>
+  <ParallaxSection
+    id="s-p3"
+    imgId="para-3"
+    imgSrc={img_solway.src}
+    alt="Slipknot Solway"
+    alignText="right"
+  >
+    <span class="section-tag" data-enter="scale" data-enter-delay="0.1">lenis.on('scroll') + progress</span>
+    <h2 class="section-title reveal-heading" data-enter="slash">Infinite Noise</h2>
+    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.2">Combining `Motion v12` with `Lenis` opens up endless creative possibilities. Let the scroll dictate the experience.</p>
+  </ParallaxSection>
 
-  <!-- ── STICKY COUNTER ────────────────────────────────── -->
-  <section id="s-counter">
-    <div class="counter-outer" style="height:300vh;">
-      <div class="counter-sticky">
-        <span class="section-tag" data-enter="scale">sticky + lenis progress → counter</span>
-        <div class="counter-num" data-enter="flip" data-enter-delay="0.15" id="counter-num">0</div>
-        <div class="counter-label" data-enter="up" data-enter-delay="0.3">Years of chaos · 1995 – 2025</div>
-        <p class="section-body" data-enter="up" data-enter-delay="0.45" style="max-width:400px;text-align:center;margin-top:1rem;">
-          Counts 0 → 30 as you scroll through this sticky panel, driven by Lenis <code>progress</code> mapped to section bounds.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SCROLLTO ANCHORS ──────────────────────────────── -->
-  <section id="s-anchors" class="anchors-section">
-    <div style="max-width:900px;margin:0 auto;text-align:center;">
-      <span class="section-tag">lenis.scrollTo(target, options)</span>
-      <h2 class="section-title reveal-heading">Jump Anywhere</h2>
-      <p class="section-body reveal-body" style="margin-top:.75rem;">Each button uses different <code>duration</code>, <code>offset</code>, and <code>easing</code> options.</p>
-    </div>
-    <div class="anchors-grid">
-      {[
-        { goto:"#s-hero",      label:"scrollTo · easeInOut 1.8s",   text:"Hero" },
-        { goto:"#s-parallax",  label:"scrollTo · linear 1.2s",      text:"Parallax" },
-        { goto:"#s-chars",     label:"scrollTo · offset -80",        text:"Scramble Text" },
-        { goto:"#s-disco",     label:"scrollTo · duration 2s",       text:"Discography" },
-        { goto:"#s-scale",     label:"scrollTo · offset -80",        text:"Scale Reveal" },
-        { goto:"#s-clip",      label:"scrollTo · easeOut",           text:"Clip Wipe" },
-        { goto:"#s-velocity",  label:"scrollTo · easeOut³ 1.8s",     text:"Velocity Marquee" },
-        { goto:"#s-hscroll",   label:"scrollTo · 2.5s",              text:"H-Scroll Gallery" },
-        { goto:"#s-tilt",      label:"scrollTo + onComplete cb",     text:"3D Tilt" },
-        { goto:"#s-counter",   label:"scrollTo · lock false",        text:"Sticky Counter" },
-        { goto:"#s-direction", label:"scrollTo · direction watch",   text:"Direction" },
-        { goto:"bottom",       label:"scrollTo 'bottom'",            text:"Footer" },
-      ].map(({ goto, label, text }) => (
-        <button class="anchor-btn" data-goto={goto}>
-          <span class="anchor-label">{label}</span>
-          {text}
-        </button>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── DIRECTION ─────────────────────────────────────── -->
-  <section id="s-direction" class="direction-section">
-    <span class="section-tag" data-enter="scale">lenis direction — real-time</span>
-    <h2 class="section-title reveal-heading" data-enter="right">Which way?</h2>
-    <span id="dir-arrow">↓</span>
-    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.15">Lenis fires <code>direction: 1</code> (down) or <code>direction: -1</code> (up) on every tick. Motion animates the arrow with a spring.</p>
-    <img src={img_live3.src} alt="Slipknot member" data-enter="scale" data-enter-delay="0.25" style="width:300px;height:200px;object-fit:cover;border:2px solid rgba(192,57,43,.3);display:block;" loading="lazy" />
-  </section>
-
-  <!-- ── STOP / START ──────────────────────────────────── -->
-  <section id="s-stop" class="stopper-section">
-    <span class="section-tag" data-enter="scale">lenis.stop() / lenis.start()</span>
-    <h2 class="section-title reveal-heading" data-enter="left">Freeze the Machine</h2>
-    <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.1">Click the wheel or HUD buttons to toggle Lenis on/off.</p>
-    <div class="stopper-visual spinning" data-enter="scale" data-enter-delay="0.25" id="stopper-wheel">⚙</div>
-    <p id="stopper-label" style="color:var(--text-dim);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;">🟢  Lenis running</p>
-  </section>
-
-  <!-- ── PARALLAX 3 ─────────────────────────────────────── -->
-  <section id="s-p3" class="parallax-section">
-    <img class="parallax-img" id="para-3" src={img_solway.src} alt="Slipknot Solway" loading="lazy" />
-    <div class="parallax-overlay" style="justify-content:flex-end;">
-      <div class="parallax-text" style="text-align:right;">
-        <span class="section-tag">lenis.raf(time) — manual loop</span>
-        <h2 class="section-title reveal-heading">Manual RAF</h2>
-        <p class="section-body reveal-body">With <code>autoRaf: false</code>, you call <code>lenis.raf(time)</code> inside your own <code>requestAnimationFrame</code> to sync with any animation library.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FOOTER ────────────────────────────────────────── -->
-  <footer id="s-footer" class="sk-footer">
-    <img src={img_logo.src} alt="Slipknot logo" />
-    <p>
-      Lenis + Motion Scroll Demo · Built with Astro<br/>
-      <code>lenis.raf()</code> · <code>lenis.on('scroll')</code> · <code>lenis.scrollTo()</code> · <code>lenis.stop()</code> · <code>lenis.start()</code> · <code>lenis.destroy()</code><br/>
-      <code>animate()</code> · <code>inView()</code> · <code>stagger()</code>
-    </p>
-  </footer>
+  <FooterSection />
 
   <script>
     import "./__components/lenis-motion";

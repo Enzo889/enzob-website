@@ -1,0 +1,29 @@
+---
+
+---
+<section id="s-chars" class="char-reveal-section">
+  <span class="section-tag">Motion animate + scramble text</span>
+  <div>
+    <span class="char-word" id="cw-1">PEOPLE</span>
+    <span class="char-word" id="cw-2">=</span>
+    <span class="char-word" id="cw-3">SHIT</span>
+  </div>
+  <p class="section-body reveal-body" style="margin-top:2.5rem;max-width:480px;margin-inline:auto;">
+    Characters scramble through random glyphs before resolving — pure vanilla JS driven by Motion's <code>inView</code> callback.
+  </p>
+</section>
+
+<style>
+  .char-reveal-section { padding:10rem 2rem; background:var(--grey); text-align:center; overflow:hidden; }
+  .char-word {
+    font-family:'Metal Mania',cursive;
+    font-size:clamp(4rem,10vw,8rem); line-height:1;
+    display:inline-block; margin:0 .2em; opacity:0;
+    color:#fff; text-shadow:0 0 40px rgba(192,57,43,.25);
+  }
+
+  @media (max-width: 768px) {
+    .char-reveal-section { padding: 5rem 1rem; }
+    .char-word { font-size: clamp(2.5rem, 8vw, 4rem); }
+  }
+</style>

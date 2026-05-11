@@ -1,0 +1,13 @@
+---
+import img_logo from "../images/imgi_128_Slipknot-Dark-Red-White-1024x444.png";
+---
+<footer class="sk-footer">
+  <img src={img_logo.src} alt="Slipknot logo" loading="lazy" />
+  <p>© 1999–2026 Slipknot. All rights reserved.<br/>Built with Lenis + Motion v12 + Astro.</p>
+</footer>
+
+<style>
+  .sk-footer { padding:5rem 2rem; background:var(--darker); border-top:1px solid rgba(192,57,43,.15); text-align:center; }
+  .sk-footer img { width:200px; opacity:.4; margin:0 auto 2rem; display:block; filter:grayscale(1); }
+  .sk-footer p { color:var(--text-dim); font-size:.82rem; letter-spacing:.08em; line-height:2; }
+</style>

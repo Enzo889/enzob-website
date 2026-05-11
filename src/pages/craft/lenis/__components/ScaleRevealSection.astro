@@ -1,0 +1,27 @@
+---
+import img_vman from "../images/imgi_90_Vman-2026.jpg";
+---
+<section id="s-scale" class="scale-section">
+  <span class="section-tag" data-enter="scale">Motion animate — scale + brightness reveal</span>
+  <h2 class="section-title reveal-heading" data-enter="left">Into Focus</h2>
+  <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.15" style="max-width:480px;text-align:center;">Scale from 75% + blur + dark → sharp, full-size, border glow. All driven by a single Motion <code>animate()</code> call inside <code>inView()</code>.</p>
+  <div class="scale-img-wrap" data-enter="scale" data-enter-delay="0.3">
+    <img class="scale-img" src={img_vman.src} alt="Slipknot 2026" loading="lazy" />
+    <div class="scale-img-overlay"></div>
+  </div>
+</section>
+
+<style>
+  .scale-section { padding:8rem 2rem; background:var(--darker); display:flex; flex-direction:column; align-items:center; gap:3rem; }
+  .scale-img-wrap { width:min(700px,90vw); aspect-ratio:16/9; overflow:hidden; position:relative; }
+  .scale-img { width:100%; height:100%; object-fit:cover; display:block; }
+  .scale-img-overlay {
+    position:absolute; inset:0; opacity:0;
+    border:2px solid rgba(192,57,43,.6);
+    box-shadow:inset 0 0 40px rgba(192,57,43,.2);
+  }
+
+  @media (max-width: 768px) {
+    .scale-section { padding: 5rem 1rem; }
+  }
+</style>

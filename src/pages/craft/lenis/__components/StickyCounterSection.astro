@@ -1,0 +1,29 @@
+---
+---
+<section id="s-counter">
+  <div class="counter-outer" style="height:300vh;">
+    <div class="counter-sticky">
+      <span class="section-tag" data-enter="scale">sticky + lenis progress → counter</span>
+      <div class="counter-num" data-enter="flip" data-enter-delay="0.15" id="counter-num">0</div>
+      <div class="counter-label" data-enter="up" data-enter-delay="0.3">Years of chaos · 1995 – 2025</div>
+      <p class="section-body" data-enter="up" data-enter-delay="0.45" style="max-width:400px;text-align:center;margin-top:1rem;">
+        Counts 0 → 30 as you scroll through this sticky panel, driven by Lenis <code>progress</code> mapped to section bounds.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .counter-outer { position:relative; background:var(--darker); }
+  .counter-sticky {
+    position:sticky; top:0; height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:1rem; text-align:center;
+  }
+  .counter-num {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(6rem,18vw,14rem); color:var(--red-bright); line-height:1;
+    text-shadow:0 0 60px rgba(231,76,60,.4);
+  }
+  .counter-label { font-size:1.2rem; letter-spacing:.2em; color:var(--text-dim); text-transform:uppercase; }
+</style>

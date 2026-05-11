@@ -1,0 +1,25 @@
+---
+import img_live3 from "../images/imgi_91_Eloy-3-2-scaled.jpg";
+---
+<section id="s-direction" class="direction-section">
+  <span class="section-tag" data-enter="scale">lenis direction — real-time</span>
+  <h2 class="section-title reveal-heading" data-enter="right">Which way?</h2>
+  <span id="dir-arrow">↓</span>
+  <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.15">Lenis fires <code>direction: 1</code> (down) or <code>direction: -1</code> (up) on every tick. Motion animates the arrow with a spring.</p>
+  <img src={img_live3.src} alt="Slipknot member" data-enter="scale" data-enter-delay="0.25" style="width:300px;height:200px;object-fit:cover;border:2px solid rgba(192,57,43,.3);display:block;" loading="lazy" />
+</section>
+
+<style>
+  .direction-section {
+    padding:8rem 2rem; background:var(--darker);
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:3rem;
+  }
+  #dir-arrow {
+    font-size:5rem; line-height:1; color:var(--red-bright);
+    display:block; will-change:transform;
+  }
+
+  @media (max-width: 768px) {
+    .direction-section { padding: 5rem 1rem; }
+  }
+</style>

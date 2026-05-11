@@ -1,0 +1,39 @@
+---
+interface Props {
+  id: string; // The ID of the section container
+  imgId: string; // The ID of the image for targeting in JS
+  imgSrc: string;
+  alt: string;
+  alignText?: 'left' | 'right'; // Default left
+}
+
+const { id, imgId, imgSrc, alt, alignText = 'left' } = Astro.props;
+---
+
+<section id={id} class="parallax-section">
+  <img class="parallax-img" id={imgId} src={imgSrc} alt={alt} loading="lazy" />
+  <div class="parallax-overlay" style={`justify-content:${alignText === 'right' ? 'flex-end' : 'flex-start'};`}>
+    <div class="parallax-text" style={`text-align:${alignText};`}>
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .parallax-section { height:80vh; position:relative; overflow:hidden; }
+  .parallax-img {
+    position:absolute; inset:-15%; width:130%; height:130%;
+    object-fit:cover; will-change:transform;
+  }
+  .parallax-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(to right,rgba(5,5,5,.9) 0%,rgba(5,5,5,.2) 55%,rgba(5,5,5,.9) 100%);
+    display:flex; align-items:center; padding:4rem;
+  }
+  .parallax-text { max-width:380px; }
+
+  @media (max-width: 768px) {
+    .parallax-section { height: 60vh; }
+    .parallax-overlay { padding: 2rem; }
+  }
+</style>

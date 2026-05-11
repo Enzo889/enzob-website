@@ -1,0 +1,24 @@
+---
+---
+<section id="s-stop" class="stopper-section">
+  <span class="section-tag" data-enter="scale">lenis.stop() / lenis.start()</span>
+  <h2 class="section-title reveal-heading" data-enter="left">Freeze the Machine</h2>
+  <p class="section-body reveal-body" data-enter="up" data-enter-delay="0.1">Click the wheel or HUD buttons to toggle Lenis on/off.</p>
+  <div class="stopper-visual spinning" data-enter="scale" data-enter-delay="0.25" id="stopper-wheel">⚙</div>
+  <p id="stopper-label" style="color:var(--text-dim);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;">🟢  Lenis running</p>
+</section>
+
+<style>
+  .stopper-section { padding:8rem 2rem; background:var(--grey); text-align:center; }
+  .stopper-visual {
+    width:120px; height:120px; border:2px solid var(--red); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin:2rem auto;
+    font-size:3rem; color:var(--red-bright); cursor:pointer;
+  }
+  .stopper-visual.spinning { animation:spin 3s linear infinite; box-shadow:0 0 40px rgba(192,57,43,.6); }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  @media (max-width: 768px) {
+    .stopper-section { padding: 5rem 1rem; }
+  }
+</style>

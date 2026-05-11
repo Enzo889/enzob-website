@@ -1,0 +1,26 @@
+---
+
+---
+<div class="status-bar">
+  <div class="stat"><span class="stat-label">Y</span><span class="stat-value" id="stat-y">0</span></div>
+  <div class="stat"><span class="stat-label">Progress</span><span class="stat-value" id="stat-prog">0%</span></div>
+  <div class="stat"><span class="stat-label">Velocity</span><span class="stat-value" id="stat-vel">0</span></div>
+  <div class="stat"><span class="stat-label">Dir</span><span class="stat-value" id="stat-dir">—</span></div>
+  <div class="stat"><span class="stat-label">Duration</span><span class="stat-value" id="stat-dur">1.6s</span></div>
+</div>
+
+<style>
+  .status-bar {
+    position:fixed; bottom:0; left:0; right:0; z-index:200;
+    display:flex; gap:1.5rem; flex-wrap:wrap; padding:.45rem 1.5rem;
+    background:rgba(5,5,5,.92); border-top:1px solid rgba(192,57,43,.18);
+    font-size:.73rem; letter-spacing:.05em; text-transform:uppercase;
+  }
+  .stat { display:flex; gap:.4rem; align-items:center; }
+  .stat-label { color:var(--text-dim); }
+  .stat-value { color:var(--red-bright); font-weight:700; min-width:52px; }
+
+  @media (max-width: 768px) {
+    .status-bar { display: none; /* Hide status bar on small screens to save space */ }
+  }
+</style>

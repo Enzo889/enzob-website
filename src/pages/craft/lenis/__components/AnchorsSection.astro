@@ -1,0 +1,52 @@
+---
+---
+<section id="s-anchors" class="anchors-section">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-tag">lenis.scrollTo(target, options)</span>
+    <h2 class="section-title reveal-heading">Jump Anywhere</h2>
+    <p class="section-body reveal-body" style="margin-top:.75rem;">Each button uses different <code>duration</code>, <code>offset</code>, and <code>easing</code> options.</p>
+  </div>
+  <div class="anchors-grid">
+    {[
+      { goto:"#s-hero",      label:"scrollTo · easeInOut 1.8s",   text:"Hero" },
+      { goto:"#s-parallax",  label:"scrollTo · linear 1.2s",      text:"Parallax" },
+      { goto:"#s-chars",     label:"scrollTo · offset -80",        text:"Scramble Text" },
+      { goto:"#s-disco",     label:"scrollTo · duration 2s",       text:"Discography" },
+      { goto:"#s-scale",     label:"scrollTo · offset -80",        text:"Scale Reveal" },
+      { goto:"#s-clip",      label:"scrollTo · easeOut",           text:"Clip Wipe" },
+      { goto:"#s-velocity",  label:"scrollTo · easeOut³ 1.8s",     text:"Velocity Marquee" },
+      { goto:"#s-hscroll",   label:"scrollTo · 2.5s",              text:"H-Scroll Gallery" },
+      { goto:"#s-tilt",      label:"scrollTo + onComplete cb",     text:"3D Tilt" },
+      { goto:"#s-counter",   label:"scrollTo · lock false",        text:"Sticky Counter" },
+      { goto:"#s-direction", label:"scrollTo · direction watch",   text:"Direction" },
+      { goto:"bottom",       label:"scrollTo 'bottom'",            text:"Footer" },
+    ].map(({ goto, label, text }) => (
+      <button class="anchor-btn" data-goto={goto}>
+        <span class="anchor-label">{label}</span>
+        {text}
+      </button>
+    ))}
+  </div>
+</section>
+
+<style>
+  .anchors-section { padding:8rem 2rem; background:var(--grey); }
+  .anchors-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1rem; max-width:900px; margin:3rem auto 0;
+  }
+  .anchor-btn {
+    font-family:'Barlow Condensed',sans-serif; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; font-size:1rem;
+    padding:1.1rem; background:var(--grey-mid);
+    border:1px solid rgba(192,57,43,.3); color:var(--text); cursor:pointer;
+    text-align:left; opacity:0; transition:background .2s,border-color .2s,color .2s;
+  }
+  .anchor-btn:hover { background:rgba(192,57,43,.15); border-color:var(--red); color:#fff; }
+  .anchor-btn .anchor-label { display:block; font-size:.67rem; color:var(--red-bright); margin-bottom:.2rem; }
+
+  @media (max-width: 768px) {
+    .anchors-section { padding: 5rem 1rem; }
+    .anchors-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>

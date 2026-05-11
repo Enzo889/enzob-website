@@ -1,0 +1,61 @@
+---
+import img_wanyk from "../images/imgi_48_01_Slipknot_WANYK-1.jpg";
+import img_memories from "../images/imgi_223_Memories-2048x1132.jpg";
+import img_ahig from "../images/imgi_30_sicnesses.jpg";
+import img_tesf from "../images/imgi_42_goodbye-cover-scaled.jpg";
+import img_aol from "../images/imgi_195_alloutlife-2-2048x1132.jpg";
+import img_tesfweb from "../images/imgi_53_TESF-web-1.jpg";
+---
+
+<section id="s-disco" class="disco">
+  <div class="disco-header">
+    <span class="section-tag">Motion stagger — 3D flip-in</span>
+    <h2 class="section-title reveal-heading">Discography</h2>
+  </div>
+  <div class="disco-grid">
+    {[
+      { src: img_wanyk.src,    name: "We Are Not Your Kind",        year: "2019" },
+      { src: img_memories.src, name: "Vol. 3: Subliminal Verses",    year: "2004" },
+      { src: img_ahig.src,     name: "All Hope Is Gone",             year: "2008" },
+      { src: img_tesf.src,     name: "The End, So Far",              year: "2022" },
+      { src: img_aol.src,      name: "All Out Life",                 year: "2018 · Single" },
+      { src: img_tesfweb.src,  name: "The Dying Song",               year: "2022 · Single" },
+    ].map(({ src, name, year }) => (
+      <div class="album-card">
+        <img src={src} alt={name} loading="lazy" />
+        <div class="album-info">
+          <div class="album-name">{name}</div>
+          <div class="album-year">{year}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .disco { padding:7rem 2rem; background:var(--grey); }
+  .disco-header { text-align:center; margin-bottom:3rem; }
+  .disco-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1.25rem; max-width:1200px; margin:0 auto;
+  }
+  .album-card {
+    position:relative; overflow:hidden; aspect-ratio:16/9;
+    cursor:pointer; opacity:0;
+    transition:box-shadow .4s;
+  }
+  .album-card:hover { box-shadow:0 20px 50px rgba(192,57,43,.3); }
+  .album-card img { width:100%; height:100%; object-fit:cover; display:block; transition:filter .4s; }
+  .album-card:hover img { filter:brightness(.65) saturate(1.3); }
+  .album-info {
+    position:absolute; bottom:0; left:0; right:0; padding:1.5rem 1rem .75rem;
+    background:linear-gradient(to top,rgba(5,5,5,.95),transparent);
+  }
+  .album-name { font-family:'Bebas Neue',sans-serif; font-size:1.25rem; color:#fff; }
+  .album-year { font-size:.75rem; color:var(--red-bright); letter-spacing:.1em; }
+
+  @media (max-width: 768px) {
+    .disco { padding: 5rem 1rem; }
+    .disco-grid { gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  }
+</style>

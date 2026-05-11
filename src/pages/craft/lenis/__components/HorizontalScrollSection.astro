@@ -1,0 +1,60 @@
+---
+import img_live1 from "../images/imgi_241_DSC_6209-Enhanced-NR-copy-2.jpg";
+import img_live2 from "../images/imgi_238_@gnarlymedia_-50.jpg";
+import img_live3 from "../images/imgi_91_Eloy-3-2-scaled.jpg";
+import img_solway from "../images/imgi_79_solway-1-scaled.jpg";
+import img_devil from "../images/imgi_74_thedevilini-scaled.jpg";
+import img_memories2 from "../images/imgi_88_Memories-scaled.jpg";
+import img_allout from "../images/imgi_45_all-out-life.jpg";
+---
+<section id="s-hscroll">
+  <div id="h-outer" style="height:400vh;">
+    <div class="h-scroll-sticky">
+      <div id="h-scroll-label">
+        <span class="section-tag">lenis scroll → horizontal translate</span>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">The Gallery — keep scrolling</h2>
+      </div>
+      <div class="h-scroll-track" id="h-track">
+        {[
+          { src: img_live1.src,    label: "Live — LCR 2023" },
+          { src: img_live2.src,    label: "Gnarly Media" },
+          { src: img_live3.src,    label: "Eloy — 2024" },
+          { src: img_solway.src,   label: "Solway" },
+          { src: img_devil.src,    label: "The Devil In I" },
+          { src: img_memories2.src,label: "Memories" },
+          { src: img_allout.src,   label: "All Out Life" },
+        ].map(({ src, label }) => (
+          <div class="h-card">
+            <img src={src} alt={label} loading="lazy" />
+            <div class="h-card-label">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #h-outer { background:var(--dark); }
+  .h-scroll-sticky {
+    position:sticky; top:0; height:100vh;
+    display:flex; align-items:center; overflow:hidden;
+  }
+  #h-scroll-label {
+    position:absolute; top:2.5rem; left:50%; transform:translateX(-50%);
+    text-align:center; z-index:5; white-space:nowrap; opacity:0;
+  }
+  .h-scroll-track { display:flex; gap:3px; will-change:transform; flex-shrink:0; }
+  .h-card { width:420px; height:70vh; flex-shrink:0; position:relative; overflow:hidden; }
+  .h-card img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(25%); transition:filter .5s; }
+  .h-card:hover img { filter:grayscale(0%); }
+  .h-card-label {
+    position:absolute; bottom:0; left:0; right:0; padding:1.5rem 1rem .75rem;
+    background:linear-gradient(to top,rgba(5,5,5,.9),transparent);
+    font-family:'Bebas Neue',sans-serif; font-size:1.35rem; color:#fff;
+  }
+
+  @media (max-width: 768px) {
+    .h-card { width: 300px; height: 50vh; }
+  }
+</style>
