@@ -1,0 +1,17 @@
+---
+import Dot from "./Dot.astro";
+import Particle from "./Particle.astro";
+import Plum from "./Plum.astro";
+import Rose from "./Rose.astro";
+
+interface Props {
+	type: string;
+}
+
+const { type } = Astro.props;
+---
+
+{type === 'plum' && <Plum />}
+{type === 'dot' && <Dot />}
+{type === 'rose' && <Rose />}
+{type === 'particle' && <Particle />}

@@ -14,13 +14,25 @@ import "@fontsource-variable/montserrat/wght.css";
 import "@fontsource/short-stack";
 import "@fontsource/fuzzy-bubbles";
 import Logo from "@/components/shared/Logo.astro";
+import type { BgType } from "@/types/BgTypes.types";
+import Background from "@/components/shared/backgrounds/Background.astro";
 
 interface Props {
 	title?: string;
 	description?: string;
+	bgType?: BgType | false;
 }
 
-const { title = "Enzo Bustamante", description } = Astro.props;
+const backgroundOptions = ["dot", "particle", "plum"] as const;
+const randomBgType = backgroundOptions[
+	Math.floor(Math.random() * backgroundOptions.length)
+] as BgType;
+
+const {
+	title = "Enzo Bustamante",
+	description,
+	bgType = randomBgType,
+} = Astro.props;
 ---
 
 <html lang={Astro.currentLocale ?? "es"}>
@@ -57,6 +69,11 @@ const { title = "Enzo Bustamante", description } = Astro.props;
     </script>
   </head>
   <body class="relative " id="top">
+
+     <!-- Background -->
+    {bgType && <Background type={bgType} />}
+
+
     <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
       <Logo className="w-12 h-12 absolute xl:fixed m-5 select-none outline-none" />
     </a>
