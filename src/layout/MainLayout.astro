@@ -23,7 +23,18 @@ interface Props {
 	bgType?: BgType | false;
 }
 
-const backgroundOptions = ["dot", "particle", "plum"] as const;
+// Aumentamos la probabilidad de "plum" repitiéndolo en el array
+const backgroundOptions = [
+	"plum",
+	"plum",
+	"plum",
+	"plum",
+	"plum",
+	"dot",
+	"gridflow",
+	"mesh",
+	"particle",
+] as const;
 const randomBgType = backgroundOptions[
 	Math.floor(Math.random() * backgroundOptions.length)
 ] as BgType;

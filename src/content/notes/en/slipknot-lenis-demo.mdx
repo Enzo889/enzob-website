@@ -1,0 +1,54 @@
+---
+title: "Scroll and Destroy: My Slipknot Demo"
+date: 2026-05-13
+description: A look into the scroll-driven animations I implemented in the Slipknot demo using Lenis and Motion.
+author: enzo
+isDraft: false
+---
+
+Creating immersive scroll-driven experiences requires smooth scrolling and precise animation controls. For this recent Slipknot demo, I achieved this by combining **Lenis** and **Motion**, exploring a variety of interactive techniques.
+
+## Architecture
+
+Instead of going with a monolithic approach, I modularized the Astro page. I gave each behavior its own reusable component, keeping the complex scroll logic isolated and perfectly synced. 
+
+## Animations
+
+My demo relies heavily on tracking the `scroll`, `velocity`, `direction`, and `progress` to trigger distinct visual effects.
+
+### Parallax
+I built the `ParallaxSection` to push background imagery at an offset speed relative to the page scroll. This generates depth without losing any responsiveness.
+
+### Reveals & Scrambles
+For text and content reveals, I used targeted data attributes (like `data-enter="scale"`) coupled with Motion. These attributes trigger stagger scale, slash, or upward reveals. Additionally, I added a `CharScrambleSection` that randomizes text strings before settling into the correct characters exactly when I want them to enter the viewport.
+
+### Marquee & Sticky
+I implemented a `VelocityMarqueeSection` that reacts to the scroll speed—the faster you scroll, the faster my marquee runs. Alongside this, the `StickyCounterSection` and `HorizontalScrollSection` pin elements in place and map vertical scroll distance to the horizontal timeline progress.
+
+### Structure Example
+
+```astro
+<ParallaxSection
+  id="s-parallax"
+  imgId="para-1"
+  imgSrc={img_live1.src}
+  alt="Slipknot Live"
+>
+  <span class="section-tag" data-enter="scale">lenis.on('scroll')</span>
+  <h2 class="section-title reveal-heading" data-enter="slash">Driven by scroll</h2>
+</ParallaxSection>
+```
+
+By leveraging these specific components, I ensured that every scroll interaction feels alive.
+
+## Aesthetics
+
+I defined strict global variables to match the gritty and aggressive visual tone of the band. I blended deep darks seamlessly with vibrant, blood-red interface accents.
+
+```css
+:root {
+  --red: #c0392b; 
+  --accent: #ff2a00;
+  --darker: #050505;
+}
+```

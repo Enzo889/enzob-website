@@ -1,1 +1,6 @@
-export type BgType = "plum" | "dot" | "rose" | "particle";
+export type BgType =
+  | "plum"
+  | "dot"
+  | "particle"
+  | "gridflow"
+  | "mesh";

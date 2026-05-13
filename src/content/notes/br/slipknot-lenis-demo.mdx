@@ -1,0 +1,54 @@
+---
+title: "Scroll and Destroy: Meu Demo do Slipknot"
+date: 2026-05-13
+description: Uma olhada nas animações baseadas em scroll que implementei na demonstração do Slipknot usando Lenis e Motion.
+author: enzo
+isDraft: false
+---
+
+Criar experiências imersivas baseadas em rolagem (scroll) exige um movimento suave e controles de animação super sofisticados. Nesta recente demonstração do Slipknot, alcancei esse efeito combinando **Lenis** e **Motion** para aplicar e testar várias técnicas imersivas.
+
+## Arquitetura
+
+Em vez de criar uma página gigante e única, decidi dividir todo o layout em pequenos componentes de Astro que funcionam isoladamente. Isso me ajudou a manter todo o sistema complexo de scroll organizado e sincronizado sem dor de cabeça.
+
+## Animações
+
+Programei a demo para ouvir cada instante da página através dos ganchos de estado contínuo, capturando o progresso, a direção e a velocidade em tempo real:
+
+### Parallax
+Configurei a `ParallaxSection` para alterar a taxa de deslocamento das imagens de fundo, simulando logo de inicio um ambiente vasto através da movimentação vertical dos meus usuários.
+
+### Aparições e Scramble
+Fiz os textos interativos acordarem na vista através do uso das tags `data-enter`. Além das rotineiras aparições em escala ou distorções tipo slash, criei a `CharScrambleSection`, que destaca os caracteres embaralhando-os freneticamente antes de eu revelar suas reais palavras.
+
+### Marquee e Sticky
+A velocidade da rolagem comanda a física: se a pessoa rolar bruscamente, minha `VelocityMarqueeSection` faz a fita se movimentar sem controle. Da mesma forma, utilizei contêineres "Sticky" e scroll horizontal, ancorando elementos fixos que fazem a minha tela rolar pros lados antes de continuar a descer naturalmente.
+
+### Implementação Base
+
+```astro
+<ParallaxSection
+  id="s-parallax"
+  imgId="para-1"
+  imgSrc={img_live1.src}
+  alt="Ao vivo Slipknot"
+>
+  <span class="section-tag" data-enter="scale">lenis.on('scroll')</span>
+  <h2 class="section-title reveal-heading" data-enter="slash">Movido pelo scroll</h2>
+</ParallaxSection>
+```
+
+Mesclando rigorosamente meus dados de estado com os scripts de Motion, consegui que cada interação ganhasse um comportamento espetacular.
+
+## Estética
+
+Criei algumas variáveis globais no CSS destinadas a compor os tons sujos e fortes da banda: o vermelho intenso em contraste com os buracos profundos e pretos da tela.
+
+```css
+:root {
+  --red: #c0392b; 
+  --accent: #ff2a00;
+  --darker: #050505;
+}
+```

@@ -1,0 +1,54 @@
+---
+title: "Scroll and Destroy: Mi Demo de Slipknot"
+date: 2026-05-13
+description: Un vistazo a las animaciones controladas por scroll que implementé en la demo de Slipknot usando Lenis y Motion.
+author: enzo
+isDraft: false
+---
+
+Para crear experiencias inmersivas basadas en el scroll, supe que necesitaba un desplazamiento suave y controles de animación precisos. En mi reciente demo de Slipknot, combiné **Lenis** y **Motion** para aplicar y testear interacciones impactantes.
+
+## Arquitectura
+
+En lugar de construir una página monolítica en Astro, decidí partir el flujo principal en componentes independientes. Esto me permitió mantener ordenadas las lógicas complejas de scroll de manera individual, sin que se estorbaran entre sí.
+
+## Animaciones
+
+Construí la demo para que escuche constantemente el entorno de Lenis, midiendo el progreso, la dirección y la velocidad en tiempo real:
+
+### Parallax
+Configuré la `ParallaxSection` para que desplace las imágenes a distinta velocidad que la página, inyectando inmediatamente una sensación tangible de dimensión y profundidad visual a medida que el usuario baja.
+
+### Revelados y Scramble
+Hice que los elementos de texto y los bloques reaccionen mediante atributos de control (ej. `data-enter`). Con esto pude generar efectos tipo "slash", escalados progresivos, y un asombroso descifrado caótico armando la `CharScrambleSection`.
+
+### Marquee y Sticky
+Mapeé la velocidad de navegación directamente con el comportamiento en la pantalla: mi `VelocityMarqueeSection` hace que las letras corran velozmente si haces un scroll abrupto. Igualmente, preparé secciones en sticky (`StickyCounterSection`, `HorizontalScrollSection`) que detienen mi avance vertical temporalmente para transicionar y enfocar la vista en el horizonte o en los contadores.
+
+### Implementación
+
+```astro
+<ParallaxSection
+  id="s-parallax"
+  imgId="para-1"
+  imgSrc={img_live1.src}
+  alt="En vivo Slipknot"
+>
+  <span class="section-tag" data-enter="scale">lenis.on('scroll')</span>
+  <h2 class="section-title reveal-heading" data-enter="slash">Impulsado por scroll</h2>
+</ParallaxSection>
+```
+
+Coordinando estos componentes interactivos con el motor de Motion logré que todo el movimiento se sienta tremendamente orgánico.
+
+## Diseño
+
+Definí variables CSS exclusivas que dictan un clima agresivo instantáneamente, combinando distintos oscuros pronunciados con acentos rojos intensos.
+
+```css
+:root {
+  --red: #c0392b; 
+  --accent: #ff2a00;
+  --darker: #050505;
+}
+```

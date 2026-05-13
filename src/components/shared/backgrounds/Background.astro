@@ -1,8 +1,9 @@
 ---
 import Dot from "./Dot.astro";
+import GridFlow from "./GridFlow.astro";
+import Mesh from "./Mesh.astro";
 import Particle from "./Particle.astro";
 import Plum from "./Plum.astro";
-import Rose from "./Rose.astro";
 
 interface Props {
 	type: string;
@@ -13,5 +14,6 @@ const { type } = Astro.props;
 
 {type === 'plum' && <Plum />}
 {type === 'dot' && <Dot />}
-{type === 'rose' && <Rose />}
 {type === 'particle' && <Particle />}
+{type === 'gridflow' && <GridFlow />}
+{type === 'mesh' && <Mesh />}

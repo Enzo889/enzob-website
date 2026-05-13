@@ -1,0 +1,79 @@
+---
+// bg-gridflow: campo de vectores animado con soporte dark/light mode
+---
+
+<bg-gridflow
+  class="z--1 fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden"
+  style="mask-image: radial-gradient(circle, transparent, black);"
+>
+  <canvas></canvas>
+</bg-gridflow>
+
+<script>
+  function initCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
+    const ctx = canvas.getContext('2d')!
+    const dpr = window.devicePixelRatio || 1
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+    canvas.width = dpr * width
+    canvas.height = dpr * height
+    ctx.scale(dpr, dpr)
+    return ctx
+  }
+
+  class BgGridFlowElement extends HTMLElement {
+    rafId: number | null = null
+
+    connectedCallback() {
+      const canvas = this.querySelector('canvas') as HTMLCanvasElement
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const ctx = initCanvas(canvas, width, height)
+
+      const getColor = () =>
+        document.documentElement.classList.contains('dark')
+          ? 'rgba(200,200,200,0.18)'
+          : 'rgba(60,60,60,0.13)'
+
+      const SPACING = 24
+      const LEN = 8
+      let t = 0
+
+      const frame = () => {
+        ctx.clearRect(0, 0, width, height)
+        ctx.lineWidth = 1
+
+        for (let x = SPACING / 2; x < width; x += SPACING) {
+          for (let y = SPACING / 2; y < height; y += SPACING) {
+            const noise =
+              Math.sin(x * 0.018 + t) * Math.cos(y * 0.018 + t * 0.7) +
+              Math.sin(x * 0.009 + y * 0.012 + t * 0.4) * 0.5
+            const angle = noise * Math.PI
+
+            ctx.beginPath()
+            ctx.moveTo(x, y)
+            ctx.lineTo(x + Math.cos(angle) * LEN, y + Math.sin(angle) * LEN)
+            ctx.strokeStyle = getColor()
+            ctx.stroke()
+          }
+        }
+
+        t += 0.012
+        this.rafId = requestAnimationFrame(frame)
+      }
+
+      frame()
+    }
+
+    disconnectedCallback() {
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId)
+        this.rafId = null
+      }
+    }
+  }
+
+  if (!customElements.get('bg-gridflow')) {
+    customElements.define('bg-gridflow', BgGridFlowElement)
+  }
+</script>
