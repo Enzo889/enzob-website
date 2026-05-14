@@ -1,0 +1,17 @@
+---
+import MainLayout from "@/layout/MainLayout.astro";
+import FiltersChips from "./FiltersChips.astro";
+---
+
+<MainLayout>
+    <section>
+        <h1>Filters</h1>
+        <FiltersChips filters={[
+             { label: 'Playlists' },
+             { label: 'Artists',    selected: true },
+             { label: 'Albums',     selected: true },
+             { label: 'Podcasts',   selected: true },
+             { label: 'Downloaded' },
+        ]} />
+    </section>
+</MainLayout>   

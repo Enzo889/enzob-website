@@ -1,0 +1,114 @@
+---
+interface Filter {
+	label: string;
+	selected?: boolean;
+}
+
+interface Props {
+	filters: Filter[];
+}
+
+const { filters } = Astro.props;
+---
+
+<div class="filter-group">
+  {filters.map((f) => (
+    <button
+      class="filter-chip"
+      data-selected={f.selected ? "true" : "false"}
+      aria-pressed={f.selected ? "true" : "false"}
+    >
+      {f.label}
+    </button>
+  ))}
+</div>
+
+<style>
+  .filter-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    background: transparent;
+    color: var(--color-text-muted, #888);
+    transition: background 0.15s, color 0.15s, border-color 0.15s, margin-left 0.15s ease;
+    user-select: none;
+    will-change: border-radius, margin-left;
+  }
+
+  .filter-chip[data-selected="true"] {
+    background: var(--color-accent, #111);
+    color: var(--color-surface, #fff);
+    border-color: var(--color-accent, #111);
+  }
+
+  .filter-chip[data-selected="true"] + .filter-chip[data-selected="true"] {
+    margin-left: -5px;
+  }
+
+  .filter-chip:focus-visible {
+    outline: 2px solid var(--color-accent, #111);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  import { animate } from 'motion'
+
+  // R = full pill radius, r = inner corner radius when adjacent chips merge
+  const R = 999
+  const r = 5
+  const SPRING = { easing: 'spring(400, 28)' } as const
+  const SPRING_BOUNCE = { easing: 'spring(280, 16)' } as const
+
+  const group = document.querySelector<HTMLDivElement>('.filter-group')!
+  const chips = Array.from(group.querySelectorAll<HTMLButtonElement>('.filter-chip'))
+
+  function getBorderRadius(i: number): string {
+    const selected = chips[i].dataset.selected === 'true'
+    const prevSel = i > 0 && chips[i - 1].dataset.selected === 'true'
+    const nextSel = i < chips.length - 1 && chips[i + 1].dataset.selected === 'true'
+
+    if (!selected) return `${R}px`
+
+    const tl = prevSel ? r : R
+    const bl = prevSel ? r : R
+    const tr = nextSel ? r : R
+    const br = nextSel ? r : R
+
+    return `${tl}px ${tr}px ${br}px ${bl}px`
+  }
+
+  function updateBorders(clickedIndex: number, wasSelected: boolean) {
+    chips.forEach((chip, i) => {
+      const target = getBorderRadius(i)
+      // deselected chip gets a bouncier spring so it feels like it's popping off
+      const isDeselecting = i === clickedIndex && wasSelected
+      const easing = isDeselecting ? SPRING_BOUNCE : SPRING
+
+      animate(chip, { borderRadius: target }, { duration: 0.35, ...easing })
+    })
+  }
+
+  // Apply initial border-radius without animation
+  chips.forEach((chip, i) => {
+    chip.style.borderRadius = getBorderRadius(i)
+  })
+
+  chips.forEach((chip, i) => {
+    chip.addEventListener('click', () => {
+      const wasSelected = chip.dataset.selected === 'true'
+      chip.dataset.selected = wasSelected ? 'false' : 'true'
+      chip.setAttribute('aria-pressed', chip.dataset.selected)
+      updateBorders(i, wasSelected)
+    })
+  })
+</script>
