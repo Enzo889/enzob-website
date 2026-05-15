@@ -51,4 +51,16 @@ export const br = {
     tagline3: "Dividir para conquistar.",
     tagline4: "Foco e simplicidade.",
   },
+  craft: {
+    filter: {
+      title: "Filtros",
+      description:
+        "Um componente de filtros interativo onde os chips adjacentes selecionados se fundem visualmente. Projetado com animações fluidas para oferecer uma experiência mais atraente e coesa.",
+      playlists: "Playlists",
+      artists: "Artistas",
+      albums: "Álbuns",
+      podcasts: "Podcasts",
+      downloaded: "Baixados",
+    },
+  },
 };

@@ -51,4 +51,16 @@ export const en = {
     tagline3: "Divide and conquer.",
     tagline4: "Focus and simplicity.",
   },
+  craft: {
+    filter: {
+      title: "Filters",
+      description:
+        "An interactive filter component where adjacent selected chips visually merge. Designed with smooth animations to provide a more engaging and cohesive experience.",
+      playlists: "Playlists",
+      artists: "Artists",
+      albums: "Albums",
+      podcasts: "Podcasts",
+      downloaded: "Downloaded",
+    },
+  },
 };

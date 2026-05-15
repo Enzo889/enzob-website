@@ -28,30 +28,45 @@ const { filters } = Astro.props;
     display: flex;
     gap: 4px;
     flex-wrap: wrap;
+    background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    padding: 10%;
+    border-radius: 32px;
+    isolation: isolate;
+    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+    overflow: auto hidden;
+    width: max-content;
+    max-width: 100%;
+    box-shadow: 0 4px 24px -8px color-mix(in srgb, var(--color-text, #000) 10%, transparent);
   }
 
   .filter-chip {
     padding: 7px 16px;
     border-radius: 999px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     cursor: pointer;
-    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-text, currentColor) 15%, transparent);
     background: transparent;
     color: var(--color-text-muted, #888);
-    transition: background 0.15s, color 0.15s, border-color 0.15s, margin-left 0.15s ease;
+    transition: all 0.2s ease;
     user-select: none;
-    will-change: border-radius, margin-left;
+    will-change: border-radius, margin-left, background, color;
+  }
+
+  .filter-chip:hover {
+    color: var(--color-text, currentColor);
+    background: color-mix(in srgb, var(--color-text, currentColor) 4%, transparent);
   }
 
   .filter-chip[data-selected="true"] {
     background: var(--color-accent, #111);
     color: var(--color-surface, #fff);
-    border-color: var(--color-accent, #111);
+    border-color: var(--color-accent, transparent);
+    box-shadow: inset 0px 2px 4px color-mix(in srgb, var(--color-surface, #fff) 25%, transparent);
   }
 
   .filter-chip[data-selected="true"] + .filter-chip[data-selected="true"] {
-    margin-left: -5px;
+    margin-left: -10px;
   }
 
   .filter-chip:focus-visible {
@@ -103,12 +118,14 @@ const { filters } = Astro.props;
     chip.style.borderRadius = getBorderRadius(i)
   })
 
-  chips.forEach((chip, i) => {
+  document.addEventListener("astro:page-load", () => {
+    chips.forEach((chip, i) => {
     chip.addEventListener('click', () => {
       const wasSelected = chip.dataset.selected === 'true'
       chip.dataset.selected = wasSelected ? 'false' : 'true'
       chip.setAttribute('aria-pressed', chip.dataset.selected)
       updateBorders(i, wasSelected)
     })
+  })
   })
 </script>
