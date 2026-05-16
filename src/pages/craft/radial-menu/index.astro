@@ -1,0 +1,25 @@
+---
+import { ArrowLeft } from "@/components/icon";
+import MainLayout from "@/layout/MainLayout.astro";
+import RadialMenu from "@/pages/craft/radial-menu/__component/RadialMenu.astro";
+
+const locale = Astro.currentLocale ?? "es";
+---
+
+<MainLayout>
+    <a href={locale === "es" ? "/craft" : `/${locale}/craft`} class="w-fit md:fixed md:top-1/4 md:left-20 text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Craft</a>
+
+    <section class="flex flex-col justify-center items-center min-h-[60vh] gap-8 mt-10">
+        <div class="text-center max-w-lg px-4 fade-in">
+            <h1 class="text-3xl font-serif text-text dark:text-text mb-3">Radial Menu</h1>
+            <p class="text-text-muted text-sm leading-relaxed">
+                Un menú radial de acceso rápido con animaciones naturales tipo "spring". Inspirado en las interacciones y microanimaciones de interfaces de última generación.
+            </p>
+        </div>
+
+        <div class="w-full flex justify-center items-center my-10 relative">
+            <!-- Render the actual Component -->
+            <RadialMenu />
+        </div>
+    </section>
+</MainLayout>
