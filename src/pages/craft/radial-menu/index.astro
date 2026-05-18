@@ -2,8 +2,10 @@
 import { ArrowLeft } from "@/components/icon";
 import MainLayout from "@/layout/MainLayout.astro";
 import RadialMenu from "@/pages/craft/radial-menu/__component/RadialMenu.astro";
+import { getT } from "@/utils/i18n";
 
 const locale = Astro.currentLocale ?? "es";
+const t = getT(locale);
 ---
 
 <MainLayout>
@@ -11,14 +13,13 @@ const locale = Astro.currentLocale ?? "es";
 
     <section class="flex flex-col justify-center items-center min-h-[60vh] gap-8 mt-10">
         <div class="text-center max-w-lg px-4 fade-in">
-            <h1 class="text-3xl font-serif text-text dark:text-text mb-3">Radial Menu</h1>
+            <h1 class="text-3xl font-serif text-text dark:text-text mb-3">{t.craft.radialMenu.title}</h1>
             <p class="text-text-muted text-sm leading-relaxed">
-                Un menú radial de acceso rápido con animaciones naturales tipo "spring". Inspirado en las interacciones y microanimaciones de interfaces de última generación.
+                {t.craft.radialMenu.description}
             </p>
         </div>
 
         <div class="w-full flex justify-center items-center my-10 relative">
-            <!-- Render the actual Component -->
             <RadialMenu />
         </div>
     </section>

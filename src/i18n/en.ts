@@ -62,5 +62,39 @@ export const en = {
       podcasts: "Podcasts",
       downloaded: "Downloaded",
     },
+    radialMenu: {
+      title: "Radial Menu",
+      description:
+        "A quick-access radial menu with natural spring-like animations. Inspired by the interactions and micro-animations of next-gen interfaces.",
+      hint: "Hover to explore · click to select",
+      hint2: "Right-click to choose another",
+      items: {
+        astro: {
+          label: "Astro",
+          desc: "Build tool for content-focused websites",
+          tag: "Frontend · Astro",
+        },
+        docker: {
+          label: "Docker",
+          desc: "Container platform for modern applications",
+          tag: "DevOps · Docker",
+        },
+        git: {
+          label: "Git",
+          desc: "Version control system",
+          tag: "Tooling · Linus Torvalds",
+        },
+        react: {
+          label: "React",
+          desc: "UI library for JavaScript",
+          tag: "Frontend · Meta",
+        },
+        vite: {
+          label: "Vite",
+          desc: "Build tool for modern web applications",
+          tag: "Frontend · Evan You",
+        },
+      },
+    },
   },
 };

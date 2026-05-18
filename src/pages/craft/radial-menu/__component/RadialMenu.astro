@@ -1,22 +1,47 @@
 ---
-import { Docker, Figma, Nextjs, React, Vite } from "@/components/icon";
+import { AstroIcon, Docker, Git, React, Vite } from "@/components/icon";
+import { getT } from "@/utils/i18n";
+
+const locale = Astro.currentLocale ?? "es";
+const t = getT(locale);
 
 const ITEMS = [
-  { label: 'React', desc: 'Biblioteca de UI para JavaScript', tag: 'Frontend · Meta', Icon: React },
-  { label: 'Vite', desc: 'Build tool de nueva generación', tag: 'Tooling · Evan You', Icon: Vite },
-  { label: 'Figma', desc: 'Diseño colaborativo de interfaces', tag: 'Design · Adobe', Icon: Figma },
-  { label: 'Docker', desc: 'Contenedores para apps portables', tag: 'DevOps · Docker Inc.', Icon: Docker },
-  { label: 'Next.js', desc: 'Framework React full-stack', tag: 'Framework · Vercel', Icon: Nextjs },
+	{
+		label: t.craft.radialMenu.items.astro.label,
+		desc: t.craft.radialMenu.items.astro.desc,
+		tag: t.craft.radialMenu.items.astro.tag,
+		Icon: AstroIcon,
+	},
+	{
+		label: t.craft.radialMenu.items.vite.label,
+		desc: t.craft.radialMenu.items.vite.desc,
+		tag: t.craft.radialMenu.items.vite.tag,
+		Icon: Vite,
+	},
+	{
+		label: t.craft.radialMenu.items.git.label,
+		desc: t.craft.radialMenu.items.git.desc,
+		tag: t.craft.radialMenu.items.git.tag,
+		Icon: Git,
+	},
+	{
+		label: t.craft.radialMenu.items.docker.label,
+		desc: t.craft.radialMenu.items.docker.desc,
+		tag: t.craft.radialMenu.items.docker.tag,
+		Icon: Docker,
+	},
+	{
+		label: t.craft.radialMenu.items.react.label,
+		desc: t.craft.radialMenu.items.react.desc,
+		tag: t.craft.radialMenu.items.react.tag,
+		Icon: React,
+	},
 ];
 ---
 
-<div class="rm-root" id="rm-root">
+<div class="rm-root" id="rm-root" data-hint={t.craft.radialMenu.hint} data-hint2={t.craft.radialMenu.hint2}>
 
-  <div class="rm-info hidden" id="rm-info">
-    <p class="rm-name" id="rm-name"></p>
-    <p class="rm-desc" id="rm-desc"></p>
-    <span class="rm-tag" id="rm-tag"></span>
-  </div>
+  <p class="rm-hint" id="rm-hint">{t.craft.radialMenu.hint}</p>
 
   <div class="rm-wheel">
     <canvas id="rm-canvas" width="220" height="220"></canvas>
@@ -55,7 +80,13 @@ const ITEMS = [
     </div>
   </div>
 
-  <p class="rm-hint" id="rm-hint">Hover para explorar · click para seleccionar</p>
+  <div class="rm-info hidden" id="rm-info">
+    <p class="rm-name" id="rm-name"></p>
+    <p class="rm-desc" id="rm-desc"></p>
+    <span class="rm-tag" id="rm-tag"></span>
+  </div>
+
+  
 
 </div>
 
@@ -101,6 +132,7 @@ const ITEMS = [
     position: relative;
     width: 220px;
     height: 220px;
+
   }
 
   #rm-canvas {
@@ -110,6 +142,13 @@ const ITEMS = [
     cursor: pointer;
     display: block;
     z-index: 1;
+    border: 1px solid transparent;
+    transition: border-color 0.3s, border-radius 0.3s;
+  }
+  #rm-canvas.is-selected {
+    border-color: var(--color-border-secondary);
+    border-radius: 10%;
+    cursor: context-menu;
   }
 
   #rm-icons {
@@ -202,6 +241,10 @@ const ITEMS = [
   const hint  = document.getElementById('rm-hint')!
   const iconsContainer = document.getElementById('rm-icons')!
   const hoverName = document.getElementById('rm-hover-name')!
+  
+  const rootEl = document.getElementById('rm-root')!
+  const hintText = rootEl.dataset.hint || ''
+  const hint2Text = rootEl.dataset.hint2 || ''
 
   let mode: 'menu' | 'selected' = 'menu'
   let lastIdx = -1
@@ -284,15 +327,17 @@ const ITEMS = [
     }
     
     selContainer.classList.add('show'); dots.classList.add('hide')
-    hint.textContent = 'Click derecho para elegir otro'
+    canvas.classList.add('is-selected')
+    hint.textContent = hint2Text
     fadeCanvas(1, 0, () => { ctx.clearRect(0, 0, W, W); ctx.globalAlpha = 1 })
   }
 
   function reopenMenu() {
     mode = 'menu'; lastIdx = -1
     selContainer.classList.remove('show'); dots.classList.remove('hide')
+    canvas.classList.remove('is-selected')
     info.classList.add('hidden')
-    hint.textContent = 'Hover para explorar · click para seleccionar'
+    hint.textContent = hintText
     ctx.globalAlpha = 0; draw(-1)
     fadeCanvas(0, 1)
   }
