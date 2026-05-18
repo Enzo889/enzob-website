@@ -1,0 +1,73 @@
+---
+---
+<div class="rm-center">
+  <svg class="rm-dots" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <circle cx="5" cy="12" r="1"/>
+    <circle cx="12" cy="12" r="1"/>
+    <circle cx="19" cy="12" r="1"/>
+  </svg>
+  <span id="rm-hover-name" class="rm-hover-name"></span>
+  <div id="rm-sel-container" class="rm-sel"></div>
+</div>
+
+<style>
+  .rm-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .rm-dots {
+    width: 20px; height: 20px;
+    position: absolute;
+    transition: opacity 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rm-sel {
+    width: 54px; height: 54px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.2s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .rm-hover-name {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+    text-align: center;
+    line-height: 1;
+  }
+  .rm-hover-name.show { opacity: 1; }
+
+  .rm-dots { opacity: 1; }
+  .rm-dots.hide { opacity: 0; }
+  .rm-sel.show { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  
+  .rm-sel :global(svg) {
+    width: 54px;
+    height: 54px;
+  }
+</style>

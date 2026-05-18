@@ -1,0 +1,55 @@
+---
+export interface Props {
+	items: Array<{
+		label: string;
+		desc: string;
+		tag: string;
+		Icon: any;
+	}>;
+}
+
+const { items } = Astro.props;
+---
+<div id="rm-icons">
+  {items.map((item, i) => {
+    const N = items.length;
+    const angle = -Math.PI / 2 + (Math.PI * 2 / N) * i;
+    const dist = 69; // Radio medio entre INNER(30) y OUTER(108)
+    const x = 110 + Math.cos(angle) * dist;
+    const y = 110 + Math.sin(angle) * dist;
+    return (
+      <div 
+        class="rm-icon-wrapper" 
+        data-index={i}
+        data-label={item.label}
+        data-desc={item.desc}
+        data-tag={item.tag}
+        style={`left: ${x}px; top: ${y}px;`}
+      >
+        <item.Icon class="w-7 h-7" />
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  #rm-icons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .rm-icon-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rm-icon-wrapper :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+</style>
