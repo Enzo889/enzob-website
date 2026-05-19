@@ -3,8 +3,10 @@ import { getCollection } from "astro:content";
 import { ArrowLeft } from "@/components/icon";
 import TypedNotes from "@/components/TypedNotes.astro";
 import MainLayout from "@/layout/MainLayout.astro";
+import { getT } from "@/utils/i18n";
 
 const locale = Astro.currentLocale ?? "es";
+const t = getT(locale);
 
 const allNotes = await getCollection(
 	"notes",
@@ -12,7 +14,7 @@ const allNotes = await getCollection(
 );
 ---
 
-<MainLayout title="Notes | Enzo Bustamante">
+<MainLayout title={t.seo.notes.title} description={t.seo.notes.description}>
     <section class="flex flex-col gap-3">
         <a class="text-sm tracking-wide  font-serif italic text-text dark:text-text  md:fixed md:top-1/4 md:left-20 flex gap-1 hover:text-accent dark:hover:text-accent transition-all" href={locale === "es" ? "/" : `/${locale}`}> <ArrowLeft className="w-4 h-4" /> Index</a>
         <ul>

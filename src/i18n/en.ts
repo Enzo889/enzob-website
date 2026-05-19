@@ -97,4 +97,35 @@ export const en = {
       },
     },
   },
+  seo: {
+    home: {
+      title: "Enzo Bustamante",
+      description:
+        "Developer and serial tinkerer based in Mendoza, Argentina. Building web experiences with modern tools.",
+    },
+    craft: {
+      title: "Craft · Enzo Bustamante",
+      description:
+        "A curated collection of interactive UI experiments, animations, and code-driven micro-interactions.",
+    },
+    filter: {
+      title: "Stacked Filters · Craft · Enzo Bustamante",
+      description:
+        "An interactive filter chip component where adjacent selected chips visually merge, built with smooth animations.",
+    },
+    radialMenu: {
+      title: "Radial Menu · Craft · Enzo Bustamante",
+      description:
+        "A quick-access radial menu with natural spring-like animations, inspired by next-gen interface interactions.",
+    },
+    notes: {
+      title: "Notes · Enzo Bustamante",
+      description:
+        "Short technical notes on development, tools, and experiments. Things worth writing down.",
+    },
+    notFound: {
+      title: "404 – Not Found · Enzo Bustamante",
+      description: "This page does not exist. Navigate back to explore the site.",
+    },
+  },
 };

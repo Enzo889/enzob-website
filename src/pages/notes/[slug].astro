@@ -18,11 +18,10 @@ export const getStaticPaths = (async () => {
 const { note } = Astro.props;
 const NoteData = note.data;
 const locale = Astro.currentLocale ?? "es";
-
 const { Content, headings } = await render(note);
 ---
 
-<MainLayout title={NoteData.title}>
+<MainLayout title={`${NoteData.title} · Enzo Bustamante`} description={NoteData.description}>
   <!-- Table of Contents -->
 
   <div class="md:fixed md:top-1/4 md:left-20 ">

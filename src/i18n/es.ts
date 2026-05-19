@@ -97,4 +97,35 @@ export const es = {
       },
     },
   },
+  seo: {
+    home: {
+      title: "Enzo Bustamante",
+      description:
+        "Desarrollador y pensador en serie radicado en Mendoza, Argentina. Construyendo experiencias web con herramientas modernas.",
+    },
+    craft: {
+      title: "Creaciones · Enzo Bustamante",
+      description:
+        "Una colección de experimentos de UI interactivos, animaciones y micro-interacciones creadas con código.",
+    },
+    filter: {
+      title: "Filtros Apilados · Creaciones · Enzo Bustamante",
+      description:
+        "Un componente de chips de filtro interactivo donde los chips adyacentes seleccionados se fusionan visualmente.",
+    },
+    radialMenu: {
+      title: "Menú Radial · Creaciones · Enzo Bustamante",
+      description:
+        "Un menú radial de acceso rápido con animaciones tipo 'spring', inspirado en interfaces de última generación.",
+    },
+    notes: {
+      title: "Notas · Enzo Bustamante",
+      description:
+        "Notas técnicas cortas sobre desarrollo, herramientas y experimentos. Cosas que vale la pena documentar.",
+    },
+    notFound: {
+      title: "404 – No encontrado · Enzo Bustamante",
+      description: "Esta página no existe. Volvé atrás para explorar el sitio.",
+    },
+  },
 };

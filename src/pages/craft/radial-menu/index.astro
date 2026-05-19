@@ -8,7 +8,7 @@ const locale = Astro.currentLocale ?? "es";
 const t = getT(locale);
 ---
 
-<MainLayout>
+<MainLayout title={t.seo.radialMenu.title} description={t.seo.radialMenu.description}>
     <a href={locale === "es" ? "/craft" : `/${locale}/craft`} class="w-fit md:fixed md:top-1/4 md:left-20 text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Craft</a>
 
     <section class="flex flex-col justify-center items-center min-h-[60vh] gap-8 mt-10">
