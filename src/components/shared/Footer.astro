@@ -97,37 +97,43 @@ const randomTagline =
 </footer>
 
 <script>
-  const clock   = document.getElementById("analog-clock");
-  const tooltip = document.getElementById("clock-tooltip");
-
   // Zona horaria de Mendoza, Argentina (ART = UTC-3, no usa DST)
   const TZ = "America/Argentina/Mendoza";
+  let clockInterval: any;
 
-  function tick() {
-    const now = new Date();
+  document.addEventListener("astro:page-load", () => {
+    const clock = document.getElementById("analog-clock");
+    const tooltip = document.getElementById("clock-tooltip");
 
-    // Actualizar manecillas
-    const h = now.getHours() % 12;
-    const m = now.getMinutes(); 
-    const s = now.getSeconds();
-    clock?.style.setProperty("--h", String(h));
-    clock?.style.setProperty("--m", String(m));
-    clock?.style.setProperty("--s", String(s));
+    if (!clock) return;
 
-    // Actualizar tooltip con formato "05:00:05 PM GMT-3"
-    if (tooltip) {
-      const timeStr = now.toLocaleTimeString("en-US", {
-        timeZone: TZ,
-        hour:     "2-digit",
-        minute:   "2-digit",
-        second:   "2-digit",
-        hour12:   true,
-      });
-      // toLocaleTimeString devuelve "05:00:05 AM" — agregamos GMT-3
-      tooltip.textContent = `${timeStr} GMT-3`;
+    function tick() {
+      const now = new Date();
+
+      // Actualizar manecillas
+      const h = now.getHours() % 12;
+      const m = now.getMinutes(); 
+      const s = now.getSeconds();
+      clock?.style.setProperty("--h", String(h));
+      clock?.style.setProperty("--m", String(m));
+      clock?.style.setProperty("--s", String(s));
+
+      // Actualizar tooltip con formato "05:00:05 PM GMT-3"
+      if (tooltip) {
+        const timeStr = now.toLocaleTimeString("en-US", {
+          timeZone: TZ,
+          hour:     "2-digit",
+          minute:   "2-digit",
+          second:   "2-digit",
+          hour12:   true,
+        });
+        // toLocaleTimeString devuelve "05:00:05 AM" — agregamos GMT-3
+        tooltip.textContent = `${timeStr} GMT-3`;
+      }
     }
-  }
 
-  tick();
-  setInterval(tick, 1000);
+    tick();
+    if (clockInterval) clearInterval(clockInterval);
+    clockInterval = setInterval(tick, 1000);
+  });
 </script>
