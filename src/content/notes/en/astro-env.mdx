@@ -1,0 +1,105 @@
+---
+title: "Type-Safe Envs: astro:env"
+date: 2026-05-20
+description: A step-by-step guide on how I configured strictly typed environment variables in my Astro project using the native way.
+author: enzo
+isDraft: false
+---
+
+I always struggled with environment variables on the frontend: *undefined*, wrong types, values that don't reach the client... until I stumbled upon `astro:env`. This native Astro feature finally brought me the peace of mind of **type-safety**, ensuring my app won't even build if I forget to set a secret.
+
+I want to show you step-by-step how I implemented this, covering all the cool options it provides.
+
+## The Schema
+
+The first thing I did was go to my configuration file (`astro.config.mjs`). Inside, `astro:env` lets me define an environment *schema*. This acts as a strict contract of the values my app needs.
+
+```javascript
+// astro.config.mjs
+import { defineConfig, envField } from 'astro/config';
+
+export default defineConfig({
+  env: {
+    schema: {
+      // 1. A required server variable (a secret)
+      API_KEY: envField.string({ 
+        context: 'server', 
+        access: 'secret', 
+        optional: false // Default is false, the build will fail if missing!
+      }),
+
+      // 2. A public variable for the web client
+      PUBLIC_URL: envField.string({ 
+        context: 'client', 
+        access: 'public', 
+        optional: true,
+        default: 'https://my-site.com' 
+      }),
+
+      // 3. Variables of other types (numbers, booleans)
+      MAX_RETRIES: envField.number({
+        context: 'server',
+        access: 'secret',
+        default: 3
+      }),
+
+      FEATURE_FLAG_ENABLED: envField.boolean({
+        context: 'client',
+        access: 'public',
+        default: false
+      })
+    }
+  }
+});
+```
+
+Astro validates this *before* running your code.
+
+### Options
+
+As you can see in my configuration, there are different fields:
+
+- **`context` (`'server' | 'client'`)**: I tell Astro in which environment I want to use the variable. This is great because it protects my secrets; nothing from `server` makes it into the public bundle.
+- **`access` (`'secret' | 'public'`)**: If it's `'secret'`, its real value isn't baked into the build. It's evaluated right at server runtime (or your host, like Vercel/Netlify).
+- **Data types (`string`, `number`, `boolean`)**: Astro automatically parses, for example, `"true"` to a boolean `true`, or `"3"` to an actual number `3`.
+- **`optional` and `default`**: I ensure comfortable default values for local development, or allow a variable to be missing without crashing my app.
+
+## Server Usage
+
+Now, using my guarded variables is extremely simple and best of all: **I get autocomplete** in my editor. 
+I simply import them from `astro:env/server`.
+
+```astro
+---
+// We only import server-exclusive variables
+import { API_KEY, MAX_RETRIES } from 'astro:env/server';
+
+// My code won't break due to API_KEY being undefined, Astro already guaranteed it in step 1.
+console.log(`Max retries allowed: ${MAX_RETRIES}`);
+
+const data = await fetch('https://secret.api.com/data', {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`
+  }
+});
+---
+<p>Secure data fetched</p>
+```
+
+## Client Usage
+
+Similarly, on the frontend (or inside `<script>` tags), I simply import from `astro:env/client`. The data will never cross environments.
+
+```html
+<script>
+  import { PUBLIC_URL, FEATURE_FLAG_ENABLED } from 'astro:env/client';
+
+  if (FEATURE_FLAG_ENABLED) {
+    console.log(`Visit URL: ${PUBLIC_URL}`);
+  }
+</script>
+```
+
+## Conclusion
+
+Migrating my variables to the `astro:env` validation module was a huge win for this project's architecture. I no longer need bulky libraries like Zod just to validate a primitive `.env`, I save myself the headache of discovering a typo right in production, and my terminal politely yells at me if I forget to set a new variable.

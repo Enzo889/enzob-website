@@ -33,7 +33,7 @@ const links = [
 const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
 ---
 
-<nav class="flex justify-between items-center uppercase mb-8 font-short-stack">
+<nav class="navbar-font flex justify-between items-center uppercase mb-8">
 
   <!-- Desktop -->
   <div class="hidden md:flex items-center gap-2 text-sm   ">
@@ -59,7 +59,7 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
   </div>
 
   <!-- Mobile combobox -->
-  <div class="flex md:hidden items-center gap-2 text-sm font-mono">
+  <div class="flex md:hidden items-center gap-2 text-sm">
     <span class="font-bold text-gray-900 dark:text-white">
       {t.navbar.domain}
     </span>
@@ -75,7 +75,7 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
         aria-haspopup="listbox"
         aria-autocomplete="none"
         aria-controls="mobile-nav-listbox"
-        class="inline-flex items-center gap-1 bg-transparent text-gray-900 dark:text-white uppercase tracking-wide font-mono text-sm font-semibold cursor-pointer focus:outline-none"
+        class="inline-flex items-center gap-1 bg-transparent text-gray-900 dark:text-white uppercase tracking-wide text-sm font-semibold cursor-pointer focus:outline-none"
       >
         <span id="mobile-nav-label">{activeLink.label}</span>
         <span aria-hidden="true" class="text-gray-400 dark:text-gray-500 transition-transform duration-200" id="mobile-nav-chevron" style="width:1em;height:1em;pointer-events:none">
@@ -106,7 +106,7 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
             aria-selected={isActive(link.href)}
             data-href={link.href}
             class:list={[
-              "px-3 py-2 uppercase tracking-wide font-mono text-sm cursor-pointer transition-colors",
+              "px-3 py-2 uppercase tracking-wide text-sm cursor-pointer transition-colors",
               "hover:bg-gray-100 dark:hover:bg-gray-800",
               "hover:text-gray-900 dark:hover:text-white",
               isActive(link.href)
@@ -128,6 +128,12 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
   </div>
 
 </nav>
+
+<style>
+  .navbar-font {
+    font-family: "Outfit Variable", sans-serif;
+  }
+</style>
 
 <script>
   const trigger  = document.getElementById("mobile-nav-trigger") as HTMLButtonElement;

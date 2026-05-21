@@ -1,0 +1,105 @@
+---
+title: "Envs Type-Safe: astro:env"
+date: 2026-05-20
+description: Um guia passo a passo sobre como configurei variáveis de ambiente estritamente tipadas no meu projeto Astro usando a forma nativa.
+author: enzo
+isDraft: false
+---
+
+Eu sempre sofri com variáveis de ambiente no frontend: *undefined*, tipos errados, valores que não chegam no cliente... até me deparar com o `astro:env`. Esse recurso nativo do Astro finalmente me trouxe a paz de espírito do **type-safety**, garantindo que a minha aplicação sequer faça o build se eu esquecer de configurar um segredo.
+
+Quero mostrar para você o passo a passo de como eu implementei isso, cobrindo todas as opções incríveis que isso oferece.
+
+## O Schema
+
+A primeira coisa que eu fiz foi ir ao meu arquivo de configuração (`astro.config.mjs`). Lá dentro, `astro:env` permite definir um *schema* de ambiente. Isso age como um contrato estrito dos valores que o meu app precisa.
+
+```javascript
+// astro.config.mjs
+import { defineConfig, envField } from 'astro/config';
+
+export default defineConfig({
+  env: {
+    schema: {
+      // 1. Uma variável exigida no servidor (um segredo)
+      API_KEY: envField.string({ 
+        context: 'server', 
+        access: 'secret', 
+        optional: false // O padrão é false, o build falhará se estiver ausente!
+      }),
+
+      // 2. Uma variável pública para o web client
+      PUBLIC_URL: envField.string({ 
+        context: 'client', 
+        access: 'public', 
+        optional: true,
+        default: 'https://meu-site.com' 
+      }),
+
+      // 3. Variáveis de outros tipos (números, booleanos)
+      MAX_RETRIES: envField.number({
+        context: 'server',
+        access: 'secret',
+        default: 3
+      }),
+
+      FEATURE_FLAG_ENABLED: envField.boolean({
+        context: 'client',
+        access: 'public',
+        default: false
+      })
+    }
+  }
+});
+```
+
+O Astro valida isso *antes* de executar seu código.
+
+### Opções
+
+Como você pode ver na minha configuração, há diferentes campos:
+
+- **`context` (`'server' | 'client'`)**: Eu conto ao Astro em qual ambiente quero utilizar a variável. Isso é fantástico porque protege os meus segredos; nada do `server` chega ao bundle público.
+- **`access` (`'secret' | 'public'`)**: Se for `'secret'`, o seu valor real não fica diretamente embutido (*baked*) no build. É avaliado exatamente no momento de execução do seu servidor (ou no seu host, como Vercel/Netlify).
+- **Tipos de dados (`string`, `number`, `boolean`)**: O Astro faz parse automaticamente, por exemplo, de `"true"` para um booleano `true`, ou de `"3"` para um número real `3`.
+- **`optional` e `default`**: Eu me certifico de ter valores padrão confortáveis para o desenvolvimento local, ou permito que uma variável fique de fora sem quebrar o meu app.
+
+## Uso no Servidor
+
+Agora, usar minhas variáveis protegidas é extremamente simples e o melhor de tudo: **eu tenho autocompletar** no meu editor. 
+Eu só preciso importá-las do `astro:env/server`.
+
+```astro
+---
+// Importamos unicamente variáveis exclusivas do servidor
+import { API_KEY, MAX_RETRIES } from 'astro:env/server';
+
+// O meu código não vai quebrar por causa de API_KEY undefined, o Astro já garantiu isso no passo 1.
+console.log(`Tentativas máximas permitidas: ${MAX_RETRIES}`);
+
+const data = await fetch('https://api.secreta.com/data', {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`
+  }
+});
+---
+<p>Dados seguros buscados</p>
+```
+
+## Uso no Cliente
+
+De maneira semelhante, no frontend (ou em tags `<script>`), eu simplesmente importo de `astro:env/client`. Os dados nunca irão se cruzar.
+
+```html
+<script>
+  import { PUBLIC_URL, FEATURE_FLAG_ENABLED } from 'astro:env/client';
+
+  if (FEATURE_FLAG_ENABLED) {
+    console.log(`Visite a URL: ${PUBLIC_URL}`);
+  }
+</script>
+```
+
+## Conclusão
+
+Migrar minhas variáveis para o módulo de validação do `astro:env` foi uma vitória total para a arquitetura deste projeto. Eu não preciso mais de bibliotecas pesadas como Zod apenas para validar um `.env` primitivo, eu me poupo as dores de cabeça de descobrir um erro de digitação recém na produção, e o meu terminal grita amigavelmente se eu esquecer de configurar uma nova variável.

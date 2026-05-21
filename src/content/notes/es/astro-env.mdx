@@ -1,0 +1,105 @@
+---
+title: "Entornos Type-Safe: astro:env"
+date: 2026-05-20
+description: Una guía paso a paso sobre cómo configuré variables de entorno estrictamente tipadas en mi proyecto de Astro usando la forma nativa.
+author: enzo
+isDraft: false
+---
+
+Siempre sufrí con las variables de entorno en frontend: *undefined*, tipos incorrectos, valores que no llegan al cliente... hasta que me topé con `astro:env`. Esta funcionalidad nativa de Astro finalmente me trajo la paz mental del **type-safety**, asegurando que mi aplicación ni siquiera compile si olvido configurar un secreto. 
+
+Quiero mostrarte paso a paso cómo implementé esto, cubriendo todas las opciones geniales que ofrece.
+
+## Esquema (Schema)
+
+Lo primero que hice fue ir a mi archivo de configuración (`astro.config.mjs`). Ahí dentro, `astro:env` me permite definir un *schema* de entorno. Esto actúa como un contrato estricto de los valores que mi aplicación necesita.
+
+```javascript
+// astro.config.mjs
+import { defineConfig, envField } from 'astro/config';
+
+export default defineConfig({
+  env: {
+    schema: {
+      // 1. Una variable requerida en el servidor (un secreto)
+      API_KEY: envField.string({ 
+        context: 'server', 
+        access: 'secret', 
+        optional: false // ¡Por defecto es false, el build fallará si falta!
+      }),
+
+      // 2. Una variable pública para el cliente web
+      PUBLIC_URL: envField.string({ 
+        context: 'client', 
+        access: 'public', 
+        optional: true,
+        default: 'https://mi-sitio.com' 
+      }),
+
+      // 3. Variables de otros tipos (números, booleanos)
+      MAX_RETRIES: envField.number({
+        context: 'server',
+        access: 'secret',
+        default: 3
+      }),
+
+      FEATURE_FLAG_ENABLED: envField.boolean({
+        context: 'client',
+        access: 'public',
+        default: false
+      })
+    }
+  }
+});
+```
+
+Astro valida esto *antes* de correr tu código.
+
+### Opciones
+
+Como puedes ver en mi configuración, hay diferentes campos:
+
+- **`context` (`'server' | 'client'`)**: Le digo a Astro en qué entorno quiero utilizar la variable. Esto es genial porque protege mis secretos; nada de `server` llega al bundle público.
+- **`access` (`'secret' | 'public'`)**: Si es `'secret'`, su valor real no queda horneado (*baked*) en el build. Se evalúa justo en tiempo de ejecución de tu servidor (o tu host, como Vercel/Netlify).
+- **Tipos de datos (`string`, `number`, `boolean`)**: Astro parsea automáticamente, por ejemplo, `"true"` a `true`, o `"3"` a un número real `3`.
+- **`optional` y `default`**: Me aseguro de tener valores por defecto cómodos para desarrollo local, o permito que una variable quede ausente sin tronar mi app.
+
+## Uso en el Servidor
+
+Ahora, usar mis variables resguardadas es sumamente simple y lo mejor de todo: **tengo autocompletado** en mi editor. 
+Solo tengo que importar desde `astro:env/server`.
+
+```astro
+---
+// Importamos únicamente las variables exclusivas de servidor
+import { API_KEY, MAX_RETRIES } from 'astro:env/server';
+
+// Mi código no se romperá por API_KEY undefined, Astro ya lo garantizó en el paso 1.
+console.log(`Intentos máximos permitidos: ${MAX_RETRIES}`);
+
+const data = await fetch('https://api.secreta.com/data', {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`
+  }
+});
+---
+<p>Datos seguros obtenidos</p>
+```
+
+## Uso en el Cliente
+
+De manera similar, en el frontend (o en etiquetas de `<script>`), simplemente importo desde `astro:env/client`. Nunca se cruzarán los datos.
+
+```html
+<script>
+  import { PUBLIC_URL, FEATURE_FLAG_ENABLED } from 'astro:env/client';
+
+  if (FEATURE_FLAG_ENABLED) {
+    console.log(`Visita la URL: ${PUBLIC_URL}`);
+  }
+</script>
+```
+
+## Conclusión
+
+Migrar mis variables al módulo de validación de `astro:env` fue una victoria total para la arquitectura de este proyecto. Ya no necesito librerías raras como Zod solo para validar un `.env` primitivo, me ahorro dolores de cabeza descubriendo un typo (error de tipeo) recién en producción, y mi terminal me grita amablemente si olvido configurar una variable nueva.

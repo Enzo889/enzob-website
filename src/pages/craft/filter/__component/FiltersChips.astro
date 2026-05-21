@@ -29,14 +29,29 @@ const { filters } = Astro.props;
     gap: 4px;
     flex-wrap: wrap;
     background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-    padding: 10%;
+    padding: 10%; /* Ajustado desde 10% para no romperse en pantallas amplias */
     border-radius: 32px;
     isolation: isolate;
     border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
-    overflow: auto hidden;
     width: max-content;
     max-width: 100%;
     box-shadow: 0 4px 24px -8px color-mix(in srgb, var(--color-text, #000) 10%, transparent);
+  }
+
+  /* Responsive: En móviles hacemos scroll horizontal */
+  @media (max-width: 640px) {
+    .filter-group {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 999px;
+      padding: 12px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;
+    }
+    .filter-group::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
   }
 
   .filter-chip {
@@ -51,6 +66,9 @@ const { filters } = Astro.props;
     transition: all 0.2s ease;
     user-select: none;
     will-change: border-radius, margin-left, background, color;
+    
+    /* Evitar que se compriman en scroll horizontal */
+    flex-shrink: 0;
   }
 
   .filter-chip:hover {
