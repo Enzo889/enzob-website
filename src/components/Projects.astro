@@ -108,28 +108,32 @@ const projects = getProjectsData(t);
 <script>
   const isDark = () => document.documentElement.classList.contains("dark");
 
-  document.querySelectorAll<HTMLLIElement>(".project-card").forEach((card) => {
-    const glow = card.querySelector<HTMLDivElement>(".spotlight");
+  function initProjectCards() {
+    document.querySelectorAll<HTMLLIElement>(".project-card").forEach((card) => {
+      const glow = card.querySelector<HTMLDivElement>(".spotlight");
 
-    card.addEventListener("mouseenter", () => {
-      if (glow) glow.style.opacity = "1";
+      card.addEventListener("mouseenter", () => {
+        if (glow) glow.style.opacity = "1";
+      });
+
+      card.addEventListener("mouseleave", () => {
+        if (glow) glow.style.opacity = "0";
+      });
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        if (glow) {
+          const color = isDark()
+            ? "rgba(255, 255, 255, 0.06)"
+            : "rgba(0, 0, 0, 0.04)";
+          glow.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${color}, transparent 60%)`;
+        }
+      });
     });
+  }
 
-    card.addEventListener("mouseleave", () => {
-      if (glow) glow.style.opacity = "0";
-    });
-
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      if (glow) {
-        const color = isDark()
-          ? "rgba(255, 255, 255, 0.06)"
-          : "rgba(0, 0, 0, 0.04)";
-        glow.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${color}, transparent 60%)`;
-      }
-    });
-  });
+  document.addEventListener("astro:page-load", initProjectCards);
 </script>

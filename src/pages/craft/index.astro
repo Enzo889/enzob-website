@@ -126,8 +126,11 @@ const t = getT(locale);
   }
 
   // Ejecutar al cargar la página
-  const items = document.querySelectorAll<HTMLElement>("[data-scramble]");
-  items.forEach((item, index) => {
+  
+  document.addEventListener("astro:page-load", () => {
+      const items = document.querySelectorAll<HTMLElement>("[data-scramble]");
+        items.forEach((item, index) => {
     animateScramble(item, index * STAGGER_DELAY);
   });
+    })
 </script>

@@ -51,61 +51,70 @@ const works = [
     return CHARS[Math.floor(Math.random() * CHARS.length)];
   }
 
-  document.querySelectorAll<HTMLAnchorElement>("[data-scramble]").forEach((link) => {
-    const textEl = link.querySelector<HTMLElement>("[data-scramble-text]");
-    const connector = link.querySelector<HTMLElement>("[data-scramble-connector]");
-    if (!textEl) return;
+  function initWork() {
+    document.querySelectorAll<HTMLAnchorElement>("[data-scramble]").forEach((link) => {
+      const textEl = link.querySelector<HTMLElement>("[data-scramble-text]");
+      const connector = link.querySelector<HTMLElement>("[data-scramble-connector]");
+      if (!textEl) return;
 
-    const original = textEl.textContent?.trim() ?? "";
-    textEl.dataset.original = original;
+      const original = textEl.textContent?.trim() ?? "";
+      textEl.dataset.original = original;
 
-    textEl.textContent = original
-      .split("")
-      .map((char) => (char === " " ? " " : randomChar()))
-      .join("");
-
-    let used = false;
-
-    link.addEventListener("mouseenter", () => {
-      if (used) return;
-      used = true;
-
-      const totalFrames = Math.floor(DECRYPT_DURATION / FPS);
-      let frame = 0;
-
-      const decryptInterval = setInterval(() => {
-        const progress = frame / totalFrames;
-        const resolved = Math.floor(progress * original.length);
-
+      // Only scramble if the device supports hover
+      if (window.matchMedia("(hover: hover)").matches) {
         textEl.textContent = original
           .split("")
-          .map((char, i) => {
-            if (char === " ") return " ";
-            if (i < resolved) return original[i];
-            return randomChar();
-          })
+          .map((char) => (char === " " ? " " : randomChar()))
           .join("");
+      } else {
+        textEl.textContent = original;
+      }
 
-        frame++;
+      let used = false;
 
-        if (frame >= totalFrames) {
-          textEl.textContent = original;
-          clearInterval(decryptInterval);
-        }
-      }, FPS);
+      link.addEventListener("mouseenter", () => {
+        if (used) return;
+        used = true;
 
-      if (connector) {
-        let f = 0;
-        const connectorInterval = setInterval(() => {
-          const remaining = Math.round((1 - f / totalFrames) * 100);
-          connector.style.clipPath = `inset(0 ${remaining}% 0 0)`;
-          f++;
-          if (f >= totalFrames) {
-            connector.style.clipPath = "inset(0 0% 0 0)";
-            clearInterval(connectorInterval);
+        const totalFrames = Math.floor(DECRYPT_DURATION / FPS);
+        let frame = 0;
+
+        const decryptInterval = setInterval(() => {
+          const progress = frame / totalFrames;
+          const resolved = Math.floor(progress * original.length);
+
+          textEl.textContent = original
+            .split("")
+            .map((char, i) => {
+              if (char === " ") return " ";
+              if (i < resolved) return original[i];
+              return randomChar();
+            })
+            .join("");
+
+          frame++;
+
+          if (frame >= totalFrames) {
+            textEl.textContent = original;
+            clearInterval(decryptInterval);
           }
         }, FPS);
-      }
+
+        if (connector) {
+          let f = 0;
+          const connectorInterval = setInterval(() => {
+            const remaining = Math.round((1 - f / totalFrames) * 100);
+            connector.style.clipPath = `inset(0 ${remaining}% 0 0)`;
+            f++;
+            if (f >= totalFrames) {
+              connector.style.clipPath = "inset(0 0% 0 0)";
+              clearInterval(connectorInterval);
+            }
+          }, FPS);
+        }
+      });
     });
-  });
+  }
+
+  document.addEventListener("astro:page-load", initWork);
 </script>

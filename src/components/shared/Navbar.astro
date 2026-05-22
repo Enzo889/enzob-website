@@ -38,7 +38,9 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
   <!-- Desktop -->
   <div class="hidden md:flex items-center gap-2 text-sm   ">
     <span class="font-bold text-gray-900 dark:text-white">
-      {t.navbar.domain}
+      <a href={locale === "es" ? "/" : `/${locale}`}>
+        {t.navbar.domain}
+      </a>
     </span>
     {links.map((link) => (
       <>
@@ -61,7 +63,9 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
   <!-- Mobile combobox -->
   <div class="flex md:hidden items-center gap-2 text-sm">
     <span class="font-bold text-gray-900 dark:text-white">
-      {t.navbar.domain}
+      <a href={locale === "es" ? "/" : `/${locale}`}>
+        {t.navbar.domain}
+      </a>
     </span>
     <span class="text-gray-300 dark:text-gray-700">/</span>
 
@@ -136,47 +140,53 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
 </style>
 
 <script>
-  const trigger  = document.getElementById("mobile-nav-trigger") as HTMLButtonElement;
-  const listbox  = document.getElementById("mobile-nav-listbox") as HTMLUListElement;
-  const label    = document.getElementById("mobile-nav-label") as HTMLSpanElement;
-  const chevron  = document.getElementById("mobile-nav-chevron") as HTMLSpanElement;
-  const wrapper  = document.getElementById("mobile-nav-wrapper") as HTMLDivElement;
+  function initMobileNav() {
+    const trigger  = document.getElementById("mobile-nav-trigger") as HTMLButtonElement;
+    const listbox  = document.getElementById("mobile-nav-listbox") as HTMLUListElement;
+    const label    = document.getElementById("mobile-nav-label") as HTMLSpanElement;
+    const chevron  = document.getElementById("mobile-nav-chevron") as HTMLSpanElement;
+    const wrapper  = document.getElementById("mobile-nav-wrapper") as HTMLDivElement;
 
-  function open() {
-    listbox.classList.remove("hidden");
-    trigger.setAttribute("aria-expanded", "true");
-    chevron.style.transform = "rotate(180deg)";
+    if (!trigger || !listbox || !wrapper) return;
+
+    function open() {
+      listbox.classList.remove("hidden");
+      trigger.setAttribute("aria-expanded", "true");
+      chevron.style.transform = "rotate(180deg)";
+    }
+
+    function close() {
+      listbox.classList.add("hidden");
+      trigger.setAttribute("aria-expanded", "false");
+      chevron.style.transform = "rotate(0deg)";
+    }
+
+    function toggle() {
+      trigger.getAttribute("aria-expanded") === "true" ? close() : open();
+    }
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+
+    // Navegar al hacer click en una opción
+    listbox.addEventListener("click", (e) => {
+      const item = (e.target as HTMLElement).closest("[data-href]") as HTMLElement | null;
+      if (!item) return;
+      window.location.href = item.dataset.href!;
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener("click", (e) => {
+      if (!wrapper.contains(e.target as Node)) close();
+    });
+
+    // Cerrar con Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
   }
 
-  function close() {
-    listbox.classList.add("hidden");
-    trigger.setAttribute("aria-expanded", "false");
-    chevron.style.transform = "rotate(0deg)";
-  }
-
-  function toggle() {
-    trigger.getAttribute("aria-expanded") === "true" ? close() : open();
-  }
-
-  trigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggle();
-  });
-
-  // Navegar al hacer click en una opción
-  listbox.addEventListener("click", (e) => {
-    const item = (e.target as HTMLElement).closest("[data-href]") as HTMLElement | null;
-    if (!item) return;
-    window.location.href = item.dataset.href!;
-  });
-
-  // Cerrar al hacer click fuera
-  document.addEventListener("click", (e) => {
-    if (!wrapper.contains(e.target as Node)) close();
-  });
-
-  // Cerrar con Escape
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
-  });
+  document.addEventListener("astro:page-load", initMobileNav);
 </script>
