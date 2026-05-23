@@ -23,7 +23,12 @@ const { Content, headings } = await render(note);
 
 <MainLayout title={`${NoteData.title} · Enzo Bustamante`} description={NoteData.description}>
   <!-- Table of Contents -->
+   <div
+  id="reading-progress"
+  class="fixed top-0 left-0 h-px w-0 bg-accent z-9999 transition-[width] duration-150 ease-out"
+></div>
 
+  
   <div class="md:fixed md:top-1/4 md:left-20 ">
     <a href={locale === "es" ? "/notes" : `/${locale}/notes`} class="w-fit text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Notes</a>
     {headings.length > 0 && (
@@ -38,7 +43,7 @@ const { Content, headings } = await render(note);
     </div>
   )}
   </div>
-
+  
   <header class="mb-10">
     <h1 class="text-[1.05rem]  font-body tracking-tighter text-accent">
       {NoteData.title}
@@ -65,23 +70,53 @@ const { Content, headings } = await render(note);
 </MainLayout>
 
 <script>
-  const scrollButton = document.getElementById('scroll-top');
+  let cleanup: () => void;
 
-  window.addEventListener('scroll', () => {
-    if (!scrollButton) return;
+  document.addEventListener("astro:page-load", () => {
+    cleanup?.();
 
-    // Calculamos el punto medio de la página
-    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPosition = window.scrollY;
+    const scrollButton = document.getElementById("scroll-top");
+    const progressBar = document.getElementById("reading-progress");
+    const article = document.querySelector("article");
 
-    // Si pasamos el 50% (0.5), mostramos el botón
-    if (scrollPosition > scrollTotal * 0.5) {
-      scrollButton.classList.remove('opacity-0', 'pointer-events-none');
-      scrollButton.classList.add('opacity-30');
-    } else {
-      scrollButton.classList.add('opacity-0', 'pointer-events-none');
-      scrollButton.classList.remove('opacity-30');
-    }
+    const updateReadingProgress = () => {
+      if (!article || !progressBar) return;
+
+      const articleTop = article.offsetTop;
+      const articleHeight = article.scrollHeight;
+      const windowHeight = window.innerHeight;
+
+      const scrollY = window.scrollY;
+
+      const progress =
+        ((scrollY - articleTop) / (articleHeight - windowHeight)) * 100;
+
+      const clampedProgress = Math.min(Math.max(progress, 0), 100);
+
+      progressBar.style.width = `${clampedProgress}%`;
+
+      // Scroll Top Button
+      const scrollTotal =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      if (scrollY > scrollTotal * 0.5) {
+        scrollButton?.classList.remove("opacity-0", "pointer-events-none");
+        scrollButton?.classList.add("opacity-30");
+      } else {
+        scrollButton?.classList.add("opacity-0", "pointer-events-none");
+        scrollButton?.classList.remove("opacity-30");
+      }
+    };
+
+    window.addEventListener("scroll", updateReadingProgress);
+    window.addEventListener("resize", updateReadingProgress);
+
+    updateReadingProgress();
+
+    cleanup = () => {
+      window.removeEventListener("scroll", updateReadingProgress);
+      window.removeEventListener("resize", updateReadingProgress);
+    };
   });
 </script>
 
@@ -192,5 +227,11 @@ const { Content, headings } = await render(note);
     .content td {
       @apply border-b border-(--color-border)/50 p-2 py-3;
     }
+
+    #reading-progress {
+  background: var(--color-accent);
+  box-shadow: 0 0 8px var(--color-accent);
+}
+
   }
 </style>

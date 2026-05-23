@@ -96,9 +96,9 @@ const {
 
 
     <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
-      <Logo className="w-12 h-12 absolute xl:fixed m-5 select-none outline-none" />
+      <Logo className="w-12 h-12 md:block hidden absolute xl:fixed m-5 select-none outline-none" />
     </a>
-    <div class="container mx-auto max-w-2xl p-4 pt-20">
+    <div class="container mx-auto max-w-2xl p-4 md:pt-20 pt-10 ">
       <Navbar />
       <slot />
       <Footer />
