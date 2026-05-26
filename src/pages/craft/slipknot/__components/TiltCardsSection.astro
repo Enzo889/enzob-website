@@ -5,15 +5,17 @@ import img_live3 from "../images/imgi_91_Eloy-3-2-scaled.jpg";
 import img_solway from "../images/imgi_79_solway-1-scaled.jpg";
 import img_devil from "../images/imgi_74_thedevilini-scaled.jpg";
 import img_memories2 from "../images/imgi_88_Memories-scaled.jpg";
+import { Image } from "astro:assets";
 ---
 <section id="s-tilt" class="tilt-section">
   <span class="section-tag">Motion enter + 3D mousemove tilt</span>
   <h2 class="section-title reveal-heading">The Nine</h2>
   <p class="section-body reveal-body" style="text-align:center;max-width:480px;">Cards cascade in with Motion <code>stagger</code>. Hover to tilt in 3D — Lenis's smooth momentum makes the motion feel cinematic.</p>
   <div class="tilt-grid">
-    {[img_live1.src,img_live2.src,img_live3.src,img_solway.src,img_devil.src,img_memories2.src].map((src,i)=>(
+    {/* Pasamos los objetos de importación completos, NO solo el .src */}
+    {[img_live1, img_live2, img_live3, img_solway, img_devil, img_memories2].map((imgObject, i) => (
       <div class="tilt-card" data-tilt>
-        <img src={src} alt={`Member ${i+1}`} loading="lazy" />
+        <Image width={300} height={200} quality={"mid"} src={imgObject} alt={`Member ${i+1}`} loading="lazy" />
       </div>
     ))}
   </div>

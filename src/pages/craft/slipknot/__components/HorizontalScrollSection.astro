@@ -6,6 +6,7 @@ import img_solway from "../images/imgi_79_solway-1-scaled.jpg";
 import img_devil from "../images/imgi_74_thedevilini-scaled.jpg";
 import img_memories2 from "../images/imgi_88_Memories-scaled.jpg";
 import img_allout from "../images/imgi_45_all-out-life.jpg";
+import { Image } from "astro:assets";
 ---
 <section id="s-hscroll">
   <div id="h-outer" style="height:400vh;">
@@ -16,16 +17,16 @@ import img_allout from "../images/imgi_45_all-out-life.jpg";
       </div>
       <div class="h-scroll-track" id="h-track">
         {[
-          { src: img_live1.src,    label: "Live — LCR 2023" },
-          { src: img_live2.src,    label: "Gnarly Media" },
-          { src: img_live3.src,    label: "Eloy — 2024" },
-          { src: img_solway.src,   label: "Solway" },
-          { src: img_devil.src,    label: "The Devil In I" },
-          { src: img_memories2.src,label: "Memories" },
-          { src: img_allout.src,   label: "All Out Life" },
+          { src: img_live1,    label: "Live — LCR 2023" },
+          { src: img_live2,    label: "Gnarly Media" },
+          { src: img_live3,    label: "Eloy — 2024" },
+          { src: img_solway,   label: "Solway" },
+          { src: img_devil,    label: "The Devil In I" },
+          { src: img_memories2,label: "Memories" },
+          { src: img_allout,   label: "All Out Life" },
         ].map(({ src, label }) => (
           <div class="h-card">
-            <img src={src} alt={label} loading="lazy" />
+            <Image width={300} height={200} quality={"mid"} src={src} alt={label} loading="lazy" />
             <div class="h-card-label">{label}</div>
           </div>
         ))}

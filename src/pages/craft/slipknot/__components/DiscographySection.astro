@@ -5,6 +5,7 @@ import img_ahig from "../images/imgi_30_sicnesses.jpg";
 import img_tesf from "../images/imgi_42_goodbye-cover-scaled.jpg";
 import img_aol from "../images/imgi_195_alloutlife-2-2048x1132.jpg";
 import img_tesfweb from "../images/imgi_53_TESF-web-1.jpg";
+import { Image } from "astro:assets";
 ---
 
 <section id="s-disco" class="disco">
@@ -14,15 +15,15 @@ import img_tesfweb from "../images/imgi_53_TESF-web-1.jpg";
   </div>
   <div class="disco-grid">
     {[
-      { src: img_wanyk.src,    name: "We Are Not Your Kind",        year: "2019" },
-      { src: img_memories.src, name: "Vol. 3: Subliminal Verses",    year: "2004" },
-      { src: img_ahig.src,     name: "All Hope Is Gone",             year: "2008" },
-      { src: img_tesf.src,     name: "The End, So Far",              year: "2022" },
-      { src: img_aol.src,      name: "All Out Life",                 year: "2018 · Single" },
-      { src: img_tesfweb.src,  name: "The Dying Song",               year: "2022 · Single" },
+      { src: img_wanyk,    name: "We Are Not Your Kind",        year: "2019" },
+      { src: img_memories, name: "Vol. 3: Subliminal Verses",    year: "2004" },
+      { src: img_ahig,     name: "All Hope Is Gone",             year: "2008" },
+      { src: img_tesf,     name: "The End, So Far",              year: "2022" },
+      { src: img_aol,      name: "All Out Life",                 year: "2018 · Single" },
+      { src: img_tesfweb,  name: "The Dying Song",               year: "2022 · Single" },
     ].map(({ src, name, year }) => (
       <div class="album-card">
-        <img src={src} alt={name} loading="lazy" />
+        <Image width={300} height={200} quality={"mid"} src={src} alt={name} loading="lazy" />
         <div class="album-info">
           <div class="album-name">{name}</div>
           <div class="album-year">{year}</div>
