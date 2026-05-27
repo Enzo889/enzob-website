@@ -13,19 +13,19 @@ const works = [
 
 <article class="flex flex-col gap-4 my-10">
   <p class="text-sm tracking-wide uppercase font-heading text-gray-400 dark:text-gray-500">{t.work.title}</p>
-  <ul class="flex flex-col">
+  <ul class="flex flex-col" id="work-list">
     {works.map((work) => (
       <li>
         <a
-          class="group flex items-center gap-2 py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-4 transition-all"
+          class="group flex items-center gap-2 py-2 md:py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-3 md:px-4 transition-all"
           href={work.url}
           target="_blank"
           rel="noopener noreferrer"
           data-scramble
         >
-          <span class="font-medium whitespace-nowrap" data-scramble-text>{work.name}</span>
+          <span class="font-medium whitespace-nowrap text-sm md:text-base" data-scramble-text>{work.name}</span>
           <span class="connector" data-scramble-connector></span>
-          <span class="text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums">{work.year}</span>
+          <span class="text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums text-xs md:text-sm">{work.year}</span>
         </a>
       </li>
     ))}
@@ -39,6 +39,14 @@ const works = [
     opacity: 0.2;
     margin-bottom: 0.2em;
     clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.5s ease;
+  }
+
+  /* Mostrar conector por defecto en móviles o dispositivos sin hover */
+  @media (hover: none) {
+    .connector {
+      clip-path: inset(0 0% 0 0);
+    }
   }
 </style>
 
@@ -52,7 +60,10 @@ const works = [
   }
 
   function initWork() {
-    document.querySelectorAll<HTMLAnchorElement>("[data-scramble]").forEach((link) => {
+    const workList = document.getElementById("work-list");
+    if (!workList) return;
+
+    workList.querySelectorAll<HTMLAnchorElement>("[data-scramble]").forEach((link) => {
       const textEl = link.querySelector<HTMLElement>("[data-scramble-text]");
       const connector = link.querySelector<HTMLElement>("[data-scramble-connector]");
       if (!textEl) return;

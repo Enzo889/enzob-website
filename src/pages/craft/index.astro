@@ -28,7 +28,7 @@ const t = getT(locale);
 <MainLayout title={t.seo.craft.title} description={t.seo.craft.description}>
     <section class="my-40 flex flex-col gap-3">
         <a class="text-sm tracking-wide  font-serif italic text-text   md:fixed md:top-1/4 md:left-20 flex gap-1 hover:text-accent dark:hover:text-accent transition-all" href={locale === "es" ? "/" : `/${locale}`}> <ArrowLeft className="w-4 h-4" /> Index</a>
-      <ul class="flex flex-col">
+      <ul class="flex flex-col" id="craft-list">
         {crafts.map((craft) => (
           <li>
             <a
@@ -128,9 +128,27 @@ const t = getT(locale);
   // Ejecutar al cargar la página
   
   document.addEventListener("astro:page-load", () => {
-      const items = document.querySelectorAll<HTMLElement>("[data-scramble]");
-        items.forEach((item, index) => {
-    animateScramble(item, index * STAGGER_DELAY);
+    const craftList = document.getElementById("craft-list");
+    if (!craftList) return;
+
+    const hasVisited = sessionStorage.getItem("craft-visited");
+    const items = craftList.querySelectorAll<HTMLElement>("[data-scramble]");
+
+    if (hasVisited) {
+      // Skip animation and ensure visibility
+      items.forEach((item) => {
+        const connector = item.querySelector<HTMLElement>("[data-scramble-connector]");
+        if (connector) {
+          connector.style.clipPath = "inset(0 0% 0 0)";
+        }
+      });
+      return;
+    }
+
+    // First time
+    items.forEach((item, index) => {
+      animateScramble(item, index * STAGGER_DELAY);
+    });
+    sessionStorage.setItem("craft-visited", "true");
   });
-    })
 </script>
