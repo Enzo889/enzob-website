@@ -126,30 +126,6 @@ const { Content, headings } = await render(note);
 
   @custom-variant dark (&:where(.dark, .dark *));
 
-  /* ── Paleta Neutral (Global) ── */
-  :root {
-    /* Modo Claro */
-    --color-text: #646464;         
-    --color-text-muted: #737373;   
-    --color-surface: #ffffff;      
-    --color-border: #e5e5e5;       
-    --color-accent: #202020;       
-    --color-accent-hover: #404040; 
-    --color-secondary: #a3a3a3;
-    --radius: 0.4rem;              
-  }
-
-  .dark {
-    /* Modo Oscuro */
-    --color-text: #b4b4b4;         
-    --color-text-muted: #a3a3a3;   
-    --color-surface: #0f0f0f;      
-    --color-border: #262626;       
-    --color-accent: #eee;       
-    --color-accent-hover: #d4d4d4; 
-    --color-secondary: #525252;
-  }
-
   @layer base {
     .content {
       @apply mt-0 transition-colors duration-300;

@@ -2,6 +2,7 @@
 import { useTranslations } from "@/i18n";
 import ToggleMode from "./ToggleMode.astro";
 import Translations from "./Translations.astro";
+import Logo from "./Logo.astro";
 
 const locale = Astro.currentLocale ?? "es";
 const t = useTranslations(locale);
@@ -44,15 +45,15 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
     </span>
     {links.map((link) => (
       <>
-        <span class="text-gray-300 dark:text-gray-700">/</span>
+        <span style="color: var(--color-border)">/</span>
         <a
           href={link.href}
           class:list={[
             "tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-current",
-            isActive(link.href)
-              ? "text-gray-900 dark:text-white font-semibold"
-              : "text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white",
           ]}
+          style={isActive(link.href) 
+            ? "color: var(--color-accent); font-weight: 600;" 
+            : "color: var(--color-text-muted);"}
         >
           {link.label}
         </a>
@@ -62,12 +63,12 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
 
   <!-- Mobile combobox -->
   <div class="flex md:hidden items-center gap-2 text-sm">
-    <span class="font-bold text-gray-900 dark:text-white">
-      <a href={locale === "es" ? "/" : `/${locale}`}>
-        {t.navbar.domain}
+    <span class="font-bold">
+      <a href={locale === "es" ? "/" : `/${locale}`} class="block transition-transform hover:scale-105">
+        <Logo class="w-8 h-8" />
       </a>
     </span>
-    <span class="text-gray-300 dark:text-gray-700">/</span>
+    <span style="color: var(--color-border)">/</span>
 
     <div class="relative" id="mobile-nav-wrapper">
       <!-- Trigger -->
@@ -79,10 +80,11 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
         aria-haspopup="listbox"
         aria-autocomplete="none"
         aria-controls="mobile-nav-listbox"
-        class="inline-flex items-center gap-1 bg-transparent text-gray-900 dark:text-white uppercase tracking-wide text-sm font-semibold cursor-pointer focus:outline-none"
+        class="inline-flex items-center gap-1 bg-transparent uppercase tracking-wide text-sm font-semibold cursor-pointer focus:outline-none"
+        style="color: var(--color-accent)"
       >
         <span id="mobile-nav-label">{activeLink.label}</span>
-        <span aria-hidden="true" class="text-gray-400 dark:text-gray-500 transition-transform duration-200" id="mobile-nav-chevron" style="width:1em;height:1em;pointer-events:none">
+        <span aria-hidden="true" class="transition-transform duration-200" id="mobile-nav-chevron" style="width:1em;height:1em;pointer-events:none; color: var(--color-text-muted)">
           <svg display="block" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 16 16" height="1em" width="1em">
             <polyline points="4,6 8,10 12,6"></polyline>
           </svg>
@@ -95,14 +97,15 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
         role="listbox"
         aria-label="Navigation"
         class="
-          absolute top-full left-0 mt-1 z-50
-          bg-white dark:bg-gray-950
-          border border-gray-200 dark:border-gray-800
-          shadow-lg
-          min-w-[140px]
-          py-1
+          absolute top-full left-0 mt-2 z-50
+          border
+          shadow-xl rounded-lg
+          min-w-[160px]
+          py-1.5
           hidden
+          backdrop-blur-md
         "
+        style="background-color: var(--color-surface); border-color: var(--color-border);"
       >
         {links.map((link) => (
           <li
@@ -110,13 +113,14 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
             aria-selected={isActive(link.href)}
             data-href={link.href}
             class:list={[
-              "px-3 py-2 uppercase tracking-wide text-sm cursor-pointer transition-colors",
-              "hover:bg-gray-100 dark:hover:bg-gray-800",
-              "hover:text-gray-900 dark:hover:text-white",
+              "px-4 py-2.5 uppercase tracking-wide text-xs cursor-pointer transition-colors",
               isActive(link.href)
-                ? "text-gray-900 dark:text-white font-semibold"
-                : "text-gray-500 dark:text-gray-400",
+                ? "font-semibold"
+                : "opacity-80 hover:opacity-100",
             ]}
+            style={isActive(link.href)
+              ? "color: var(--color-accent); background-color: var(--color-border);"
+              : "color: var(--color-text);"}
           >
             {link.label}
           </li>
