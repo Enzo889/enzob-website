@@ -38,7 +38,7 @@ const activeLink = links.find((l) => isActive(l.href)) ?? links[0];
 
   <!-- Desktop -->
   <div class="hidden md:flex items-center gap-2 text-sm   ">
-    <span class="font-bold text-gray-900 dark:text-white">
+    <span class="font-bold text-accent">
       <a href={locale === "es" ? "/" : `/${locale}`}>
         {t.navbar.domain}
       </a>

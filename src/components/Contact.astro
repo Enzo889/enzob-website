@@ -28,13 +28,13 @@ const connect = [
 ---
 
 <div class="flex flex-col gap-4 my-10">
-  <p class="text-sm tracking-wide uppercase font-heading text-gray-400 dark:text-gray-500">{t.contact.title}</p>
+  <p class="text-sm tracking-wide uppercase font-heading text-text-muted">{t.contact.title}</p>
   <div class="flex flex-wrap gap-y-4 gap-x-6">
     {
       connect.map((item) => (
         <a
-          class="underline text-2xl md:text-4xl leading-loose md:leading-normal underline-offset-8 hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
-          href={item.href}  
+          class="contact-link text-2xl md:text-4xl leading-loose md:leading-normal"
+          href={item.href}
           target="_blank"
           rel="noopener noreferrer"
           title={item.name}
@@ -45,3 +45,52 @@ const connect = [
     }
   </div>
 </div>
+
+<style>
+  .contact-link {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.25s ease, transform 0.25s ease;
+    display: inline-block;
+  }
+
+  /* Línea inferior: inicia transparente para no causar salto visual */
+  .contact-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent);
+    border-radius: 9999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.35s ease;
+  }
+
+  /* Desktop: animación completa */
+  @media (hover: hover) {
+    .contact-link:hover {
+      color: var(--color-accent);
+      transform: translateY(-3px);
+    }
+
+    .contact-link:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  /* Mobile: subrayado estático semitransparente, sin efecto de elevación */
+  @media (hover: none) {
+    .contact-link::after {
+      transform: scaleX(1);
+      opacity: 0.25;
+    }
+  }
+</style>

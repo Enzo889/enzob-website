@@ -12,12 +12,12 @@ const works = [
 ---
 
 <article class="flex flex-col gap-4 my-10">
-  <p class="text-sm tracking-wide uppercase font-heading text-gray-400 dark:text-gray-500">{t.work.title}</p>
+  <p class="text-sm tracking-wide uppercase font-heading text-text-muted">{t.work.title}</p>
   <ul class="flex flex-col" id="work-list">
     {works.map((work) => (
       <li>
         <a
-          class="group flex items-center gap-2 py-2 md:py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-3 md:px-4 transition-all"
+          class="group flex items-center gap-2 py-2 md:py-3 hover:bg-border/30 rounded-xl px-3 md:px-4 transition-all"
           href={work.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -25,7 +25,7 @@ const works = [
         >
           <span class="font-medium whitespace-nowrap text-sm md:text-base" data-scramble-text>{work.name}</span>
           <span class="connector" data-scramble-connector></span>
-          <span class="text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums text-xs md:text-sm">{work.year}</span>
+          <span class="text-text-muted whitespace-nowrap tabular-nums text-xs md:text-sm">{work.year}</span>
         </a>
       </li>
     ))}
