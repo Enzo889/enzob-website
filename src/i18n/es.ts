@@ -124,7 +124,7 @@ export const es = {
         "Notas técnicas cortas sobre desarrollo, herramientas y experimentos. Cosas que vale la pena documentar.",
     },
     notFound: {
-      title: "404 – No encontrado · Enzo Bustamante",
+      title: "404",
       description: "Esta página no existe. Volvé atrás para explorar el sitio.",
     },
   },

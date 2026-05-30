@@ -124,8 +124,9 @@ export const en = {
         "Short technical notes on development, tools, and experiments. Things worth writing down.",
     },
     notFound: {
-      title: "404 – Not Found · Enzo Bustamante",
-      description: "This page does not exist. Navigate back to explore the site.",
+      title: "404",
+      description:
+        "This page does not exist. Navigate back to explore the site.",
     },
   },
 };
