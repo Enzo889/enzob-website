@@ -127,58 +127,62 @@ const certificates = [
 <script>
   import { animate, spring } from "motion";
 
-  const isMobile = window.matchMedia("(hover: none)").matches;
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function initEducation() {
+    const isMobile = window.matchMedia("(hover: none)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!isMobile && !prefersReducedMotion) {
-    document.querySelectorAll<HTMLElement>(".edu-link").forEach((link) => {
-      // — Tilt exagerado con spring elástico —
-      link.addEventListener("mousemove", (e) => {
-        const rect = link.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const nx = (e.clientX - cx) / (rect.width / 2);
-        const ny = (e.clientY - cy) / (rect.height / 2);
+    if (!isMobile && !prefersReducedMotion) {
+      document.querySelectorAll<HTMLElement>(".edu-link").forEach((link) => {
+        // — Tilt exagerado con spring elástico —
+        link.addEventListener("mousemove", (e) => {
+          const rect = link.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const nx = (e.clientX - cx) / (rect.width / 2);
+          const ny = (e.clientY - cy) / (rect.height / 2);
 
-        animate(link, {
-          rotateX: -ny * 8,
-          rotateY: nx * 12,
-          scale: 1.03,
-          x: nx * 6,
-          y: ny * 3,
-        }, {
-          type: spring,
-          stiffness: 300,
-          damping: 15,
-          mass: 0.5,
+          animate(link, {
+            rotateX: -ny * 8,
+            rotateY: nx * 12,
+            scale: 1.03,
+            x: nx * 6,
+            y: ny * 3,
+          }, {
+            type: spring,
+            stiffness: 300,
+            damping: 15,
+            mass: 0.5,
+          });
+        });
+
+        link.addEventListener("mouseleave", () => {
+          animate(link, {
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+            x: 0,
+            y: 0,
+          }, {
+            type: spring,
+            stiffness: 200,
+            damping: 10,
+            mass: 0.8,
+          });
+        });
+
+        link.addEventListener("mouseup", () => {
+          animate(link, {
+            scale: 1.05,
+            rotateZ: 0,
+          }, {
+            type: spring,
+            stiffness: 400,
+            damping: 8,
+          });
         });
       });
-
-      link.addEventListener("mouseleave", () => {
-        animate(link, {
-          rotateX: 0,
-          rotateY: 0,
-          scale: 1,
-          x: 0,
-          y: 0,
-        }, {
-          type: spring,
-          stiffness: 200,
-          damping: 10,
-          mass: 0.8,
-        });
-      });
-
-      link.addEventListener("mouseup", () => {
-        animate(link, {
-          scale: 1.05,
-          rotateZ: 0,
-        }, {
-          type: spring,
-          stiffness: 400,
-          damping: 8,
-        });
-      });
-    });
+    }
   }
+
+  document.addEventListener("astro:page-load", initEducation);
 </script>
