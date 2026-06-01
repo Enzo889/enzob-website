@@ -1,31 +1,6 @@
 ---
-import { ArrowLeft } from "@/components/icon";
-import MainLayout from "@/layout/MainLayout.astro";
-import FiltersChips from "@/pages/craft/filter/__component/FiltersChips.astro";
-import { getT } from "@/utils/i18n";
-
-const locale = Astro.currentLocale ?? "es";
-const t = getT(locale);
+import FilterIndex from "@/components/pages/FilterIndex.astro";
 ---
 
-<MainLayout title={t.seo.filter.title} description={t.seo.filter.description}>
-
-        <a href={locale === "es" ? "/craft" : `/${locale}/craft`} class="w-fit md:fixed md:top-1/4 md:left-20 text-sm tracking-wide font-serif italic text-text dark:text-text inline-flex gap-1 hover:text-accent dark:hover:text-accent transition-all mb-5 md:mb-0"> <ArrowLeft className="w-4 h-4" /> Craft</a>
-
-        <section class="flex flex-col justify-center items-center min-h-[50vh] gap-8">
-            <div class="text-center max-w-lg px-4">
-                <h1 class="text-3xl font-serif text-text dark:text-text mb-3"> {t.craft.filter.title}</h1>
-                <p class="text-text-muted text-sm leading-relaxed">
-                    {t.craft.filter.description}
-                </p>
-            </div>
-
-            <FiltersChips filters={[
-                { label: t.craft.filter.playlists },
-                { label: t.craft.filter.artists,    selected: true },
-                { label: t.craft.filter.albums,     selected: true },
-                { label: t.craft.filter.podcasts,   selected: true },
-                { label: t.craft.filter.downloaded },
-            ]} />
-        </section>
-</MainLayout>   
+<FilterIndex />
+   

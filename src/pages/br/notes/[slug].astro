@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import NotesSlugPage from "@/pages/notes/[slug].astro";
+import NotesSlug from "@/components/pages/NotesSlug.astro";
 
 export const getStaticPaths = (async () => {
 	const notes = await getCollection("notes", (note) =>
@@ -16,4 +16,4 @@ export const getStaticPaths = (async () => {
 const { note } = Astro.props;
 ---
 
-<NotesSlugPage note={note} />
+<NotesSlug note={note} />

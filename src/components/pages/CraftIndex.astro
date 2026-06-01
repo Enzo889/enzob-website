@@ -1,0 +1,154 @@
+---
+import { ArrowLeft } from "@/components/icon";
+import MainLayout from "@/layout/MainLayout.astro";
+import { getT } from "@/utils/i18n";
+
+const crafts = [
+	{
+		name: "Slipknot: Lenis + Motion",
+		url: "/craft/slipknot",
+		year: "2026",
+	},
+	{
+		name: "Stacked Filters",
+		url: "/craft/filter",
+		year: "2026",
+	},
+	{
+		name: "Radial Menu",
+		url: "/craft/radial-menu",
+		year: "2026",
+	},
+];
+
+const locale = Astro.currentLocale ?? "es";
+const t = getT(locale);
+---
+
+<MainLayout title={t.seo.craft.title} description={t.seo.craft.description}>
+    <section class=" flex flex-col h-full justify-center  gap-3">
+        <a class="text-sm tracking-wide  font-serif italic text-text   md:fixed md:top-1/4 md:left-20 flex gap-1 hover:text-accent dark:hover:text-accent transition-all" href={locale === "es" ? "/" : `/${locale}`}> <ArrowLeft className="w-4 h-4" /> Index</a>
+      <ul class="flex flex-col" id="craft-list">
+        {crafts.map((craft) => (
+          <li>
+            <a
+              class="group flex items-center gap-2 py-3 hover:bg-gray-100 dark:hover:bg-black/30 rounded-xl px-4 transition-all"
+              href={locale === "es" ? craft.url : `/${locale}${craft.url}`}
+              data-scramble
+            target={craft.url === "/craft/slipknot" ? "_blank" : "_self"}
+            >
+              <span class="font-medium whitespace-nowrap" data-scramble-text>{craft.name}</span>
+              <span class="connector" data-scramble-connector></span>
+              <span class="text-gray-400 dark:text-gray-500 whitespace-nowrap tabular-nums">{craft.year}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+</MainLayout>
+
+<style>
+  .connector {
+    flex: 1;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.2;
+    margin-bottom: 0.2em;
+    /* Empieza oculto */
+    clip-path: inset(0 100% 0 0);
+  }
+</style>
+
+<script>
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const FPS = 16;
+  const DECRYPT_DURATION = 1000;
+  const STAGGER_DELAY = 400; // Milisegundos entre cada item
+
+  function randomChar() {
+    return CHARS[Math.floor(Math.random() * CHARS.length)];
+  }
+
+  function animateScramble(link: HTMLElement, delay: number) {
+    const textEl = link.querySelector<HTMLElement>("[data-scramble-text]");
+    const connector = link.querySelector<HTMLElement>("[data-scramble-connector]");
+    if (!textEl) return;
+
+    const original = textEl.textContent?.trim() ?? "";
+    
+    // Estado inicial: texto aleatorio
+    textEl.textContent = original
+      .split("")
+      .map((char) => (char === " " ? " " : randomChar()))
+      .join("");
+
+    // Iniciamos la animación después del delay
+    setTimeout(() => {
+      const totalFrames = Math.floor(DECRYPT_DURATION / FPS);
+      let frame = 0;
+
+      // Animación del Texto
+      const decryptInterval = setInterval(() => {
+        const progress = frame / totalFrames;
+        const resolved = Math.floor(progress * original.length);
+
+        textEl.textContent = original
+          .split("")
+          .map((char, i) => {
+            if (char === " ") return " ";
+            if (i < resolved) return original[i];
+            return randomChar();
+          })
+          .join("");
+
+        frame++;
+
+        if (frame >= totalFrames) {
+          textEl.textContent = original;
+          clearInterval(decryptInterval);
+        }
+      }, FPS);
+
+      // Animación del Connector
+      if (connector) {
+        let f = 0;
+        const connectorInterval = setInterval(() => {
+          const progress = f / totalFrames;
+          const remaining = 100 - (progress * 100);
+          connector.style.clipPath = `inset(0 ${remaining}% 0 0)`;
+          f++;
+          if (f >= totalFrames) {
+            connector.style.clipPath = "inset(0 0% 0 0)";
+            clearInterval(connectorInterval);
+          }
+        }, FPS);
+      }
+    }, delay);
+  }
+
+  // Ejecutar al cargar la página
+  
+  document.addEventListener("astro:page-load", () => {
+    const craftList = document.getElementById("craft-list");
+    if (!craftList) return;
+
+    const hasVisited = sessionStorage.getItem("craft-visited");
+    const items = craftList.querySelectorAll<HTMLElement>("[data-scramble]");
+
+    if (hasVisited) {
+      // Skip animation and ensure visibility
+      items.forEach((item) => {
+        const connector = item.querySelector<HTMLElement>("[data-scramble-connector]");
+        if (connector) {
+          connector.style.clipPath = "inset(0 0% 0 0)";
+        }
+      });
+      return;
+    }
+
+    // First time
+    items.forEach((item, index) => {
+      animateScramble(item, index * STAGGER_DELAY);
+    });
+    sessionStorage.setItem("craft-visited", "true");
+  });
+</script>
