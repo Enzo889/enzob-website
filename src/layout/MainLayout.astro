@@ -90,18 +90,24 @@ const {
       document.addEventListener('astro:after-swap', setDarkMode);
     </script>
   </head>
-  <body class="relative " id="top">
-     <!-- Background -->
-    {bgType && <Background type={bgType} />}
+  <body class="flex flex-col min-h-screen relative" id="top">
+  <!-- Background -->
+  {bgType && <Background type={bgType} />}
 
-
-    <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
-      <Logo className="w-12 h-12 md:block hidden absolute xl:fixed m-5 select-none outline-none" />
-    </a>
-    <div class="container mx-auto max-w-2xl p-4 md:pt-20 pt-10 ">
-      <Navbar />
-      <slot />
-      <Footer />
-    </div>
-  </body>
+  <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
+    <Logo className="w-12 h-12 md:block hidden absolute xl:fixed m-5 select-none outline-none" />
+  </a>
+  
+  <header class="container mx-auto max-w-2xl p-4 md:pt-20 pt-10">
+    <Navbar />
+  </header>
+  
+  <main class="flex-1 container mx-auto max-w-2xl px-4">
+    <slot />
+  </main>
+  
+  <footer class="container mx-auto max-w-2xl px-4 pb-2">
+    <Footer />
+  </footer>
+</body>
 </html>
