@@ -7,7 +7,7 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://enzobustamante.pages.dev",
+  site: "https://enzobustamante.com",
   i18n: {
     defaultLocale: "es",
     locales: ["es", "en", "br"],
