@@ -18,96 +18,121 @@ import type { BgType } from "@/types/BgTypes.types";
 import Background from "@/components/shared/backgrounds/Background.astro";
 
 interface Props {
-	title?: string;
-	description?: string;
-	bgType?: BgType | false;
+    title?: string;
+    description?: string;
+    bgType?: BgType | false;
 }
 
 // Aumentamos la probabilidad de "plum" repitiéndolo en el array
 const backgroundOptions = [
-	"plum",
-	"plum",
-	"plum",
-	"plum",
-	"plum",
-	"dot",
-	"gridflow",
-	"mesh",
-	"particle",
+    "plum",
+    "plum",
+    "plum",
+    "plum",
+    "plum",
+    "dot",
+    "gridflow",
+    "mesh",
+    "particle",
 ] as const;
 const randomBgType = backgroundOptions[
-	Math.floor(Math.random() * backgroundOptions.length)
+    Math.floor(Math.random() * backgroundOptions.length)
 ] as BgType;
 
 const {
-	title = "Enzo Bustamante",
-	description,
-	bgType = randomBgType,
+    title = "Enzo Bustamante",
+    description,
+    bgType = randomBgType,
 } = Astro.props;
 ---
 
 <html lang={Astro.currentLocale ?? "es"}>
-  <head>
-    <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Enzo Web" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <ClientRouter />
-    {description && <meta name="description" content={description} />}
-    <link rel="canonical" href={Astro.url.href} />
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Enzo Bustamante" />
-    <meta property="og:title" content={title} />
-    {description && <meta property="og:description" content={description} />}
-    <meta property="og:url" content={Astro.url.href} />
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    {description && <meta name="twitter:description" content={description} />}
-    <script is:inline>
-      const setDarkMode = () => {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (stored === "dark" || (!stored && prefersDark)) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
+        <link
+            rel="icon"
+            type="image/png"
+            href="/favicon-96x96.png"
+            sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="Enzo Web" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <ClientRouter />
+        {description && <meta name="description" content={description} />}
+        <link rel="canonical" href={Astro.url.href} />
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Enzo Bustamante" />
+        <meta property="og:title" content={title} />
+        {
+            description && (
+                <meta property="og:description" content={description} />
+            )
         }
-      };
-      
-      // Ejecutar en carga inicial
-      setDarkMode();
-      
-      // Ejecutar justo después de que Astro reemplace el HTML en navegaciones
-      document.addEventListener('astro:after-swap', setDarkMode);
-    </script>
-  </head>
-  <body class="flex flex-col min-h-screen relative" id="top">
-  <!-- Background -->
-  {bgType && <Background type={bgType} />}
+        <meta property="og:url" content={Astro.url.href} />
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={title} />
+        {
+            description && (
+                <meta name="twitter:description" content={description} />
+            )
+        }
+        <script is:inline>
+            const setDarkMode = () => {
+                const stored = localStorage.getItem("theme");
+                const prefersDark = window.matchMedia(
+                    "(prefers-color-scheme: dark)",
+                ).matches;
+                if (stored === "dark" || (!stored && prefersDark)) {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                }
+            };
 
-  <a href={Astro.currentLocale === "es" ? "/" : `/${Astro.currentLocale}`}>
-    <Logo className="w-12 h-12 md:block hidden absolute xl:fixed m-5 select-none outline-none" />
-  </a>
-  
-  <header class="container mx-auto max-w-2xl p-4 md:pt-20 pt-10">
-    <Navbar />
-  </header>
-  
-  <main class="flex-1 container mx-auto max-w-2xl px-4">
-    <slot />
-  </main>
-  
-  <footer class="container mx-auto max-w-2xl px-2 md:px-4 pb-2">
-    <Footer />
-  </footer>
-</body>
+            // Ejecutar en carga inicial
+            setDarkMode();
+
+            // Ejecutar justo después de que Astro reemplace el HTML en navegaciones
+            document.addEventListener("astro:after-swap", setDarkMode);
+        </script>
+    </head>
+    <body class="flex flex-col min-h-screen relative" id="top">
+        <!-- Background -->
+        {bgType && <Background type={bgType} />}
+
+        <a
+            href={Astro.currentLocale === "es"
+                ? "/"
+                : `/${Astro.currentLocale}`}
+        >
+            <Logo
+                className="w-12 h-12 md:block hidden absolute xl:fixed m-5 select-none outline-none"
+            />
+        </a>
+
+        <header class="container mx-auto max-w-2xl p-4 md:pt-20 pt-10">
+            <Navbar />
+        </header>
+
+        <main class="flex-1 container mx-auto max-w-2xl px-4">
+            <slot />
+        </main>
+
+        <footer class="container mx-auto max-w-2xl px-2 md:px-4 pb-2">
+            <Footer />
+        </footer>
+    </body>
 </html>
