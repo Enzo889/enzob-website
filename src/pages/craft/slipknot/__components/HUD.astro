@@ -37,13 +37,14 @@
   .btn:hover, .btn.active { background:var(--red); color:#fff; box-shadow:0 0 14px rgba(192,57,43,.45); }
 
   @media (max-width: 768px) {
-    .hud { flex-direction: column; gap: 0.5rem; padding: 0.5rem; }
+    .hud { flex-direction: column; gap: 0.4rem; padding: 0.4rem 0.6rem; }
+    .hud-logo { font-size: 1rem; }
     .hud-controls { 
       display: grid; 
       grid-template-columns: repeat(3, 1fr); 
-      gap: 0.5rem; 
+      gap: 0.35rem; 
       width: 100%; 
     }
-    .btn { text-align: center; }
+    .btn { text-align: center; font-size: 0.7rem; padding: 0.3rem 0.5rem; }
   }
 </style>
