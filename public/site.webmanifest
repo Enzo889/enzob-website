@@ -1,29 +1,21 @@
 {
   "name": "Enzo Bustamante",
   "short_name": "Enzo",
-  "description": "Portfolio profesional de Enzo Bustamante, Desarrollador Frontend enfocado en crear experiencias web modernas, eficientes y minimalistas.",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "categories": [
-    "developer",
-    "portfolio",
-    "productivity"
-  ],
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
       "src": "/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     }
-  ]
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }
